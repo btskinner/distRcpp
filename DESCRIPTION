@@ -1,0 +1,12 @@
+Package: distweightRcpp
+Type: Package
+Title: A Package To Compute Distance-Weighted Measures Using Rcpp
+Version: 1.0
+Date: 2016-10-31
+Author: Benjamin Skinner
+Maintainer: Benjamin Skinner <b.skinner@vanderbilt.edu>
+Description: This package computes distance-weighted measures using
+	     Rcpp to speed up distance computations.
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.12.7)
+LinkingTo: Rcpp

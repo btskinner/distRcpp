@@ -1,0 +1,11 @@
+# R
+
+*.Rproj
+*.Rhistory
+*.DS_Store
+*.Rapp.history
+*.rds
+
+# compiled code
+*.o
+*.so
