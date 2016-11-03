@@ -5,9 +5,9 @@
 
 using namespace Rcpp;
 
-// getDist
-NumericMatrix getDist(const NumericVector& xlon, const NumericVector& xlat, const NumericVector& ylon, const NumericVector& ylat, std::string funname);
-RcppExport SEXP distweightRcpp_getDist(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
+// getDistMat
+NumericMatrix getDistMat(const NumericVector& xlon, const NumericVector& xlat, const NumericVector& ylon, const NumericVector& ylat, std::string funname);
+RcppExport SEXP distweightRcpp_getDistMat(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -16,7 +16,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const NumericVector& >::type ylon(ylonSEXP);
     Rcpp::traits::input_parameter< const NumericVector& >::type ylat(ylatSEXP);
     Rcpp::traits::input_parameter< std::string >::type funname(funnameSEXP);
-    rcpp_result_gen = Rcpp::wrap(getDist(xlon, xlat, ylon, ylat, funname));
+    rcpp_result_gen = Rcpp::wrap(getDistMat(xlon, xlat, ylon, ylat, funname));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -32,6 +32,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const NumericVector& >::type ylat(ylatSEXP);
     Rcpp::traits::input_parameter< std::string >::type funname(funnameSEXP);
     rcpp_result_gen = Rcpp::wrap(getDistVec(xlon, xlat, ylon, ylat, funname));
+    return rcpp_result_gen;
+END_RCPP
+}
+// getDist
+double getDist(const double& xlon, const double& xlat, const double& ylon, const double& ylat, std::string funname);
+RcppExport SEXP distweightRcpp_getDist(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const double& >::type xlon(xlonSEXP);
+    Rcpp::traits::input_parameter< const double& >::type xlat(xlatSEXP);
+    Rcpp::traits::input_parameter< const double& >::type ylon(ylonSEXP);
+    Rcpp::traits::input_parameter< const double& >::type ylat(ylatSEXP);
+    Rcpp::traits::input_parameter< std::string >::type funname(funnameSEXP);
+    rcpp_result_gen = Rcpp::wrap(getDist(xlon, xlat, ylon, ylat, funname));
     return rcpp_result_gen;
 END_RCPP
 }

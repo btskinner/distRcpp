@@ -130,11 +130,11 @@ XPtr<funcPtr> chooseFunc(std::string funcnamestr) {
 }
 
 // [[Rcpp::export]]
-NumericMatrix getDist(const NumericVector& xlon,
-		      const NumericVector& xlat,
-		      const NumericVector& ylon,
-		      const NumericVector& ylat,
-		      std::string funname) {
+NumericMatrix getDistMat(const NumericVector& xlon,
+			 const NumericVector& xlat,
+			 const NumericVector& ylon,
+			 const NumericVector& ylat,
+			 std::string funname) {
 
   // select function
   XPtr<funcPtr> xpfun = chooseFunc(funname);
@@ -174,6 +174,22 @@ NumericVector getDistVec(const double& xlon,
   }
 
   return dist;
+
+}
+
+// [[Rcpp::export]]
+double getDist(const double& xlon,
+	       const double& xlat,
+	       const double& ylon,
+	       const double& ylat,
+	       std::string funname) {
+
+  // select function
+  XPtr<funcPtr> xpfun = chooseFunc(funname);
+  funcPtr fun = *xpfun;
+
+  // compute and return
+  return fun(xlon, xlat, ylon, ylat);
 
 }
 
