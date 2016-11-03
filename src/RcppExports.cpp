@@ -20,6 +20,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// getDistDF
+NumericVector getDistDF(const NumericVector& xlon, const NumericVector& xlat, const NumericVector& ylon, const NumericVector& ylat, std::string funname);
+RcppExport SEXP distweightRcpp_getDistDF(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type xlon(xlonSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type xlat(xlatSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type ylon(ylonSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type ylat(ylatSEXP);
+    Rcpp::traits::input_parameter< std::string >::type funname(funnameSEXP);
+    rcpp_result_gen = Rcpp::wrap(getDistDF(xlon, xlat, ylon, ylat, funname));
+    return rcpp_result_gen;
+END_RCPP
+}
 // getDistVec
 NumericVector getDistVec(const double& xlon, const double& xlat, const NumericVector& ylon, const NumericVector& ylat, std::string funname);
 RcppExport SEXP distweightRcpp_getDistVec(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {

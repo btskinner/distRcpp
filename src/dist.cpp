@@ -156,6 +156,28 @@ NumericMatrix getDistMat(const NumericVector& xlon,
 }
 
 // [[Rcpp::export]]
+NumericVector getDistDF(const NumericVector& xlon,
+			const NumericVector& xlat,
+			const NumericVector& ylon,
+			const NumericVector& ylat,
+			std::string funname) {
+
+  // select function
+  XPtr<funcPtr> xpfun = chooseFunc(funname);
+  funcPtr fun = *xpfun;
+
+  int k = ylon.size();
+  NumericVector dist(k);
+
+  for(int i = 0; i < k; i++) {
+    dist[i] = fun(xlon[i], xlat[i], ylon[i], ylat[i]);
+  }
+
+  return dist;
+
+}
+
+// [[Rcpp::export]]
 NumericVector getDistVec(const double& xlon,
 			 const double& xlat,
 			 const NumericVector& ylon,

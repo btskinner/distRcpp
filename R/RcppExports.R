@@ -5,6 +5,10 @@ getDistMat <- function(xlon, xlat, ylon, ylat, funname) {
     .Call('distweightRcpp_getDistMat', PACKAGE = 'distweightRcpp', xlon, xlat, ylon, ylat, funname)
 }
 
+getDistDF <- function(xlon, xlat, ylon, ylat, funname) {
+    .Call('distweightRcpp_getDistDF', PACKAGE = 'distweightRcpp', xlon, xlat, ylon, ylat, funname)
+}
+
 getDistVec <- function(xlon, xlat, ylon, ylat, funname) {
     .Call('distweightRcpp_getDistVec', PACKAGE = 'distweightRcpp', xlon, xlat, ylon, ylat, funname)
 }
