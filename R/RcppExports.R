@@ -103,7 +103,6 @@ distWMean <- function(fromDF, toDF, measureName, fromID = "unitid", fromYear = "
 #'
 #' @param fromDF DataFrame with coordinates that need weighted measures
 #' @param toDF DataFrame with coordinates at which measures were taken
-#' @param measureName String name of measure column in toDF
 #' @param fromID String name of unique identifer column in fromDF
 #' @param fromYear String name of year column in fromDF (assumes multiple years)
 #' @param fromLonName String name of column in fromDF with longitude values

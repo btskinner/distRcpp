@@ -27,8 +27,6 @@ minDist(fromDF, toDF, fromID = "unitid", fromYear = "year",
 
 \item{distFuncName}{String name of distance function: "Haversine" (default) or
 "Vincenty"}
-
-\item{measureName}{String name of measure column in toDF}
 }
 \value{
 DataFrame with minimum distance in meters
