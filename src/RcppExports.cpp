@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // getDistMat
 NumericMatrix getDistMat(const NumericVector& xlon, const NumericVector& xlat, const NumericVector& ylon, const NumericVector& ylat, std::string funname);
-RcppExport SEXP distweightRcpp_getDistMat(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
+RcppExport SEXP distRcpp_getDistMat(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -22,7 +22,7 @@ END_RCPP
 }
 // getDistDF
 NumericVector getDistDF(const NumericVector& xlon, const NumericVector& xlat, const NumericVector& ylon, const NumericVector& ylat, std::string funname);
-RcppExport SEXP distweightRcpp_getDistDF(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
+RcppExport SEXP distRcpp_getDistDF(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -37,7 +37,7 @@ END_RCPP
 }
 // getDistVec
 NumericVector getDistVec(const double& xlon, const double& xlat, const NumericVector& ylon, const NumericVector& ylat, std::string funname);
-RcppExport SEXP distweightRcpp_getDistVec(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
+RcppExport SEXP distRcpp_getDistVec(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -52,7 +52,7 @@ END_RCPP
 }
 // getDist
 double getDist(const double& xlon, const double& xlat, const double& ylon, const double& ylat, std::string funname);
-RcppExport SEXP distweightRcpp_getDist(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
+RcppExport SEXP distRcpp_getDist(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP, SEXP funnameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -65,22 +65,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// invDistWeight
-NumericVector invDistWeight(const NumericVector& d, double exp, std::string transform);
-RcppExport SEXP distweightRcpp_invDistWeight(SEXP dSEXP, SEXP expSEXP, SEXP transformSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericVector& >::type d(dSEXP);
-    Rcpp::traits::input_parameter< double >::type exp(expSEXP);
-    Rcpp::traits::input_parameter< std::string >::type transform(transformSEXP);
-    rcpp_result_gen = Rcpp::wrap(invDistWeight(d, exp, transform));
-    return rcpp_result_gen;
-END_RCPP
-}
 // popDistWMean
 DataFrame popDistWMean(DataFrame fromDF, DataFrame toDF, std::string measureName, std::string fromID, std::string fromYear, std::string fromLonName, std::string fromLatName, std::string toLonName, std::string toLatName, std::string popName, std::string distFuncName, std::string distTransform, double decay);
-RcppExport SEXP distweightRcpp_popDistWMean(SEXP fromDFSEXP, SEXP toDFSEXP, SEXP measureNameSEXP, SEXP fromIDSEXP, SEXP fromYearSEXP, SEXP fromLonNameSEXP, SEXP fromLatNameSEXP, SEXP toLonNameSEXP, SEXP toLatNameSEXP, SEXP popNameSEXP, SEXP distFuncNameSEXP, SEXP distTransformSEXP, SEXP decaySEXP) {
+RcppExport SEXP distRcpp_popDistWMean(SEXP fromDFSEXP, SEXP toDFSEXP, SEXP measureNameSEXP, SEXP fromIDSEXP, SEXP fromYearSEXP, SEXP fromLonNameSEXP, SEXP fromLatNameSEXP, SEXP toLonNameSEXP, SEXP toLatNameSEXP, SEXP popNameSEXP, SEXP distFuncNameSEXP, SEXP distTransformSEXP, SEXP decaySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -103,7 +90,7 @@ END_RCPP
 }
 // distWMean
 DataFrame distWMean(DataFrame fromDF, DataFrame toDF, std::string measureName, std::string fromID, std::string fromYear, std::string fromLonName, std::string fromLatName, std::string toLonName, std::string toLatName, std::string distFuncName, std::string distTransform, double decay);
-RcppExport SEXP distweightRcpp_distWMean(SEXP fromDFSEXP, SEXP toDFSEXP, SEXP measureNameSEXP, SEXP fromIDSEXP, SEXP fromYearSEXP, SEXP fromLonNameSEXP, SEXP fromLatNameSEXP, SEXP toLonNameSEXP, SEXP toLatNameSEXP, SEXP distFuncNameSEXP, SEXP distTransformSEXP, SEXP decaySEXP) {
+RcppExport SEXP distRcpp_distWMean(SEXP fromDFSEXP, SEXP toDFSEXP, SEXP measureNameSEXP, SEXP fromIDSEXP, SEXP fromYearSEXP, SEXP fromLonNameSEXP, SEXP fromLatNameSEXP, SEXP toLonNameSEXP, SEXP toLatNameSEXP, SEXP distFuncNameSEXP, SEXP distTransformSEXP, SEXP decaySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -125,7 +112,7 @@ END_RCPP
 }
 // minDist
 DataFrame minDist(DataFrame fromDF, DataFrame toDF, std::string fromID, std::string fromYear, std::string fromLonName, std::string fromLatName, std::string toLonName, std::string toLatName, std::string distFuncName);
-RcppExport SEXP distweightRcpp_minDist(SEXP fromDFSEXP, SEXP toDFSEXP, SEXP fromIDSEXP, SEXP fromYearSEXP, SEXP fromLonNameSEXP, SEXP fromLatNameSEXP, SEXP toLonNameSEXP, SEXP toLatNameSEXP, SEXP distFuncNameSEXP) {
+RcppExport SEXP distRcpp_minDist(SEXP fromDFSEXP, SEXP toDFSEXP, SEXP fromIDSEXP, SEXP fromYearSEXP, SEXP fromLonNameSEXP, SEXP fromLatNameSEXP, SEXP toLonNameSEXP, SEXP toLatNameSEXP, SEXP distFuncNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;

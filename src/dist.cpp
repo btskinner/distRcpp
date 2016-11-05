@@ -129,6 +129,14 @@ XPtr<funcPtr> chooseFunc(std::string funcnamestr) {
 
 }
 
+//' Compute distance between each coordinate pair and return matrix
+//'
+//' @param xlon Vector of longitudes for starting coordinate pairs
+//' @param xlat Vector of latitudes for starting coordinate pairs
+//' @param ylon Vector of longitudes for ending coordinate pairs
+//' @param ylat Vector of latitudes for ending coordinate pairs
+//' @param funname String name of distance function: Haversine, Vincenty
+//' @return Matrix of distances between each coordinate pair in meters
 // [[Rcpp::export]]
 NumericMatrix getDistMat(const NumericVector& xlon,
 			 const NumericVector& xlat,
@@ -154,7 +162,15 @@ NumericMatrix getDistMat(const NumericVector& xlon,
   return dist;
 
 }
-
+//' Compute distance between corresponding coordinate pairs and return vector.
+//' For use in a data frame.
+//'
+//' @param xlon Vector of longitudes for starting coordinate pairs
+//' @param xlat Vector of latitudes for starting coordinate pairs
+//' @param ylon Vector of longitudes for ending coordinate pairs
+//' @param ylat Vector of latitudes for ending coordinate pairs
+//' @param funname String name of distance function: Haversine, Vincenty
+//' @return Vector of distances between each coordinate pair in meters
 // [[Rcpp::export]]
 NumericVector getDistDF(const NumericVector& xlon,
 			const NumericVector& xlat,
@@ -177,6 +193,15 @@ NumericVector getDistDF(const NumericVector& xlon,
 
 }
 
+//' Compute distances between single starting coordinate and vector of
+//' ending coordinates.
+//'
+//' @param xlon Longitude for starting coordinate pair
+//' @param xlat Latitude for starting coordinate pair
+//' @param ylon Vector of longitudes for ending coordinate pairs
+//' @param ylat Vector of latitudes for ending coordinate pairs
+//' @param funname String name of distance function: Haversine, Vincenty
+//' @return Vector of distances in meters
 // [[Rcpp::export]]
 NumericVector getDistVec(const double& xlon,
 			 const double& xlat,
@@ -199,6 +224,14 @@ NumericVector getDistVec(const double& xlon,
 
 }
 
+//' Compute distance between two points.
+//'
+//' @param xlon Longitude for starting coordinate pair
+//' @param xlat Latitude for starting coordinate pair
+//' @param ylon Longitude for ending coordinate pair
+//' @param ylat Latitude for ending coordinate pair
+//' @param funname String name of distance function: Haversine, Vincenty
+//' @return Distance in meters
 // [[Rcpp::export]]
 double getDist(const double& xlon,
 	       const double& xlat,
@@ -215,7 +248,6 @@ double getDist(const double& xlon,
 
 }
 
-// [[Rcpp::export]]
 NumericVector invDistWeight(const NumericVector& d,
 			    double exp,
 			    std::string transform) {
@@ -230,6 +262,27 @@ NumericVector invDistWeight(const NumericVector& d,
 
 }
 
+//' Compute weighted measures for each coordinate using measures taken at
+//' surrounding coordinates. Ending measures are double weighted by population
+//' and distance so that surrounding measures taken in nearby areas and those
+//' with greater populations are given more weight.
+//'
+//' @param fromDF DataFrame with coordinates that need weighted measures
+//' @param toDF DataFrame with coordinates at which measures were taken
+//' @param measureName String name of measure column in toDF
+//' @param fromID String name of unique identifer column in fromDF
+//' @param fromYear String name of year column in fromDF (assumes multiple years)
+//' @param fromLonName String name of column in fromDF with longitude values
+//' @param fromLatName String name of column in fromDF with latitude values
+//' @param toLonName String name of column in toDF with longitude values
+//' @param toLatName String name of column in toDF with latitude values
+//' @param popName String name of column in fromDF with population values
+//' @param distFuncName String name of distance function: "Haversine" (default) or
+//' "Vincenty"
+//' @param distTransform String value of distance weight transform: " " (default)
+//' or "Log"
+//' @param decay Numeric value of distance weight decay: 2 (default)
+//' @return Dataframe of population/distance-weighted values
 // [[Rcpp::export]]
 DataFrame popDistWMean(DataFrame fromDF,
 		       DataFrame toDF,
@@ -296,6 +349,25 @@ DataFrame popDistWMean(DataFrame fromDF,
 
 }
 
+//' Compute distance-weighted measures for each coordinate using measures taken at
+//' surrounding coordinates. Ending measures are inverse distance-weighted so that
+//' surrounding measures taken in nearby areas are given more weight.
+//'
+//' @param fromDF DataFrame with coordinates that need weighted measures
+//' @param toDF DataFrame with coordinates at which measures were taken
+//' @param measureName String name of measure column in toDF
+//' @param fromID String name of unique identifer column in fromDF
+//' @param fromYear String name of year column in fromDF (assumes multiple years)
+//' @param fromLonName String name of column in fromDF with longitude values
+//' @param fromLatName String name of column in fromDF with latitude values
+//' @param toLonName String name of column in toDF with longitude values
+//' @param toLatName String name of column in toDF with latitude values
+//' @param distFuncName String name of distance function: "Haversine" (default) or
+//' "Vincenty"
+//' @param distTransform String value of distance weight transform: " " (default)
+//' or "Log"
+//' @param decay Numeric value of distance weight decay: 2 (default)
+//' @return Dataframe of distance-weighted values
 // [[Rcpp::export]]
 DataFrame distWMean(DataFrame fromDF,
 		    DataFrame toDF,
@@ -357,6 +429,20 @@ DataFrame distWMean(DataFrame fromDF,
 
 }
 
+//' Find minimum distance between starting point and possible end points.
+//'
+//' @param fromDF DataFrame with coordinates that need weighted measures
+//' @param toDF DataFrame with coordinates at which measures were taken
+//' @param measureName String name of measure column in toDF
+//' @param fromID String name of unique identifer column in fromDF
+//' @param fromYear String name of year column in fromDF (assumes multiple years)
+//' @param fromLonName String name of column in fromDF with longitude values
+//' @param fromLatName String name of column in fromDF with latitude values
+//' @param toLonName String name of column in toDF with longitude values
+//' @param toLatName String name of column in toDF with latitude values
+//' @param distFuncName String name of distance function: "Haversine" (default) or
+//' "Vincenty"
+//' @return DataFrame with minimum distance in meters
 // [[Rcpp::export]]
 DataFrame minDist(DataFrame fromDF,
 		  DataFrame toDF,
