@@ -14,7 +14,7 @@ double degToRad(double degree) {
 }
 
 // compute Haversine distance
-double distHaversine(double xlon, double xlat, double ylon, double ylat) {
+double dist_haversine(double xlon, double xlat, double ylon, double ylat) {
 
   // convert degrees to radians
   xlon = degToRad(xlon);
@@ -30,7 +30,7 @@ double distHaversine(double xlon, double xlat, double ylon, double ylat) {
 }
 
 // compute Vincenty distance
-double distVincenty(double xlon, double xlat, double ylon, double ylat) {
+double dist_vincenty(double xlon, double xlat, double ylon, double ylat) {
 
   // convert degrees to radians
   xlon = degToRad(xlon);
@@ -118,18 +118,19 @@ double distVincenty(double xlon, double xlat, double ylon, double ylat) {
 typedef double (*funcPtr)(double xlon, double xlat,
 			  double ylon, double ylat);
 
-XPtr<funcPtr> chooseFunc(std::string funcnamestr) {
+XPtr<funcPtr> choose_func(std::string funcnamestr) {
 
   if (funcnamestr == "Haversine")
-    return(XPtr<funcPtr>(new funcPtr(&distHaversine)));
+    return(XPtr<funcPtr>(new funcPtr(&dist_haversine)));
   else if (funcnamestr == "Vincenty")
-    return(XPtr<funcPtr>(new funcPtr(&distVincenty)));
+    return(XPtr<funcPtr>(new funcPtr(&dist_vincenty)));
   else
     return XPtr<funcPtr>(R_NilValue);
 
 }
 
-//' Compute distance between each coordinate pair and return matrix
+//' Compute distance between each coordinate pair (many to many)
+//' and return matrix.
 //'
 //' @param xlon Vector of longitudes for starting coordinate pairs
 //' @param xlat Vector of latitudes for starting coordinate pairs
@@ -137,15 +138,16 @@ XPtr<funcPtr> chooseFunc(std::string funcnamestr) {
 //' @param ylat Vector of latitudes for ending coordinate pairs
 //' @param funname String name of distance function: Haversine, Vincenty
 //' @return Matrix of distances between each coordinate pair in meters
+//' @export
 // [[Rcpp::export]]
-NumericMatrix getDistMat(const NumericVector& xlon,
-			 const NumericVector& xlat,
-			 const NumericVector& ylon,
-			 const NumericVector& ylat,
-			 std::string funname) {
+NumericMatrix dist_mtom(const NumericVector& xlon,
+			const NumericVector& xlat,
+			const NumericVector& ylon,
+			const NumericVector& ylat,
+			std::string funname) {
 
   // select function
-  XPtr<funcPtr> xpfun = chooseFunc(funname);
+  XPtr<funcPtr> xpfun = choose_func(funname);
   funcPtr fun = *xpfun;
 
   int n = xlon.size();
@@ -155,7 +157,10 @@ NumericMatrix getDistMat(const NumericVector& xlon,
 
   for(int i = 0; i < n; i++) {
     for(int j = 0; j < k; j++) {
+
+      // compute distance and store
       dist(i,j) = fun(xlon[i], xlat[i], ylon[j], ylat[j]);
+
     }
   }
 
@@ -163,7 +168,7 @@ NumericMatrix getDistMat(const NumericVector& xlon,
 
 }
 //' Compute distance between corresponding coordinate pairs and return vector.
-//' For use in a data frame.
+//' For use when creating a new data.frame or dplyr tbl_df column.
 //'
 //' @param xlon Vector of longitudes for starting coordinate pairs
 //' @param xlat Vector of latitudes for starting coordinate pairs
@@ -171,22 +176,26 @@ NumericMatrix getDistMat(const NumericVector& xlon,
 //' @param ylat Vector of latitudes for ending coordinate pairs
 //' @param funname String name of distance function: Haversine, Vincenty
 //' @return Vector of distances between each coordinate pair in meters
+//' @export
 // [[Rcpp::export]]
-NumericVector getDistDF(const NumericVector& xlon,
-			const NumericVector& xlat,
-			const NumericVector& ylon,
-			const NumericVector& ylat,
-			std::string funname) {
+NumericVector dist_df(const NumericVector& xlon,
+		      const NumericVector& xlat,
+		      const NumericVector& ylon,
+		      const NumericVector& ylat,
+		      std::string funname) {
 
   // select function
-  XPtr<funcPtr> xpfun = chooseFunc(funname);
+  XPtr<funcPtr> xpfun = choose_func(funname);
   funcPtr fun = *xpfun;
 
   int k = ylon.size();
   NumericVector dist(k);
 
   for(int i = 0; i < k; i++) {
+
+    // compute distance and store
     dist[i] = fun(xlon[i], xlat[i], ylon[i], ylat[i]);
+
   }
 
   return dist;
@@ -194,7 +203,7 @@ NumericVector getDistDF(const NumericVector& xlon,
 }
 
 //' Compute distances between single starting coordinate and vector of
-//' ending coordinates.
+//' ending coordinates (one to many) and return vector.
 //'
 //' @param xlon Longitude for starting coordinate pair
 //' @param xlat Latitude for starting coordinate pair
@@ -202,29 +211,33 @@ NumericVector getDistDF(const NumericVector& xlon,
 //' @param ylat Vector of latitudes for ending coordinate pairs
 //' @param funname String name of distance function: Haversine, Vincenty
 //' @return Vector of distances in meters
+//' @export
 // [[Rcpp::export]]
-NumericVector getDistVec(const double& xlon,
-			 const double& xlat,
-			 const NumericVector& ylon,
-			 const NumericVector& ylat,
-			 std::string funname) {
+NumericVector dist_1tom(const double& xlon,
+			const double& xlat,
+			const NumericVector& ylon,
+			const NumericVector& ylat,
+			std::string funname) {
 
   // select function
-  XPtr<funcPtr> xpfun = chooseFunc(funname);
+  XPtr<funcPtr> xpfun = choose_func(funname);
   funcPtr fun = *xpfun;
 
   int k = ylon.size();
   NumericVector dist(k);
 
   for(int i = 0; i < k; i++) {
+
+    // compute distance and store
     dist[i] = fun(xlon, xlat, ylon[i], ylat[i]);
+
   }
 
   return dist;
 
 }
 
-//' Compute distance between two points.
+//' Compute distance between two points (one to one) and return single value.
 //'
 //' @param xlon Longitude for starting coordinate pair
 //' @param xlat Latitude for starting coordinate pair
@@ -232,15 +245,16 @@ NumericVector getDistVec(const double& xlon,
 //' @param ylat Latitude for ending coordinate pair
 //' @param funname String name of distance function: Haversine, Vincenty
 //' @return Distance in meters
+//' @export
 // [[Rcpp::export]]
-double getDist(const double& xlon,
-	       const double& xlat,
-	       const double& ylon,
-	       const double& ylat,
-	       std::string funname) {
+double dist_1to1(const double& xlon,
+		 const double& xlat,
+		 const double& ylon,
+		 const double& ylat,
+		 std::string funname) {
 
   // select function
-  XPtr<funcPtr> xpfun = chooseFunc(funname);
+  XPtr<funcPtr> xpfun = choose_func(funname);
   funcPtr fun = *xpfun;
 
   // compute and return
@@ -248,11 +262,11 @@ double getDist(const double& xlon,
 
 }
 
-NumericVector invDistWeight(const NumericVector& d,
-			    double exp,
-			    std::string transform) {
+NumericVector inverse_dist_weight(const NumericVector& d,
+				  double exp,
+				  std::string transform) {
 
-  if (transform == "Log")
+  if (transform == "log")
 
     return 1 / pow(log(d), exp);
 
@@ -267,46 +281,44 @@ NumericVector invDistWeight(const NumericVector& d,
 //' and distance so that surrounding measures taken in nearby areas and those
 //' with greater populations are given more weight.
 //'
-//' @param fromDF DataFrame with coordinates that need weighted measures
-//' @param toDF DataFrame with coordinates at which measures were taken
-//' @param measureName String name of measure column in toDF
-//' @param fromID String name of unique identifer column in fromDF
-//' @param fromYear String name of year column in fromDF (assumes multiple years)
-//' @param fromLonName String name of column in fromDF with longitude values
-//' @param fromLatName String name of column in fromDF with latitude values
-//' @param toLonName String name of column in toDF with longitude values
-//' @param toLatName String name of column in toDF with latitude values
-//' @param popName String name of column in fromDF with population values
-//' @param distFuncName String name of distance function: "Haversine" (default) or
+//' @param from_df DataFrame with coordinates that need weighted measures
+//' @param to_df DataFrame with coordinates at which measures were taken
+//' @param measure_col String name of measure column in to_df
+//' @param from_id String name of unique identifer column in from_df
+//' @param from_lon_col String name of column in from_df with longitude values
+//' @param from_lat_col String name of column in from_df with latitude values
+//' @param to_lon_col String name of column in to_df with longitude values
+//' @param to_lat_col String name of column in to_df with latitude values
+//' @param popName String name of column in from_df with population values
+//' @param dist_function String name of distance function: "Haversine" (default) or
 //' "Vincenty"
-//' @param distTransform String value of distance weight transform: " " (default)
-//' or "Log"
+//' @param dist_transform String value of distance weight transform: "level" (default)
+//' or "log"
 //' @param decay Numeric value of distance weight decay: 2 (default)
 //' @return Dataframe of population/distance-weighted values
+//' @export
 // [[Rcpp::export]]
-DataFrame popDistWMean(DataFrame fromDF,
-		       DataFrame toDF,
-		       std::string measureName,
-		       std::string fromID = "unitid",
-		       std::string fromYear = "year",
-		       std::string fromLonName = "lon",
-		       std::string fromLatName = "lat",
-		       std::string toLonName = "lon",
-		       std::string toLatName = "lat",
-		       std::string popName = "pop",
-		       std::string distFuncName = "Haversine",
-		       std::string distTransform = " ",
-		       double decay = 2) {
+DataFrame popdist_weighted_mean(DataFrame from_df,
+				DataFrame to_df,
+				std::string measure_col,
+				std::string from_id = "id",
+				std::string from_lon_col = "lon",
+				std::string from_lat_col = "lat",
+				std::string to_lon_col = "lon",
+				std::string to_lat_col = "lat",
+				std::string popName = "pop",
+				std::string dist_function = "Haversine",
+				std::string dist_transform = "level",
+				double decay = 2) {
 
   // init
-  CharacterVector id = fromDF[fromID];
-  NumericVector year = fromDF[fromYear];
-  NumericVector xlon = fromDF[fromLonName];
-  NumericVector xlat = fromDF[fromLatName];
-  NumericVector meas = toDF[measureName];
-  NumericVector ylon = toDF[toLonName];
-  NumericVector ylat = toDF[toLatName];
-  NumericVector popw = toDF[popName];
+  CharacterVector id = from_df[from_id];
+  NumericVector xlon = from_df[from_lon_col];
+  NumericVector xlat = from_df[from_lat_col];
+  NumericVector meas = to_df[measure_col];
+  NumericVector ylon = to_df[to_lon_col];
+  NumericVector ylat = to_df[to_lat_col];
+  NumericVector popw = to_df[popName];
 
   int n = xlon.size();
   int k = ylon.size();
@@ -315,11 +327,15 @@ DataFrame popDistWMean(DataFrame fromDF,
   // loop to compute
   for (int i = 0; i < n; i++) {
 
+    // check for interrupt
+    if(i % 100 == 0)
+      Rcpp::checkUserInterrupt();
+
     // distance vector
-    NumericVector dist = getDistVec(xlon[i], xlat[i], ylon, ylat, distFuncName);
+    NumericVector dist = dist_1tom(xlon[i], xlat[i], ylon, ylat, dist_function);
 
     // inverse distance weights
-    NumericVector idw = invDistWeight(dist, decay, distTransform);
+    NumericVector idw = inverse_dist_weight(dist, decay, dist_transform);
 
     // population adjusted idw
     NumericVector w = idw * popw;
@@ -344,7 +360,6 @@ DataFrame popDistWMean(DataFrame fromDF,
   }
 
   return DataFrame::create(_["id"] = id,
-			   _["year"] = year,
 			   _["wmeasure"] = out);
 
 }
@@ -353,43 +368,41 @@ DataFrame popDistWMean(DataFrame fromDF,
 //' surrounding coordinates. Ending measures are inverse distance-weighted so that
 //' surrounding measures taken in nearby areas are given more weight.
 //'
-//' @param fromDF DataFrame with coordinates that need weighted measures
-//' @param toDF DataFrame with coordinates at which measures were taken
-//' @param measureName String name of measure column in toDF
-//' @param fromID String name of unique identifer column in fromDF
-//' @param fromYear String name of year column in fromDF (assumes multiple years)
-//' @param fromLonName String name of column in fromDF with longitude values
-//' @param fromLatName String name of column in fromDF with latitude values
-//' @param toLonName String name of column in toDF with longitude values
-//' @param toLatName String name of column in toDF with latitude values
-//' @param distFuncName String name of distance function: "Haversine" (default) or
+//' @param from_df DataFrame with coordinates that need weighted measures
+//' @param to_df DataFrame with coordinates at which measures were taken
+//' @param measure_col String name of measure column in to_df
+//' @param from_id String name of unique identifer column in from_df
+//' @param from_lon_col String name of column in from_df with longitude values
+//' @param from_lat_col String name of column in from_df with latitude values
+//' @param to_lon_col String name of column in to_df with longitude values
+//' @param to_lat_col String name of column in to_df with latitude values
+//' @param dist_function String name of distance function: "Haversine" (default) or
 //' "Vincenty"
-//' @param distTransform String value of distance weight transform: " " (default)
-//' or "Log"
+//' @param dist_transform String value of distance weight transform: "level" (default)
+//' or "log"
 //' @param decay Numeric value of distance weight decay: 2 (default)
 //' @return Dataframe of distance-weighted values
+//' @export
 // [[Rcpp::export]]
-DataFrame distWMean(DataFrame fromDF,
-		    DataFrame toDF,
-		    std::string measureName,
-		    std::string fromID = "unitid",
-		    std::string fromYear = "year",
-		    std::string fromLonName = "lon",
-		    std::string fromLatName = "lat",
-		    std::string toLonName = "lon",
-		    std::string toLatName = "lat",
-		    std::string distFuncName = "Haversine",
-		    std::string distTransform = " ",
-		    double decay = 2) {
+DataFrame dist_weighted_mean(DataFrame from_df,
+			     DataFrame to_df,
+			     std::string measure_col,
+			     std::string from_id = "id",
+			     std::string from_lon_col = "lon",
+			     std::string from_lat_col = "lat",
+			     std::string to_lon_col = "lon",
+			     std::string to_lat_col = "lat",
+			     std::string dist_function = "Haversine",
+			     std::string dist_transform = "level",
+			     double decay = 2) {
 
   // init
-  CharacterVector id = fromDF[fromID];
-  NumericVector year = fromDF[fromYear];
-  NumericVector xlon = fromDF[fromLonName];
-  NumericVector xlat = fromDF[fromLatName];
-  NumericVector meas = toDF[measureName];
-  NumericVector ylon = toDF[toLonName];
-  NumericVector ylat = toDF[toLatName];
+  CharacterVector id = from_df[from_id];
+  NumericVector xlon = from_df[from_lon_col];
+  NumericVector xlat = from_df[from_lat_col];
+  NumericVector meas = to_df[measure_col];
+  NumericVector ylon = to_df[to_lon_col];
+  NumericVector ylat = to_df[to_lat_col];
 
   int n = xlon.size();
   int k = ylon.size();
@@ -398,11 +411,15 @@ DataFrame distWMean(DataFrame fromDF,
   // loop to compute
   for (int i = 0; i < n; i++) {
 
+    // check for interrupt
+    if(i % 100 == 0)
+      Rcpp::checkUserInterrupt();
+
     // distance vector
-    NumericVector dist = getDistVec(xlon[i], xlat[i], ylon, ylat, distFuncName);
+    NumericVector dist = dist_1tom(xlon[i], xlat[i], ylon, ylat, dist_function);
 
     // inverse distance weights
-    NumericVector w = invDistWeight(dist, decay, distTransform);
+    NumericVector w = inverse_dist_weight(dist, decay, dist_transform);
 
     // weight denominator
     double w_sum = 0;
@@ -424,42 +441,39 @@ DataFrame distWMean(DataFrame fromDF,
   }
 
   return DataFrame::create(_["id"] = id,
-			   _["year"] = year,
 			   _["wmeasure"] = out);
 
 }
 
 //' Find minimum distance between starting point and possible end points.
 //'
-//' @param fromDF DataFrame with coordinates that need weighted measures
-//' @param toDF DataFrame with coordinates at which measures were taken
-//' @param fromID String name of unique identifer column in fromDF
-//' @param fromYear String name of year column in fromDF (assumes multiple years)
-//' @param fromLonName String name of column in fromDF with longitude values
-//' @param fromLatName String name of column in fromDF with latitude values
-//' @param toLonName String name of column in toDF with longitude values
-//' @param toLatName String name of column in toDF with latitude values
-//' @param distFuncName String name of distance function: "Haversine" (default) or
+//' @param from_df DataFrame with coordinates that need weighted measures
+//' @param to_df DataFrame with coordinates at which measures were taken
+//' @param from_id String name of unique identifer column in from_df
+//' @param from_lon_col String name of column in from_df with longitude values
+//' @param from_lat_col String name of column in from_df with latitude values
+//' @param to_lon_col String name of column in to_df with longitude values
+//' @param to_lat_col String name of column in to_df with latitude values
+//' @param dist_function String name of distance function: "Haversine" (default) or
 //' "Vincenty"
 //' @return DataFrame with minimum distance in meters
+//' @export
 // [[Rcpp::export]]
-DataFrame minDist(DataFrame fromDF,
-		  DataFrame toDF,
-		  std::string fromID = "unitid",
-		  std::string fromYear = "year",
-		  std::string fromLonName = "lon",
-		  std::string fromLatName = "lat",
-		  std::string toLonName = "lon",
-		  std::string toLatName = "lat",
-		  std::string distFuncName = "Haversine") {
+DataFrame dist_min(DataFrame from_df,
+		   DataFrame to_df,
+		   std::string from_id = "id",
+		   std::string from_lon_col = "lon",
+		   std::string from_lat_col = "lat",
+		   std::string to_lon_col = "lon",
+		   std::string to_lat_col = "lat",
+		   std::string dist_function = "Haversine") {
 
    // init
-  CharacterVector id = fromDF[fromID];
-  NumericVector year = fromDF[fromYear];
-  NumericVector xlon = fromDF[fromLonName];
-  NumericVector xlat = fromDF[fromLatName];
-  NumericVector ylon = toDF[toLonName];
-  NumericVector ylat = toDF[toLatName];
+  CharacterVector id = from_df[from_id];
+  NumericVector xlon = from_df[from_lon_col];
+  NumericVector xlat = from_df[from_lat_col];
+  NumericVector ylon = to_df[to_lon_col];
+  NumericVector ylat = to_df[to_lat_col];
 
   int n = xlon.size();
   NumericVector out(n);
@@ -467,8 +481,12 @@ DataFrame minDist(DataFrame fromDF,
   // loop
   for (int i = 0; i < n; i++) {
 
+    // check for interrupt
+    if(i % 100 == 0)
+      Rcpp::checkUserInterrupt();
+
     // distance vector
-    NumericVector dist = getDistVec(xlon[i], xlat[i], ylon, ylat, distFuncName);
+    NumericVector dist = dist_1tom(xlon[i], xlat[i], ylon, ylat, dist_function);
 
     // add min to out
     out[i] = min(dist);
@@ -476,7 +494,6 @@ DataFrame minDist(DataFrame fromDF,
   }
 
   return DataFrame::create(_["id"] = id,
-			   _["year"] = year,
 			   _["mindist"] = out);
 
 }
