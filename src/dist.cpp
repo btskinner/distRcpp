@@ -337,7 +337,7 @@ DataFrame popdist_weighted_mean(DataFrame x_df,
   for (int i = 0; i < n; i++) {
 
     // check for interrupt
-    if(i % 100 == 0)
+    if(i % 1000 == 0)
       Rcpp::checkUserInterrupt();
 
     // distance vector
