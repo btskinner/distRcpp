@@ -6,7 +6,7 @@
 \usage{
 popdist_weighted_mean(x_df, y_df, measure_col, x_id = "id",
   x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon",
-  y_lat_col = "lat", popName = "pop", dist_function = "Haversine",
+  y_lat_col = "lat", pop_col = "pop", dist_function = "Haversine",
   dist_transform = "level", decay = 2)
 }
 \arguments{
@@ -26,7 +26,7 @@ popdist_weighted_mean(x_df, y_df, measure_col, x_id = "id",
 
 \item{y_lat_col}{String name of column in y_df with latitude values}
 
-\item{popName}{String name of column in x_df with population values}
+\item{pop_col}{String name of column in x_df with population values}
 
 \item{dist_function}{String name of distance function: "Haversine" (default) or
 "Vincenty"}

@@ -298,7 +298,7 @@ NumericVector inverse_dist_weight(const NumericVector& d,
 //' @param x_lat_col String name of column in x_df with latitude values
 //' @param y_lon_col String name of column in y_df with longitude values
 //' @param y_lat_col String name of column in y_df with latitude values
-//' @param popName String name of column in x_df with population values
+//' @param pop_col String name of column in x_df with population values
 //' @param dist_function String name of distance function: "Haversine" (default) or
 //' "Vincenty"
 //' @param dist_transform String value of distance weight transform: "level" (default)
@@ -315,7 +315,7 @@ DataFrame popdist_weighted_mean(DataFrame x_df,
 				std::string x_lat_col = "lat",
 				std::string y_lon_col = "lon",
 				std::string y_lat_col = "lat",
-				std::string popName = "pop",
+				std::string pop_col = "pop",
 				std::string dist_function = "Haversine",
 				std::string dist_transform = "level",
 				double decay = 2) {
@@ -327,7 +327,7 @@ DataFrame popdist_weighted_mean(DataFrame x_df,
   NumericVector meas = y_df[measure_col];
   NumericVector ylon = y_df[y_lon_col];
   NumericVector ylat = y_df[y_lat_col];
-  NumericVector popw = y_df[popName];
+  NumericVector popw = y_df[pop_col];
 
   int n = xlon.size();
   int k = ylon.size();

@@ -78,7 +78,7 @@ dist_1to1 <- function(xlon, xlat, ylon, ylat, funname) {
 #' @param x_lat_col String name of column in x_df with latitude values
 #' @param y_lon_col String name of column in y_df with longitude values
 #' @param y_lat_col String name of column in y_df with latitude values
-#' @param popName String name of column in x_df with population values
+#' @param pop_col String name of column in x_df with population values
 #' @param dist_function String name of distance function: "Haversine" (default) or
 #' "Vincenty"
 #' @param dist_transform String value of distance weight transform: "level" (default)
@@ -86,8 +86,8 @@ dist_1to1 <- function(xlon, xlat, ylon, ylat, funname) {
 #' @param decay Numeric value of distance weight decay: 2 (default)
 #' @return Dataframe of population/distance-weighted values
 #' @export
-popdist_weighted_mean <- function(x_df, y_df, measure_col, x_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", popName = "pop", dist_function = "Haversine", dist_transform = "level", decay = 2) {
-    .Call('distRcpp_popdist_weighted_mean', PACKAGE = 'distRcpp', x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, popName, dist_function, dist_transform, decay)
+popdist_weighted_mean <- function(x_df, y_df, measure_col, x_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", pop_col = "pop", dist_function = "Haversine", dist_transform = "level", decay = 2) {
+    .Call('distRcpp_popdist_weighted_mean', PACKAGE = 'distRcpp', x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, pop_col, dist_function, dist_transform, decay)
 }
 
 #' Interpolate inverse-distance-weighted measures.

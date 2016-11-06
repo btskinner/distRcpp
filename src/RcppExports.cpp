@@ -66,8 +66,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // popdist_weighted_mean
-DataFrame popdist_weighted_mean(DataFrame x_df, DataFrame y_df, std::string measure_col, std::string x_id, std::string x_lon_col, std::string x_lat_col, std::string y_lon_col, std::string y_lat_col, std::string popName, std::string dist_function, std::string dist_transform, double decay);
-RcppExport SEXP distRcpp_popdist_weighted_mean(SEXP x_dfSEXP, SEXP y_dfSEXP, SEXP measure_colSEXP, SEXP x_idSEXP, SEXP x_lon_colSEXP, SEXP x_lat_colSEXP, SEXP y_lon_colSEXP, SEXP y_lat_colSEXP, SEXP popNameSEXP, SEXP dist_functionSEXP, SEXP dist_transformSEXP, SEXP decaySEXP) {
+DataFrame popdist_weighted_mean(DataFrame x_df, DataFrame y_df, std::string measure_col, std::string x_id, std::string x_lon_col, std::string x_lat_col, std::string y_lon_col, std::string y_lat_col, std::string pop_col, std::string dist_function, std::string dist_transform, double decay);
+RcppExport SEXP distRcpp_popdist_weighted_mean(SEXP x_dfSEXP, SEXP y_dfSEXP, SEXP measure_colSEXP, SEXP x_idSEXP, SEXP x_lon_colSEXP, SEXP x_lat_colSEXP, SEXP y_lon_colSEXP, SEXP y_lat_colSEXP, SEXP pop_colSEXP, SEXP dist_functionSEXP, SEXP dist_transformSEXP, SEXP decaySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -79,11 +79,11 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type x_lat_col(x_lat_colSEXP);
     Rcpp::traits::input_parameter< std::string >::type y_lon_col(y_lon_colSEXP);
     Rcpp::traits::input_parameter< std::string >::type y_lat_col(y_lat_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type popName(popNameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type pop_col(pop_colSEXP);
     Rcpp::traits::input_parameter< std::string >::type dist_function(dist_functionSEXP);
     Rcpp::traits::input_parameter< std::string >::type dist_transform(dist_transformSEXP);
     Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
-    rcpp_result_gen = Rcpp::wrap(popdist_weighted_mean(x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, popName, dist_function, dist_transform, decay));
+    rcpp_result_gen = Rcpp::wrap(popdist_weighted_mean(x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, pop_col, dist_function, dist_transform, decay));
     return rcpp_result_gen;
 END_RCPP
 }
