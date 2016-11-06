@@ -1,6 +1,9 @@
 # distRcpp
 
-This package uses [Rcpp](http://www.rcpp.org) to quickly compute population/distance-weighted measures. It can also return geodesic distances computed using either Haversine or Vincenty forumlas.
+![](https://img.shields.io/badge/dev-beta-red.svg)
+[![GitHub release](https://img.shields.io/github/release/btskinner/distRcpp.svg)](https://github.com/btskinner/distRcpp)
+
+This package uses [Rcpp](http://www.rcpp.org) to quickly compute population/distance-weighted measures. It can also return geodesic distances computed using either Haversine or Vincenty forumlas. 
 
 Install the latest development version from Github with
 
