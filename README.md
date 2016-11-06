@@ -3,7 +3,7 @@
 ![](https://img.shields.io/badge/dev-beta-red.svg)
 [![GitHub release](https://img.shields.io/github/release/btskinner/distRcpp.svg)](https://github.com/btskinner/distRcpp)
 
-This package uses [Rcpp](http://www.rcpp.org) to quickly compute population/distance-weighted measures. It can also return geodesic distances computed using either Haversine or Vincenty forumlas. 
+This package uses [Rcpp](http://www.rcpp.org) to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either [Haversine](https://en.wikipedia.org/wiki/Haversine_formula) or [Vincenty](https://en.wikipedia.org/wiki/Vincenty%27s_formulae) formulas. The package also has functions to return raw distance measures. If you are able to [install Rcpp on your machine](https://github.com/RcppCore/Rcpp), you should be able to install this package and use these functions.
 
 Install the latest development version from Github with
 
@@ -39,7 +39,7 @@ Compute and return the geodesic distance between each coordinate pair in two vec
 
 #### `dist_df()`
 
-Compute distance between corresponding coordinate pairs and return vector of distances in meters. For use when creating a new data.frame or dplyr tbl_df column.
+Compute distance between corresponding coordinate pairs and return vector of distances in meters. For use when creating a new `data.frame` or [dplyr](https://CRAN.R-project.org/package=dplyr) `tbl_df()` column.
 
 #### `dist_min()`
 

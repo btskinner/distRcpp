@@ -167,8 +167,10 @@ NumericMatrix dist_mtom(const NumericVector& xlon,
   return dist;
 
 }
+//' Compute distance between corresponding coordinate pairs in data frame.
+//'
 //' Compute distance between corresponding coordinate pairs and return vector.
-//' For use when creating a new data.frame or dplyr tbl_df column.
+//' For use when creating a new data frame or tbl_df column.
 //'
 //' @param xlon Vector of longitudes for starting coordinate pairs
 //' @param xlat Vector of latitudes for starting coordinate pairs
@@ -202,6 +204,8 @@ NumericVector dist_df(const NumericVector& xlon,
 
 }
 
+//' Compute one to many distances.
+//'
 //' Compute distances between single starting coordinate and vector of
 //' ending coordinates (one to many) and return vector.
 //'
@@ -237,6 +241,8 @@ NumericVector dist_1tom(const double& xlon,
 
 }
 
+//' Compute one to one distance.
+//'
 //' Compute distance between two points (one to one) and return single value.
 //'
 //' @param xlon Longitude for starting coordinate pair
@@ -276,20 +282,23 @@ NumericVector inverse_dist_weight(const NumericVector& d,
 
 }
 
-//' Compute weighted measures for each coordinate using measures taken at
-//' surrounding coordinates. Ending measures are double weighted by population
-//' and distance so that surrounding measures taken in nearby areas and those
-//' with greater populations are given more weight.
+//' Interpolate population/inverse-distance-weighted measures.
 //'
-//' @param from_df DataFrame with coordinates that need weighted measures
-//' @param to_df DataFrame with coordinates at which measures were taken
-//' @param measure_col String name of measure column in to_df
-//' @param from_id String name of unique identifer column in from_df
-//' @param from_lon_col String name of column in from_df with longitude values
-//' @param from_lat_col String name of column in from_df with latitude values
-//' @param to_lon_col String name of column in to_df with longitude values
-//' @param to_lat_col String name of column in to_df with latitude values
-//' @param popName String name of column in from_df with population values
+//' Interpolate population/inverse-distance-weighted measures for each \strong{x}
+//' coordinate using measures taken at surrounding \strong{y} coordinates.
+//' Ending measures are double weighted by population and distance so that
+//' surrounding measures taken in nearby areas and those with greater
+//' populations are given more weight in final average.
+//'
+//' @param x_df DataFrame with coordinates that need weighted measures
+//' @param y_df DataFrame with coordinates at which measures were taken
+//' @param measure_col String name of measure column in y_df
+//' @param x_id String name of unique identifer column in x_df
+//' @param x_lon_col String name of column in x_df with longitude values
+//' @param x_lat_col String name of column in x_df with latitude values
+//' @param y_lon_col String name of column in y_df with longitude values
+//' @param y_lat_col String name of column in y_df with latitude values
+//' @param popName String name of column in x_df with population values
 //' @param dist_function String name of distance function: "Haversine" (default) or
 //' "Vincenty"
 //' @param dist_transform String value of distance weight transform: "level" (default)
@@ -298,27 +307,27 @@ NumericVector inverse_dist_weight(const NumericVector& d,
 //' @return Dataframe of population/distance-weighted values
 //' @export
 // [[Rcpp::export]]
-DataFrame popdist_weighted_mean(DataFrame from_df,
-				DataFrame to_df,
+DataFrame popdist_weighted_mean(DataFrame x_df,
+				DataFrame y_df,
 				std::string measure_col,
-				std::string from_id = "id",
-				std::string from_lon_col = "lon",
-				std::string from_lat_col = "lat",
-				std::string to_lon_col = "lon",
-				std::string to_lat_col = "lat",
+				std::string x_id = "id",
+				std::string x_lon_col = "lon",
+				std::string x_lat_col = "lat",
+				std::string y_lon_col = "lon",
+				std::string y_lat_col = "lat",
 				std::string popName = "pop",
 				std::string dist_function = "Haversine",
 				std::string dist_transform = "level",
 				double decay = 2) {
 
   // init
-  CharacterVector id = from_df[from_id];
-  NumericVector xlon = from_df[from_lon_col];
-  NumericVector xlat = from_df[from_lat_col];
-  NumericVector meas = to_df[measure_col];
-  NumericVector ylon = to_df[to_lon_col];
-  NumericVector ylat = to_df[to_lat_col];
-  NumericVector popw = to_df[popName];
+  CharacterVector id = x_df[x_id];
+  NumericVector xlon = x_df[x_lon_col];
+  NumericVector xlat = x_df[x_lat_col];
+  NumericVector meas = y_df[measure_col];
+  NumericVector ylon = y_df[y_lon_col];
+  NumericVector ylat = y_df[y_lat_col];
+  NumericVector popw = y_df[popName];
 
   int n = xlon.size();
   int k = ylon.size();
@@ -364,18 +373,22 @@ DataFrame popdist_weighted_mean(DataFrame from_df,
 
 }
 
-//' Compute distance-weighted measures for each coordinate using measures taken at
-//' surrounding coordinates. Ending measures are inverse distance-weighted so that
-//' surrounding measures taken in nearby areas are given more weight.
+//' Interpolate inverse-distance-weighted measures.
 //'
-//' @param from_df DataFrame with coordinates that need weighted measures
-//' @param to_df DataFrame with coordinates at which measures were taken
-//' @param measure_col String name of measure column in to_df
-//' @param from_id String name of unique identifer column in from_df
-//' @param from_lon_col String name of column in from_df with longitude values
-//' @param from_lat_col String name of column in from_df with latitude values
-//' @param to_lon_col String name of column in to_df with longitude values
-//' @param to_lat_col String name of column in to_df with latitude values
+//' Interpolate inverse-distance-weighted measures for each \strong{x}
+//' coordinate using measures taken at surrounding \strong{y} coordinates.
+//' Ending measures are weighted by inverse distance so that
+//' surrounding measures taken in nearby areas are given more weight in final
+//' average.
+//'
+//' @param x_df DataFrame with coordinates that need weighted measures
+//' @param y_df DataFrame with coordinates at which measures were taken
+//' @param measure_col String name of measure column in y_df
+//' @param x_id String name of unique identifer column in x_df
+//' @param x_lon_col String name of column in x_df with longitude values
+//' @param x_lat_col String name of column in x_df with latitude values
+//' @param y_lon_col String name of column in y_df with longitude values
+//' @param y_lat_col String name of column in y_df with latitude values
 //' @param dist_function String name of distance function: "Haversine" (default) or
 //' "Vincenty"
 //' @param dist_transform String value of distance weight transform: "level" (default)
@@ -384,25 +397,25 @@ DataFrame popdist_weighted_mean(DataFrame from_df,
 //' @return Dataframe of distance-weighted values
 //' @export
 // [[Rcpp::export]]
-DataFrame dist_weighted_mean(DataFrame from_df,
-			     DataFrame to_df,
+DataFrame dist_weighted_mean(DataFrame x_df,
+			     DataFrame y_df,
 			     std::string measure_col,
-			     std::string from_id = "id",
-			     std::string from_lon_col = "lon",
-			     std::string from_lat_col = "lat",
-			     std::string to_lon_col = "lon",
-			     std::string to_lat_col = "lat",
+			     std::string x_id = "id",
+			     std::string x_lon_col = "lon",
+			     std::string x_lat_col = "lat",
+			     std::string y_lon_col = "lon",
+			     std::string y_lat_col = "lat",
 			     std::string dist_function = "Haversine",
 			     std::string dist_transform = "level",
 			     double decay = 2) {
 
   // init
-  CharacterVector id = from_df[from_id];
-  NumericVector xlon = from_df[from_lon_col];
-  NumericVector xlat = from_df[from_lat_col];
-  NumericVector meas = to_df[measure_col];
-  NumericVector ylon = to_df[to_lon_col];
-  NumericVector ylat = to_df[to_lat_col];
+  CharacterVector id = x_df[x_id];
+  NumericVector xlon = x_df[x_lon_col];
+  NumericVector xlat = x_df[x_lat_col];
+  NumericVector meas = y_df[measure_col];
+  NumericVector ylon = y_df[y_lon_col];
+  NumericVector ylat = y_df[y_lat_col];
 
   int n = xlon.size();
   int k = ylon.size();
@@ -445,35 +458,38 @@ DataFrame dist_weighted_mean(DataFrame from_df,
 
 }
 
-//' Find minimum distance between starting point and possible end points.
+//' Find minimum distance.
 //'
-//' @param from_df DataFrame with coordinates that need weighted measures
-//' @param to_df DataFrame with coordinates at which measures were taken
-//' @param from_id String name of unique identifer column in from_df
-//' @param from_lon_col String name of column in from_df with longitude values
-//' @param from_lat_col String name of column in from_df with latitude values
-//' @param to_lon_col String name of column in to_df with longitude values
-//' @param to_lat_col String name of column in to_df with latitude values
+//' Find minimum distance between each starting point in \strong{x} and
+//' possible end points, \strong{y}.
+//'
+//' @param x_df DataFrame with coordinates that need weighted measures
+//' @param y_df DataFrame with coordinates at which measures were taken
+//' @param x_id String name of unique identifer column in x_df
+//' @param x_lon_col String name of column in x_df with longitude values
+//' @param x_lat_col String name of column in x_df with latitude values
+//' @param y_lon_col String name of column in y_df with longitude values
+//' @param y_lat_col String name of column in y_df with latitude values
 //' @param dist_function String name of distance function: "Haversine" (default) or
 //' "Vincenty"
 //' @return DataFrame with minimum distance in meters
 //' @export
 // [[Rcpp::export]]
-DataFrame dist_min(DataFrame from_df,
-		   DataFrame to_df,
-		   std::string from_id = "id",
-		   std::string from_lon_col = "lon",
-		   std::string from_lat_col = "lat",
-		   std::string to_lon_col = "lon",
-		   std::string to_lat_col = "lat",
+DataFrame dist_min(DataFrame x_df,
+		   DataFrame y_df,
+		   std::string x_id = "id",
+		   std::string x_lon_col = "lon",
+		   std::string x_lat_col = "lat",
+		   std::string y_lon_col = "lon",
+		   std::string y_lat_col = "lat",
 		   std::string dist_function = "Haversine") {
 
    // init
-  CharacterVector id = from_df[from_id];
-  NumericVector xlon = from_df[from_lon_col];
-  NumericVector xlat = from_df[from_lat_col];
-  NumericVector ylon = to_df[to_lon_col];
-  NumericVector ylat = to_df[to_lat_col];
+  CharacterVector id = x_df[x_id];
+  NumericVector xlon = x_df[x_lon_col];
+  NumericVector xlat = x_df[x_lat_col];
+  NumericVector ylon = y_df[y_lon_col];
+  NumericVector ylat = y_df[y_lat_col];
 
   int n = xlon.size();
   NumericVector out(n);

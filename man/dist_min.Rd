@@ -2,26 +2,25 @@
 % Please edit documentation in R/RcppExports.R
 \name{dist_min}
 \alias{dist_min}
-\title{Find minimum distance between starting point and possible end points.}
+\title{Find minimum distance.}
 \usage{
-dist_min(from_df, to_df, from_id = "id", from_lon_col = "lon",
-  from_lat_col = "lat", to_lon_col = "lon", to_lat_col = "lat",
-  dist_function = "Haversine")
+dist_min(x_df, y_df, x_id = "id", x_lon_col = "lon", x_lat_col = "lat",
+  y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine")
 }
 \arguments{
-\item{from_df}{DataFrame with coordinates that need weighted measures}
+\item{x_df}{DataFrame with coordinates that need weighted measures}
 
-\item{to_df}{DataFrame with coordinates at which measures were taken}
+\item{y_df}{DataFrame with coordinates at which measures were taken}
 
-\item{from_id}{String name of unique identifer column in from_df}
+\item{x_id}{String name of unique identifer column in x_df}
 
-\item{from_lon_col}{String name of column in from_df with longitude values}
+\item{x_lon_col}{String name of column in x_df with longitude values}
 
-\item{from_lat_col}{String name of column in from_df with latitude values}
+\item{x_lat_col}{String name of column in x_df with latitude values}
 
-\item{to_lon_col}{String name of column in to_df with longitude values}
+\item{y_lon_col}{String name of column in y_df with longitude values}
 
-\item{to_lat_col}{String name of column in to_df with latitude values}
+\item{y_lat_col}{String name of column in y_df with latitude values}
 
 \item{dist_function}{String name of distance function: "Haversine" (default) or
 "Vincenty"}
@@ -30,6 +29,7 @@ dist_min(from_df, to_df, from_id = "id", from_lon_col = "lon",
 DataFrame with minimum distance in meters
 }
 \description{
-Find minimum distance between starting point and possible end points.
+Find minimum distance between each starting point in \strong{x} and
+possible end points, \strong{y}.
 }
 

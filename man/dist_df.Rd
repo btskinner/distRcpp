@@ -2,8 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{dist_df}
 \alias{dist_df}
-\title{Compute distance between corresponding coordinate pairs and return vector.
-For use when creating a new data.frame or dplyr tbl_df column.}
+\title{Compute distance between corresponding coordinate pairs in data frame.}
 \usage{
 dist_df(xlon, xlat, ylon, ylat, funname)
 }
@@ -23,6 +22,6 @@ Vector of distances between each coordinate pair in meters
 }
 \description{
 Compute distance between corresponding coordinate pairs and return vector.
-For use when creating a new data.frame or dplyr tbl_df column.
+For use when creating a new data frame or tbl_df column.
 }
 

@@ -66,63 +66,63 @@ BEGIN_RCPP
 END_RCPP
 }
 // popdist_weighted_mean
-DataFrame popdist_weighted_mean(DataFrame from_df, DataFrame to_df, std::string measure_col, std::string from_id, std::string from_lon_col, std::string from_lat_col, std::string to_lon_col, std::string to_lat_col, std::string popName, std::string dist_function, std::string dist_transform, double decay);
-RcppExport SEXP distRcpp_popdist_weighted_mean(SEXP from_dfSEXP, SEXP to_dfSEXP, SEXP measure_colSEXP, SEXP from_idSEXP, SEXP from_lon_colSEXP, SEXP from_lat_colSEXP, SEXP to_lon_colSEXP, SEXP to_lat_colSEXP, SEXP popNameSEXP, SEXP dist_functionSEXP, SEXP dist_transformSEXP, SEXP decaySEXP) {
+DataFrame popdist_weighted_mean(DataFrame x_df, DataFrame y_df, std::string measure_col, std::string x_id, std::string x_lon_col, std::string x_lat_col, std::string y_lon_col, std::string y_lat_col, std::string popName, std::string dist_function, std::string dist_transform, double decay);
+RcppExport SEXP distRcpp_popdist_weighted_mean(SEXP x_dfSEXP, SEXP y_dfSEXP, SEXP measure_colSEXP, SEXP x_idSEXP, SEXP x_lon_colSEXP, SEXP x_lat_colSEXP, SEXP y_lon_colSEXP, SEXP y_lat_colSEXP, SEXP popNameSEXP, SEXP dist_functionSEXP, SEXP dist_transformSEXP, SEXP decaySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type from_df(from_dfSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type to_df(to_dfSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type x_df(x_dfSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y_df(y_dfSEXP);
     Rcpp::traits::input_parameter< std::string >::type measure_col(measure_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_id(from_idSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_lon_col(from_lon_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_lat_col(from_lat_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type to_lon_col(to_lon_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type to_lat_col(to_lat_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_id(x_idSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_lon_col(x_lon_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_lat_col(x_lat_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_lon_col(y_lon_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_lat_col(y_lat_colSEXP);
     Rcpp::traits::input_parameter< std::string >::type popName(popNameSEXP);
     Rcpp::traits::input_parameter< std::string >::type dist_function(dist_functionSEXP);
     Rcpp::traits::input_parameter< std::string >::type dist_transform(dist_transformSEXP);
     Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
-    rcpp_result_gen = Rcpp::wrap(popdist_weighted_mean(from_df, to_df, measure_col, from_id, from_lon_col, from_lat_col, to_lon_col, to_lat_col, popName, dist_function, dist_transform, decay));
+    rcpp_result_gen = Rcpp::wrap(popdist_weighted_mean(x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, popName, dist_function, dist_transform, decay));
     return rcpp_result_gen;
 END_RCPP
 }
 // dist_weighted_mean
-DataFrame dist_weighted_mean(DataFrame from_df, DataFrame to_df, std::string measure_col, std::string from_id, std::string from_lon_col, std::string from_lat_col, std::string to_lon_col, std::string to_lat_col, std::string dist_function, std::string dist_transform, double decay);
-RcppExport SEXP distRcpp_dist_weighted_mean(SEXP from_dfSEXP, SEXP to_dfSEXP, SEXP measure_colSEXP, SEXP from_idSEXP, SEXP from_lon_colSEXP, SEXP from_lat_colSEXP, SEXP to_lon_colSEXP, SEXP to_lat_colSEXP, SEXP dist_functionSEXP, SEXP dist_transformSEXP, SEXP decaySEXP) {
+DataFrame dist_weighted_mean(DataFrame x_df, DataFrame y_df, std::string measure_col, std::string x_id, std::string x_lon_col, std::string x_lat_col, std::string y_lon_col, std::string y_lat_col, std::string dist_function, std::string dist_transform, double decay);
+RcppExport SEXP distRcpp_dist_weighted_mean(SEXP x_dfSEXP, SEXP y_dfSEXP, SEXP measure_colSEXP, SEXP x_idSEXP, SEXP x_lon_colSEXP, SEXP x_lat_colSEXP, SEXP y_lon_colSEXP, SEXP y_lat_colSEXP, SEXP dist_functionSEXP, SEXP dist_transformSEXP, SEXP decaySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type from_df(from_dfSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type to_df(to_dfSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type x_df(x_dfSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y_df(y_dfSEXP);
     Rcpp::traits::input_parameter< std::string >::type measure_col(measure_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_id(from_idSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_lon_col(from_lon_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_lat_col(from_lat_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type to_lon_col(to_lon_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type to_lat_col(to_lat_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_id(x_idSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_lon_col(x_lon_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_lat_col(x_lat_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_lon_col(y_lon_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_lat_col(y_lat_colSEXP);
     Rcpp::traits::input_parameter< std::string >::type dist_function(dist_functionSEXP);
     Rcpp::traits::input_parameter< std::string >::type dist_transform(dist_transformSEXP);
     Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
-    rcpp_result_gen = Rcpp::wrap(dist_weighted_mean(from_df, to_df, measure_col, from_id, from_lon_col, from_lat_col, to_lon_col, to_lat_col, dist_function, dist_transform, decay));
+    rcpp_result_gen = Rcpp::wrap(dist_weighted_mean(x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function, dist_transform, decay));
     return rcpp_result_gen;
 END_RCPP
 }
 // dist_min
-DataFrame dist_min(DataFrame from_df, DataFrame to_df, std::string from_id, std::string from_lon_col, std::string from_lat_col, std::string to_lon_col, std::string to_lat_col, std::string dist_function);
-RcppExport SEXP distRcpp_dist_min(SEXP from_dfSEXP, SEXP to_dfSEXP, SEXP from_idSEXP, SEXP from_lon_colSEXP, SEXP from_lat_colSEXP, SEXP to_lon_colSEXP, SEXP to_lat_colSEXP, SEXP dist_functionSEXP) {
+DataFrame dist_min(DataFrame x_df, DataFrame y_df, std::string x_id, std::string x_lon_col, std::string x_lat_col, std::string y_lon_col, std::string y_lat_col, std::string dist_function);
+RcppExport SEXP distRcpp_dist_min(SEXP x_dfSEXP, SEXP y_dfSEXP, SEXP x_idSEXP, SEXP x_lon_colSEXP, SEXP x_lat_colSEXP, SEXP y_lon_colSEXP, SEXP y_lat_colSEXP, SEXP dist_functionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type from_df(from_dfSEXP);
-    Rcpp::traits::input_parameter< DataFrame >::type to_df(to_dfSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_id(from_idSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_lon_col(from_lon_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type from_lat_col(from_lat_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type to_lon_col(to_lon_colSEXP);
-    Rcpp::traits::input_parameter< std::string >::type to_lat_col(to_lat_colSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type x_df(x_dfSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type y_df(y_dfSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_id(x_idSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_lon_col(x_lon_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_lat_col(x_lat_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_lon_col(y_lon_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_lat_col(y_lat_colSEXP);
     Rcpp::traits::input_parameter< std::string >::type dist_function(dist_functionSEXP);
-    rcpp_result_gen = Rcpp::wrap(dist_min(from_df, to_df, from_id, from_lon_col, from_lat_col, to_lon_col, to_lat_col, dist_function));
+    rcpp_result_gen = Rcpp::wrap(dist_min(x_df, y_df, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function));
     return rcpp_result_gen;
 END_RCPP
 }

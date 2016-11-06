@@ -2,34 +2,31 @@
 % Please edit documentation in R/RcppExports.R
 \name{popdist_weighted_mean}
 \alias{popdist_weighted_mean}
-\title{Compute weighted measures for each coordinate using measures taken at
-surrounding coordinates. Ending measures are double weighted by population
-and distance so that surrounding measures taken in nearby areas and those
-with greater populations are given more weight.}
+\title{Interpolate population/inverse-distance-weighted measures.}
 \usage{
-popdist_weighted_mean(from_df, to_df, measure_col, from_id = "id",
-  from_lon_col = "lon", from_lat_col = "lat", to_lon_col = "lon",
-  to_lat_col = "lat", popName = "pop", dist_function = "Haversine",
+popdist_weighted_mean(x_df, y_df, measure_col, x_id = "id",
+  x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon",
+  y_lat_col = "lat", popName = "pop", dist_function = "Haversine",
   dist_transform = "level", decay = 2)
 }
 \arguments{
-\item{from_df}{DataFrame with coordinates that need weighted measures}
+\item{x_df}{DataFrame with coordinates that need weighted measures}
 
-\item{to_df}{DataFrame with coordinates at which measures were taken}
+\item{y_df}{DataFrame with coordinates at which measures were taken}
 
-\item{measure_col}{String name of measure column in to_df}
+\item{measure_col}{String name of measure column in y_df}
 
-\item{from_id}{String name of unique identifer column in from_df}
+\item{x_id}{String name of unique identifer column in x_df}
 
-\item{from_lon_col}{String name of column in from_df with longitude values}
+\item{x_lon_col}{String name of column in x_df with longitude values}
 
-\item{from_lat_col}{String name of column in from_df with latitude values}
+\item{x_lat_col}{String name of column in x_df with latitude values}
 
-\item{to_lon_col}{String name of column in to_df with longitude values}
+\item{y_lon_col}{String name of column in y_df with longitude values}
 
-\item{to_lat_col}{String name of column in to_df with latitude values}
+\item{y_lat_col}{String name of column in y_df with latitude values}
 
-\item{popName}{String name of column in from_df with population values}
+\item{popName}{String name of column in x_df with population values}
 
 \item{dist_function}{String name of distance function: "Haversine" (default) or
 "Vincenty"}
@@ -43,9 +40,10 @@ or "log"}
 Dataframe of population/distance-weighted values
 }
 \description{
-Compute weighted measures for each coordinate using measures taken at
-surrounding coordinates. Ending measures are double weighted by population
-and distance so that surrounding measures taken in nearby areas and those
-with greater populations are given more weight.
+Interpolate population/inverse-distance-weighted measures for each \strong{x}
+coordinate using measures taken at surrounding \strong{y} coordinates.
+Ending measures are double weighted by population and distance so that
+surrounding measures taken in nearby areas and those with greater
+populations are given more weight in final average.
 }
 

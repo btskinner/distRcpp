@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{dist_1to1}
 \alias{dist_1to1}
-\title{Compute distance between two points (one to one) and return single value.}
+\title{Compute one to one distance.}
 \usage{
 dist_1to1(xlon, xlat, ylon, ylat, funname)
 }

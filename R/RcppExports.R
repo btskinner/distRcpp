@@ -15,8 +15,10 @@ dist_mtom <- function(xlon, xlat, ylon, ylat, funname) {
     .Call('distRcpp_dist_mtom', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, funname)
 }
 
+#' Compute distance between corresponding coordinate pairs in data frame.
+#'
 #' Compute distance between corresponding coordinate pairs and return vector.
-#' For use when creating a new data.frame or dplyr tbl_df column.
+#' For use when creating a new data frame or tbl_df column.
 #'
 #' @param xlon Vector of longitudes for starting coordinate pairs
 #' @param xlat Vector of latitudes for starting coordinate pairs
@@ -29,6 +31,8 @@ dist_df <- function(xlon, xlat, ylon, ylat, funname) {
     .Call('distRcpp_dist_df', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, funname)
 }
 
+#' Compute one to many distances.
+#'
 #' Compute distances between single starting coordinate and vector of
 #' ending coordinates (one to many) and return vector.
 #'
@@ -43,6 +47,8 @@ dist_1tom <- function(xlon, xlat, ylon, ylat, funname) {
     .Call('distRcpp_dist_1tom', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, funname)
 }
 
+#' Compute one to one distance.
+#'
 #' Compute distance between two points (one to one) and return single value.
 #'
 #' @param xlon Longitude for starting coordinate pair
@@ -56,20 +62,23 @@ dist_1to1 <- function(xlon, xlat, ylon, ylat, funname) {
     .Call('distRcpp_dist_1to1', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, funname)
 }
 
-#' Compute weighted measures for each coordinate using measures taken at
-#' surrounding coordinates. Ending measures are double weighted by population
-#' and distance so that surrounding measures taken in nearby areas and those
-#' with greater populations are given more weight.
+#' Interpolate population/inverse-distance-weighted measures.
 #'
-#' @param from_df DataFrame with coordinates that need weighted measures
-#' @param to_df DataFrame with coordinates at which measures were taken
-#' @param measure_col String name of measure column in to_df
-#' @param from_id String name of unique identifer column in from_df
-#' @param from_lon_col String name of column in from_df with longitude values
-#' @param from_lat_col String name of column in from_df with latitude values
-#' @param to_lon_col String name of column in to_df with longitude values
-#' @param to_lat_col String name of column in to_df with latitude values
-#' @param popName String name of column in from_df with population values
+#' Interpolate population/inverse-distance-weighted measures for each \strong{x}
+#' coordinate using measures taken at surrounding \strong{y} coordinates.
+#' Ending measures are double weighted by population and distance so that
+#' surrounding measures taken in nearby areas and those with greater
+#' populations are given more weight in final average.
+#'
+#' @param x_df DataFrame with coordinates that need weighted measures
+#' @param y_df DataFrame with coordinates at which measures were taken
+#' @param measure_col String name of measure column in y_df
+#' @param x_id String name of unique identifer column in x_df
+#' @param x_lon_col String name of column in x_df with longitude values
+#' @param x_lat_col String name of column in x_df with latitude values
+#' @param y_lon_col String name of column in y_df with longitude values
+#' @param y_lat_col String name of column in y_df with latitude values
+#' @param popName String name of column in x_df with population values
 #' @param dist_function String name of distance function: "Haversine" (default) or
 #' "Vincenty"
 #' @param dist_transform String value of distance weight transform: "level" (default)
@@ -77,22 +86,26 @@ dist_1to1 <- function(xlon, xlat, ylon, ylat, funname) {
 #' @param decay Numeric value of distance weight decay: 2 (default)
 #' @return Dataframe of population/distance-weighted values
 #' @export
-popdist_weighted_mean <- function(from_df, to_df, measure_col, from_id = "id", from_lon_col = "lon", from_lat_col = "lat", to_lon_col = "lon", to_lat_col = "lat", popName = "pop", dist_function = "Haversine", dist_transform = "level", decay = 2) {
-    .Call('distRcpp_popdist_weighted_mean', PACKAGE = 'distRcpp', from_df, to_df, measure_col, from_id, from_lon_col, from_lat_col, to_lon_col, to_lat_col, popName, dist_function, dist_transform, decay)
+popdist_weighted_mean <- function(x_df, y_df, measure_col, x_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", popName = "pop", dist_function = "Haversine", dist_transform = "level", decay = 2) {
+    .Call('distRcpp_popdist_weighted_mean', PACKAGE = 'distRcpp', x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, popName, dist_function, dist_transform, decay)
 }
 
-#' Compute distance-weighted measures for each coordinate using measures taken at
-#' surrounding coordinates. Ending measures are inverse distance-weighted so that
-#' surrounding measures taken in nearby areas are given more weight.
+#' Interpolate inverse-distance-weighted measures.
 #'
-#' @param from_df DataFrame with coordinates that need weighted measures
-#' @param to_df DataFrame with coordinates at which measures were taken
-#' @param measure_col String name of measure column in to_df
-#' @param from_id String name of unique identifer column in from_df
-#' @param from_lon_col String name of column in from_df with longitude values
-#' @param from_lat_col String name of column in from_df with latitude values
-#' @param to_lon_col String name of column in to_df with longitude values
-#' @param to_lat_col String name of column in to_df with latitude values
+#' Interpolate inverse-distance-weighted measures for each \strong{x}
+#' coordinate using measures taken at surrounding \strong{y} coordinates.
+#' Ending measures are weighted by inverse distance so that
+#' surrounding measures taken in nearby areas are given more weight in final
+#' average.
+#'
+#' @param x_df DataFrame with coordinates that need weighted measures
+#' @param y_df DataFrame with coordinates at which measures were taken
+#' @param measure_col String name of measure column in y_df
+#' @param x_id String name of unique identifer column in x_df
+#' @param x_lon_col String name of column in x_df with longitude values
+#' @param x_lat_col String name of column in x_df with latitude values
+#' @param y_lon_col String name of column in y_df with longitude values
+#' @param y_lat_col String name of column in y_df with latitude values
 #' @param dist_function String name of distance function: "Haversine" (default) or
 #' "Vincenty"
 #' @param dist_transform String value of distance weight transform: "level" (default)
@@ -100,24 +113,27 @@ popdist_weighted_mean <- function(from_df, to_df, measure_col, from_id = "id", f
 #' @param decay Numeric value of distance weight decay: 2 (default)
 #' @return Dataframe of distance-weighted values
 #' @export
-dist_weighted_mean <- function(from_df, to_df, measure_col, from_id = "id", from_lon_col = "lon", from_lat_col = "lat", to_lon_col = "lon", to_lat_col = "lat", dist_function = "Haversine", dist_transform = "level", decay = 2) {
-    .Call('distRcpp_dist_weighted_mean', PACKAGE = 'distRcpp', from_df, to_df, measure_col, from_id, from_lon_col, from_lat_col, to_lon_col, to_lat_col, dist_function, dist_transform, decay)
+dist_weighted_mean <- function(x_df, y_df, measure_col, x_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine", dist_transform = "level", decay = 2) {
+    .Call('distRcpp_dist_weighted_mean', PACKAGE = 'distRcpp', x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function, dist_transform, decay)
 }
 
-#' Find minimum distance between starting point and possible end points.
+#' Find minimum distance.
 #'
-#' @param from_df DataFrame with coordinates that need weighted measures
-#' @param to_df DataFrame with coordinates at which measures were taken
-#' @param from_id String name of unique identifer column in from_df
-#' @param from_lon_col String name of column in from_df with longitude values
-#' @param from_lat_col String name of column in from_df with latitude values
-#' @param to_lon_col String name of column in to_df with longitude values
-#' @param to_lat_col String name of column in to_df with latitude values
+#' Find minimum distance between each starting point in \strong{x} and
+#' possible end points, \strong{y}.
+#'
+#' @param x_df DataFrame with coordinates that need weighted measures
+#' @param y_df DataFrame with coordinates at which measures were taken
+#' @param x_id String name of unique identifer column in x_df
+#' @param x_lon_col String name of column in x_df with longitude values
+#' @param x_lat_col String name of column in x_df with latitude values
+#' @param y_lon_col String name of column in y_df with longitude values
+#' @param y_lat_col String name of column in y_df with latitude values
 #' @param dist_function String name of distance function: "Haversine" (default) or
 #' "Vincenty"
 #' @return DataFrame with minimum distance in meters
 #' @export
-dist_min <- function(from_df, to_df, from_id = "id", from_lon_col = "lon", from_lat_col = "lat", to_lon_col = "lon", to_lat_col = "lat", dist_function = "Haversine") {
-    .Call('distRcpp_dist_min', PACKAGE = 'distRcpp', from_df, to_df, from_id, from_lon_col, from_lat_col, to_lon_col, to_lat_col, dist_function)
+dist_min <- function(x_df, y_df, x_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine") {
+    .Call('distRcpp_dist_min', PACKAGE = 'distRcpp', x_df, y_df, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
 }
 

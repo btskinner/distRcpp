@@ -2,8 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{dist_1tom}
 \alias{dist_1tom}
-\title{Compute distances between single starting coordinate and vector of
-ending coordinates (one to many) and return vector.}
+\title{Compute one to many distances.}
 \usage{
 dist_1tom(xlon, xlat, ylon, ylat, funname)
 }
