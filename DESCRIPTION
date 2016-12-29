@@ -2,7 +2,7 @@ Package: distRcpp
 Type: Package
 Title: A Package To Compute Distance and Distance-Weighted Measures Using Rcpp
 Version: 0.6.0
-Date: 2016-12-28
+Date: 2016-12-29
 Author: Benjamin Skinner <b.skinner@vanderbilt.edu>
 Maintainer: Benjamin Skinner <b.skinner@vanderbilt.edu>
 Description: This package computes distance-weighted measures using
