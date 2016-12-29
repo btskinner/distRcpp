@@ -1,7 +1,6 @@
 #ifndef DISTRCPP_DIST_H
 #define DISTRCPP_DIST_H
 
-#include <inst/shared.h>
 #include <Rcpp.h>
 
 using namespace Rcpp;
