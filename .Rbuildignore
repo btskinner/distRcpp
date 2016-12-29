@@ -2,9 +2,8 @@
 ^\.Rproj\.user$
 ^\.git$
 \.Rhistory$
-^data-raw$
 \.Rapp\.history$
 \.DS_Store$
 ^README\.md$
-^.travis\.yml$
+^README\.Rmd$
 ^\.travis\.yml$
