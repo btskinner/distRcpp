@@ -77,6 +77,12 @@ Compute minimum distance between each starting point, *x*, and possible
 end points, **Y**. Returns vector of minimum distances in meters that
 equals \# of starting points (size of **X**).
 
+#### `dist_max()`
+
+Compute maximum distance between each starting point, *x*, and possible
+end points, **Y**. Returns vector of maximum distances in meters that
+equals \# of starting points (size of **X**).
+
 Benchmark
 ---------
 
@@ -89,6 +95,12 @@ every United States population-weighted county centroid as measured in
     ## libraries
     libs <- c('dplyr','microbenchmark','geosphere','distRcpp')
     lapply(libs, require, character.only = TRUE)
+
+    ## Loading required package: microbenchmark
+
+    ## Loading required package: geosphere
+
+    ## Loading required package: sp
 
     ## read data
     df <- get(data(county_centers))
@@ -150,6 +162,6 @@ Mid-2012 MacBook Air, 2 GHz Intel Core i7, 8 GB 1600 MHz DDR3 SDRAM
     )
 
     ## Unit: milliseconds
-    ##       expr       min        lq      mean    median        uq      max neval cld
-    ##     dist_R 2549.4251 2727.2370 2848.2109 2844.3020 2924.5414 3653.536   100   b
-    ##  dist_Rcpp  798.7527  819.3178  858.9428  844.8968  880.1373 1009.457   100  a
+    ##       expr       min        lq      mean    median        uq       max neval cld
+    ##     dist_R 2643.5089 2792.5282 2879.8956 2854.9317 2928.6207 4991.2780   100   b
+    ##  dist_Rcpp  827.3053  845.8963  869.7752  857.2674  884.5329  971.1518   100  a

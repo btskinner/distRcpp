@@ -16,7 +16,7 @@ NumericVector dist_df(const NumericVector& xlon,
 		      const NumericVector& xlat,
 		      const NumericVector& ylon,
 		      const NumericVector& ylat,
-		      std::string funname); 
+		      std::string funname);
 
 NumericVector dist_1tom(const double& xlon,
 			const double& xlat,
@@ -28,7 +28,7 @@ double dist_1to1(const double& xlon,
 		 const double& xlat,
 		 const double& ylon,
 		 const double& ylat,
-		 std::string funname); 
+		 std::string funname);
 
 NumericVector inverse_dist_weight(const NumericVector& d,
 				  double exp,
@@ -62,6 +62,17 @@ DataFrame dist_weighted_mean(DataFrame x_df,
 DataFrame dist_min(DataFrame x_df,
 		   DataFrame y_df,
 		   std::string x_id = "id",
+		   std::string y_id = "id",
+		   std::string x_lon_col = "lon",
+		   std::string x_lat_col = "lat",
+		   std::string y_lon_col = "lon",
+		   std::string y_lat_col = "lat",
+		   std::string dist_function = "Haversine");
+
+DataFrame dist_max(DataFrame x_df,
+		   DataFrame y_df,
+		   std::string x_id = "id",
+		   std::string y_id = "id",
 		   std::string x_lon_col = "lon",
 		   std::string x_lat_col = "lat",
 		   std::string y_lon_col = "lon",

@@ -324,36 +324,40 @@ DataFrame dist_weighted_mean(DataFrame x_df,
 //' Find minimum distance between each starting point in \strong{x} and
 //' possible end points, \strong{y}.
 //'
-//' @param x_df DataFrame with coordinates that need weighted measures
-//' @param y_df DataFrame with coordinates at which measures were taken
+//' @param x_df DataFrame with starting coordinates
+//' @param y_df DataFrame with ending coordinates
 //' @param x_id String name of unique identifer column in x_df
+//' @param y_id String name of unique identifer column in y_df
 //' @param x_lon_col String name of column in x_df with longitude values
 //' @param x_lat_col String name of column in x_df with latitude values
 //' @param y_lon_col String name of column in y_df with longitude values
 //' @param y_lat_col String name of column in y_df with latitude values
 //' @param dist_function String name of distance function: "Haversine" (default) or
 //' "Vincenty"
-//' @return DataFrame with minimum distance in meters
+//' @return DataFrame with id of closest point and distance in meters
 //' @export
 // [[Rcpp::export]]
 DataFrame dist_min(DataFrame x_df,
 		   DataFrame y_df,
 		   std::string x_id = "id",
+		   std::string y_id = "id",
 		   std::string x_lon_col = "lon",
 		   std::string x_lat_col = "lat",
 		   std::string y_lon_col = "lon",
 		   std::string y_lat_col = "lat",
 		   std::string dist_function = "Haversine") {
 
-   // init
-  CharacterVector id = x_df[x_id];
+  // init
+  CharacterVector idx = x_df[x_id];
+  CharacterVector idy = y_df[y_id];
   NumericVector xlon = x_df[x_lon_col];
   NumericVector xlat = x_df[x_lat_col];
   NumericVector ylon = y_df[y_lon_col];
   NumericVector ylat = y_df[y_lat_col];
 
   int n = xlon.size();
-  NumericVector out(n);
+  NumericVector dist(n);
+  CharacterVector end(n);
 
   // loop
   for (int i = 0; i < n; i++) {
@@ -363,15 +367,87 @@ DataFrame dist_min(DataFrame x_df,
       Rcpp::checkUserInterrupt();
 
     // distance vector
-    NumericVector dist = dist_1tom(xlon[i], xlat[i], ylon, ylat, dist_function);
+    NumericVector distvec = dist_1tom(xlon[i], xlat[i], ylon, ylat, dist_function);
 
-    // add min to out
-    out[i] = min(dist);
+    // add minimum to distance output
+    dist[i] = min(distvec);
+
+    // get ID of minimum
+    int j;
+    j = which_min(distvec);
+    end[i] = idy[j];
 
   }
 
-  return DataFrame::create(_["id"] = id,
-			   _["mindist"] = out);
+  return DataFrame::create(_["id_start"] = idx,
+			   _["id_end"] = end,
+			   _["meters"] = dist);
+
+}
+
+//' Find maximum distance.
+//'
+//' Find maximum distance between each starting point in \strong{x} and
+//' possible end points, \strong{y}.
+//'
+//' @param x_df DataFrame with starting coordinates
+//' @param y_df DataFrame with ending coordinates
+//' @param x_id String name of unique identifer column in x_df
+//' @param y_id String name of unique identifer column in y_df
+//' @param x_lon_col String name of column in x_df with longitude values
+//' @param x_lat_col String name of column in x_df with latitude values
+//' @param y_lon_col String name of column in y_df with longitude values
+//' @param y_lat_col String name of column in y_df with latitude values
+//' @param dist_function String name of distance function: "Haversine" (default) or
+//' "Vincenty"
+//' @return DataFrame with id of farthest point and distance in meters
+//' @export
+// [[Rcpp::export]]
+DataFrame dist_max(DataFrame x_df,
+		   DataFrame y_df,
+		   std::string x_id = "id",
+		   std::string y_id = "id",
+		   std::string x_lon_col = "lon",
+		   std::string x_lat_col = "lat",
+		   std::string y_lon_col = "lon",
+		   std::string y_lat_col = "lat",
+		   std::string dist_function = "Haversine") {
+
+  // init
+  CharacterVector idx = x_df[x_id];
+  CharacterVector idy = y_df[y_id];
+  NumericVector xlon = x_df[x_lon_col];
+  NumericVector xlat = x_df[x_lat_col];
+  NumericVector ylon = y_df[y_lon_col];
+  NumericVector ylat = y_df[y_lat_col];
+
+  int n = xlon.size();
+  NumericVector dist(n);
+  CharacterVector end(n);
+
+  // loop
+  for (int i = 0; i < n; i++) {
+
+    // check for interrupt
+    if(i % 100 == 0)
+      Rcpp::checkUserInterrupt();
+
+    // distance vector
+    NumericVector distvec = dist_1tom(xlon[i], xlat[i], ylon, ylat, dist_function);
+
+    // add maximum to distance output
+    dist[i] = max(distvec);
+
+    // get ID of maximum
+    int j;
+    j = which_max(distvec);
+    end[i] = idy[j];
+
+  }
+
+  return DataFrame::create(_["id_start"] = idx,
+			   _["id_end"] = end,
+			   _["meters"] = dist);
 
 }
 

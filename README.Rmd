@@ -53,7 +53,13 @@ Compute distance between corresponding coordinate pairs and return vector of dis
 
 #### `dist_min()`
 
-Compute minimum distance between each starting point, *x*, and possible end points, **Y**. Returns vector of minimum distances in meters that equals # of starting points (size of **X**).
+Compute minimum distance between each starting point, *x*, and
+possible end points, **Y**. Returns vector of minimum distances in
+meters that equals # of starting points (size of **X**).
+
+#### `dist_max()`
+
+Compute maximum distance between each starting point, *x*, and possible end points, **Y**. Returns vector of maximum distances in meters that equals # of starting points (size of **X**).
 
 ## Benchmark
 
