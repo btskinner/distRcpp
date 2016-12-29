@@ -96,12 +96,6 @@ every United States population-weighted county centroid as measured in
     libs <- c('dplyr','microbenchmark','geosphere','distRcpp')
     lapply(libs, require, character.only = TRUE)
 
-    ## Loading required package: microbenchmark
-
-    ## Loading required package: geosphere
-
-    ## Loading required package: sp
-
     ## read data
     df <- get(data(county_centers))
     df
@@ -162,6 +156,6 @@ Mid-2012 MacBook Air, 2 GHz Intel Core i7, 8 GB 1600 MHz DDR3 SDRAM
     )
 
     ## Unit: milliseconds
-    ##       expr       min        lq      mean    median        uq       max neval cld
-    ##     dist_R 2643.5089 2792.5282 2879.8956 2854.9317 2928.6207 4991.2780   100   b
-    ##  dist_Rcpp  827.3053  845.8963  869.7752  857.2674  884.5329  971.1518   100  a
+    ##       expr      min       lq      mean    median        uq       max neval cld
+    ##     dist_R 2579.012 2748.543 2873.0631 2870.9757 2954.7282 3918.1701   100   b
+    ##  dist_Rcpp  834.670  848.832  873.2247  865.0157  888.6319  995.3689   100  a

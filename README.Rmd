@@ -67,7 +67,7 @@ Compare speed with base R function when measuring the distance between every Uni
 
 ### Load data
 
-```{r, results = 'hide'}
+```{r, results = 'hide', message = FALSE}
 ## libraries
 libs <- c('dplyr','microbenchmark','geosphere','distRcpp')
 lapply(libs, require, character.only = TRUE)
