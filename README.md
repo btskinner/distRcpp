@@ -2,6 +2,8 @@
 
 ![](https://img.shields.io/badge/dev-beta-red.svg)
 [![GitHub release](https://img.shields.io/github/release/btskinner/distRcpp.svg)](https://github.com/btskinner/distRcpp)
+[![Travis-CI Build Status](https://travis-ci.org/btskinner/distRcpp.svg?branch=master)](https://travis-ci.org/btskinner/distRcpp)
+
 
 This package uses [Rcpp](http://www.rcpp.org) to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either [Haversine](https://en.wikipedia.org/wiki/Haversine_formula) or [Vincenty](https://en.wikipedia.org/wiki/Vincenty%27s_formulae) formulas. The package also has functions to return raw distance measures. If you are able to [install Rcpp on your machine](https://github.com/RcppCore/Rcpp), you should be able to install this package and use these functions.
 
@@ -11,7 +13,7 @@ Install the latest development version from Github with
 devtools::install_github('btskinner/distRcpp')
 ```
 
-**NB** This package is still in early beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (`NA`) values are given to the functions. 
+**NB** This package is still in early beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (`NA`) values are given to the functions.
 
 ## Available functions
 
@@ -55,14 +57,11 @@ Compare speed with base R function when measuring the distance between every Uni
 
 ```
 > ## libraries
-> libs <- c('dplyr','readr','microbenchmark','geosphere','distRcpp')
+> libs <- c('dplyr','microbenchmark','geosphere','distRcpp')
 > lapply(libs, require, character.only = TRUE)
 >
-> ## get data link
-> link <- 'https://raw.githubusercontent.com/btskinner/spatial/master/data/county_centers.csv'
-> 
 > ## read data
-> df <- read_csv(link)
+> df <- get(data(county_centers))
 > df
 # A tibble: 3,147 × 9
     fips    clon00   clat00    clon10   clat10   pclon00  pclat00   pclon10
@@ -117,5 +116,5 @@ Mid-2012 MacBook Air, 2 GHz Intel Core i7, 8 GB 1600 MHz DDR3 SDRAM
 Unit: milliseconds
      expr       min        lq     mean    median       uq      max neval cld
    dist_R 2575.6613 2816.9402 3002.129 2971.4438 3153.469 3722.347   100   b
-dist_Rcpp  816.6113  871.5952  914.804  894.2506  947.697 1270.545   100  a 
+dist_Rcpp  816.6113  871.5952  914.804  894.2506  947.697 1270.545   100  a
 ```

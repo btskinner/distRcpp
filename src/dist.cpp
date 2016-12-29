@@ -1,133 +1,8 @@
 // dist.cpp
+#include <shared.h>
 #include <Rcpp.h>
 
 using namespace Rcpp;
-
-// mean Earth radius in meters
-#define a 6378137.0
-#define f 1 / 298.257223563
-#define b (1. - f) * a
-
-// convert degrees to radians
-double degToRad(double degree) {
-  return (degree * M_PI / 180);
-}
-
-// compute Haversine distance
-double dist_haversine(double xlon, double xlat, double ylon, double ylat) {
-
-  // convert degrees to radians
-  xlon = degToRad(xlon);
-  xlat = degToRad(xlat);
-  ylon = degToRad(ylon);
-  ylat = degToRad(ylat);
-
-  // compute parenthetical: sin(delta / 2)
-  double d1 = sin((ylat - xlat) / 2.);
-  double d2 = sin((ylon - xlon) / 2.);
-
-  return 2.0 * a * asin(sqrt(d1 * d1 + cos(xlat) * cos(ylat) * d2 * d2));
-}
-
-// compute Vincenty distance
-double dist_vincenty(double xlon, double xlat, double ylon, double ylat) {
-
-  // convert degrees to radians
-  xlon = degToRad(xlon);
-  xlat = degToRad(xlat);
-  ylon = degToRad(ylon);
-  ylat = degToRad(ylat);
-
-  double U1 = atan((1. - f) * tan(xlat));
-  double U2 = atan((1. - f) * tan(ylat));
-  double sinU1 = sin(U1);
-  double sinU2 = sin(U2);
-  double cosU1 = cos(U1);
-  double cosU2 = cos(U2);
-  double L = ylon - xlon;
-  double lambda = L;
-
-  int iters = 100;
-  double tol = 1.0e-12;
-  int again = 1;
-
-  double sinLambda, cosLambda,
-    p1, p2, sinsig, cossig, sigma, sina, cos2a, cos2sigm, C, lambdaOld,
-    Usq, A, B, dsigma;
-
-  while (again) {
-
-    // https://en.wikipedia.org/wiki/Vincenty%27s_formulae
-
-    sinLambda = sin(lambda);
-    cosLambda = cos(lambda);
-
-    p1 = cosU2 * sinLambda;
-    p2 = cosU1 * sinU2 - sinU1 * cosU2 * cosLambda;
-
-    sinsig = sqrt(p1 * p1 + p2 * p2);
-    cossig = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
-
-    sigma = atan2(sinsig, cossig);
-
-    sina = cosU1 * cosU2 * sinLambda / sinsig;
-
-    cos2a = 1. - (sina * sina);
-
-    cos2sigm = cossig - 2. * sinU1 * sinU2 / cos2a;
-
-    C = f / 16. * cos2a * (4. + f * (4. - 3. * cos2a));
-
-    lambdaOld = lambda;
-
-    lambda = L + (1 - C) * f * sina *
-      (sigma + C * sinsig *
-       (cos2sigm + C * cossig *
-	(-1. + 2. * cos2sigm * cos2sigm)));
-
-    iters -= 1;
-
-    again = (fabs(lambda - lambdaOld) > tol && iters > 0);
-
-  }
-
-  if (iters == 0) {
-
-    throw exception("Failed to converge!");
-
-  }
-  else {
-
-    Usq = cos2a * (a * a - b * b) / (b * b);
-
-    A = 1. + Usq / 16384. * (4096. + Usq * (-768. + Usq * (320. - 175. * Usq)));
-    B = Usq / 1024. * (256. + Usq * (-128. + Usq * (74. - 47. * Usq)));
-
-    dsigma = B * sinsig *
-      (cos2sigm + B / 4. *
-       (cossig * (-1. + 2. * cos2sigm * cos2sigm)
-	- B / 6. * cos2sigm * (-3. + 4. * sinsig * sinsig)
-	* (-3. + 4. * cos2sigm * cos2sigm)));
-
-    return b * A * (sigma - dsigma);
-
-  }
-}
-
-// function to choose distance measurement method
-typedef double (*funcPtr)(double xlon, double xlat,
-			  double ylon, double ylat);
-
-XPtr<funcPtr> choose_func(std::string funcnamestr) {
-
-  if (funcnamestr == "Haversine")
-    return(XPtr<funcPtr>(new funcPtr(&dist_haversine)));
-  else if (funcnamestr == "Vincenty")
-    return(XPtr<funcPtr>(new funcPtr(&dist_vincenty)));
-  else
-    return XPtr<funcPtr>(R_NilValue);
-
-}
 
 //' Compute distance between each coordinate pair (many to many)
 //' and return matrix.
@@ -268,20 +143,6 @@ double dist_1to1(const double& xlon,
 
 }
 
-NumericVector inverse_dist_weight(const NumericVector& d,
-				  double exp,
-				  std::string transform) {
-
-  if (transform == "log")
-
-    return 1 / pow(log(d), exp);
-
-  else
-
-    return 1 / pow(d, exp);
-
-}
-
 //' Interpolate population/inverse-distance-weighted measures.
 //'
 //' Interpolate population/inverse-distance-weighted measures for each \strong{x}
@@ -344,7 +205,7 @@ DataFrame popdist_weighted_mean(DataFrame x_df,
     NumericVector dist = dist_1tom(xlon[i], xlat[i], ylon, ylat, dist_function);
 
     // inverse distance weights
-    NumericVector idw = inverse_dist_weight(dist, decay, dist_transform);
+    NumericVector idw = inverse_value(dist, decay, dist_transform);
 
     // population adjusted idw
     NumericVector w = idw * popw;
@@ -432,7 +293,7 @@ DataFrame dist_weighted_mean(DataFrame x_df,
     NumericVector dist = dist_1tom(xlon[i], xlat[i], ylon, ylat, dist_function);
 
     // inverse distance weights
-    NumericVector w = inverse_dist_weight(dist, decay, dist_transform);
+    NumericVector w = inverse_value(dist, decay, dist_transform);
 
     // weight denominator
     double w_sum = 0;

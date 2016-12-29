@@ -126,3 +126,55 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// deg_to_rad
+double deg_to_rad(double degree);
+RcppExport SEXP distRcpp_deg_to_rad(SEXP degreeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type degree(degreeSEXP);
+    rcpp_result_gen = Rcpp::wrap(deg_to_rad(degree));
+    return rcpp_result_gen;
+END_RCPP
+}
+// dist_haversine
+double dist_haversine(double xlon, double xlat, double ylon, double ylat);
+RcppExport SEXP distRcpp_dist_haversine(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type xlon(xlonSEXP);
+    Rcpp::traits::input_parameter< double >::type xlat(xlatSEXP);
+    Rcpp::traits::input_parameter< double >::type ylon(ylonSEXP);
+    Rcpp::traits::input_parameter< double >::type ylat(ylatSEXP);
+    rcpp_result_gen = Rcpp::wrap(dist_haversine(xlon, xlat, ylon, ylat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// dist_vincenty
+double dist_vincenty(double xlon, double xlat, double ylon, double ylat);
+RcppExport SEXP distRcpp_dist_vincenty(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type xlon(xlonSEXP);
+    Rcpp::traits::input_parameter< double >::type xlat(xlatSEXP);
+    Rcpp::traits::input_parameter< double >::type ylon(ylonSEXP);
+    Rcpp::traits::input_parameter< double >::type ylat(ylatSEXP);
+    rcpp_result_gen = Rcpp::wrap(dist_vincenty(xlon, xlat, ylon, ylat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// inverse_value
+NumericVector inverse_value(const NumericVector& d, double exp, std::string transform);
+RcppExport SEXP distRcpp_inverse_value(SEXP dSEXP, SEXP expSEXP, SEXP transformSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type d(dSEXP);
+    Rcpp::traits::input_parameter< double >::type exp(expSEXP);
+    Rcpp::traits::input_parameter< std::string >::type transform(transformSEXP);
+    rcpp_result_gen = Rcpp::wrap(inverse_value(d, exp, transform));
+    return rcpp_result_gen;
+END_RCPP
+}

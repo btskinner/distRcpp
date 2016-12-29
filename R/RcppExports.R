@@ -137,3 +137,47 @@ dist_min <- function(x_df, y_df, x_id = "id", x_lon_col = "lon", x_lat_col = "la
     .Call('distRcpp_dist_min', PACKAGE = 'distRcpp', x_df, y_df, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
 }
 
+#' Convert degrees to radians
+#'
+#' @param degree Degree value
+#' @return Radian value (double)
+#' @export
+deg_to_rad <- function(degree) {
+    .Call('distRcpp_deg_to_rad', PACKAGE = 'distRcpp', degree)
+}
+
+#' Compute Haversine distance between two points
+#'
+#' @param xlon Longitude for starting coordinate pair
+#' @param xlat Latitude for starting coordinate pair
+#' @param ylon Longitude for ending coordinate pair
+#' @param ylat Latitude for ending coordinate pair
+#' @return Double of distance between coordinate pairs in meters
+#' @export
+dist_haversine <- function(xlon, xlat, ylon, ylat) {
+    .Call('distRcpp_dist_haversine', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat)
+}
+
+#' Compute Vincenty distance between two points
+#'
+#' @param xlon Longitude for starting coordinate pair
+#' @param xlat Latitude for starting coordinate pair
+#' @param ylon Longitude for ending coordinate pair
+#' @param ylat Latitude for ending coordinate pair
+#' @return Double of distance between coordinate pairs in meters
+#' @export
+dist_vincenty <- function(xlon, xlat, ylon, ylat) {
+    .Call('distRcpp_dist_vincenty', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat)
+}
+
+#' Compute inverse values from vector
+#'
+#' @param d Vector of values (e.g., distances)
+#' @param exp Rate of decay
+#' @param transform == "log" if natural log transform
+#' @return Vector of inverse weights
+#' @export
+inverse_value <- function(d, exp, transform) {
+    .Call('distRcpp_inverse_value', PACKAGE = 'distRcpp', d, exp, transform)
+}
+
