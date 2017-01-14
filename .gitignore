@@ -9,3 +9,6 @@
 # compiled code
 *.o
 *.so
+
+# build directory (tar files)
+builds/
