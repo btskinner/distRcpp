@@ -168,8 +168,8 @@ double dist_1to1(const double& xlon,
 //' @return Dataframe of population/distance-weighted values
 //' @export
 // [[Rcpp::export]]
-DataFrame popdist_weighted_mean(DataFrame x_df,
-				DataFrame y_df,
+DataFrame popdist_weighted_mean(const DataFrame& x_df,
+				const DataFrame& y_df,
 				std::string measure_col,
 				std::string x_id = "id",
 				std::string x_lon_col = "lon",
@@ -258,8 +258,8 @@ DataFrame popdist_weighted_mean(DataFrame x_df,
 //' @return Dataframe of distance-weighted values
 //' @export
 // [[Rcpp::export]]
-DataFrame dist_weighted_mean(DataFrame x_df,
-			     DataFrame y_df,
+DataFrame dist_weighted_mean(const DataFrame& x_df,
+			     const DataFrame& y_df,
 			     std::string measure_col,
 			     std::string x_id = "id",
 			     std::string x_lon_col = "lon",
@@ -337,8 +337,8 @@ DataFrame dist_weighted_mean(DataFrame x_df,
 //' @return DataFrame with id of closest point and distance in meters
 //' @export
 // [[Rcpp::export]]
-DataFrame dist_min(DataFrame x_df,
-		   DataFrame y_df,
+DataFrame dist_min(const DataFrame& x_df,
+		   const DataFrame& y_df,
 		   std::string x_id = "id",
 		   std::string y_id = "id",
 		   std::string x_lon_col = "lon",
@@ -403,8 +403,8 @@ DataFrame dist_min(DataFrame x_df,
 //' @return DataFrame with id of farthest point and distance in meters
 //' @export
 // [[Rcpp::export]]
-DataFrame dist_max(DataFrame x_df,
-		   DataFrame y_df,
+DataFrame dist_max(const DataFrame& x_df,
+		   const DataFrame& y_df,
 		   std::string x_id = "id",
 		   std::string y_id = "id",
 		   std::string x_lon_col = "lon",
