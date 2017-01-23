@@ -10,7 +10,7 @@ using namespace Rcpp;
 //' @return Radian value (double)
 //' @export
 // [[Rcpp::export]]
-double deg_to_rad(double degree) {
+double deg_to_rad(const double& degree) {
   return (degree * M_PI / 180);
 }
 
@@ -23,22 +23,25 @@ double deg_to_rad(double degree) {
 //' @return Double of distance between coordinate pairs in meters
 //' @export
 // [[Rcpp::export]]
-double dist_haversine(double xlon, double xlat, double ylon, double ylat) {
+double dist_haversine(const double& xlon,
+		      const double& xlat,
+		      const double& ylon,
+		      const double& ylat) {
 
   // return 0 if same point
   if (xlon == ylon && xlat == ylat) return 0;
 
   // convert degrees to radians
-  xlon = deg_to_rad(xlon);
-  xlat = deg_to_rad(xlat);
-  ylon = deg_to_rad(ylon);
-  ylat = deg_to_rad(ylat);
+  double xlonr = deg_to_rad(xlon);
+  double xlatr = deg_to_rad(xlat);
+  double ylonr = deg_to_rad(ylon);
+  double ylatr = deg_to_rad(ylat);
 
   // compute parenthetical: sin(delta / 2)
-  double d1 = sin((ylat - xlat) / 2.);
-  double d2 = sin((ylon - xlon) / 2.);
+  double d1 = sin((ylatr - xlatr) / 2.);
+  double d2 = sin((ylonr - xlonr) / 2.);
 
-  return 2.0 * a * asin(sqrt(d1 * d1 + cos(xlat) * cos(ylat) * d2 * d2));
+  return 2.0 * a * asin(sqrt(d1 * d1 + cos(xlatr) * cos(ylatr) * d2 * d2));
 }
 
 //' Compute Vincenty distance between two points
@@ -50,24 +53,27 @@ double dist_haversine(double xlon, double xlat, double ylon, double ylat) {
 //' @return Double of distance between coordinate pairs in meters
 //' @export
 // [[Rcpp::export]]
-double dist_vincenty(double xlon, double xlat, double ylon, double ylat) {
+double dist_vincenty(const double& xlon,
+		     const double& xlat,
+		     const double& ylon,
+		     const double& ylat) {
 
   // return 0 if same point
   if (xlon == ylon && xlat == ylat) return 0;
 
   // convert degrees to radians
-  xlon = deg_to_rad(xlon);
-  xlat = deg_to_rad(xlat);
-  ylon = deg_to_rad(ylon);
-  ylat = deg_to_rad(ylat);
+  double xlonr = deg_to_rad(xlon);
+  double xlatr = deg_to_rad(xlat);
+  double ylonr = deg_to_rad(ylon);
+  double ylatr = deg_to_rad(ylat);
 
-  double U1 = atan((1. - f) * tan(xlat));
-  double U2 = atan((1. - f) * tan(ylat));
+  double U1 = atan((1. - f) * tan(xlatr));
+  double U2 = atan((1. - f) * tan(ylatr));
   double sinU1 = sin(U1);
   double sinU2 = sin(U2);
   double cosU1 = cos(U1);
   double cosU2 = cos(U2);
-  double L = ylon - xlon;
+  double L = ylonr - xlonr;
   double lambda = L;
 
   int iters = 100;
@@ -160,8 +166,10 @@ NumericVector inverse_value(const NumericVector& d,
 }
 
 // function to choose distance measurement method
-typedef double (*funcPtr)(double xlon, double xlat,
-			  double ylon, double ylat);
+typedef double (*funcPtr)(const double& xlon,
+			  const double& xlat,
+			  const double& ylon,
+			  const double& ylat);
 
 XPtr<funcPtr> choose_func(std::string funcnamestr) {
 

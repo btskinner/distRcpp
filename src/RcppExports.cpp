@@ -147,40 +147,40 @@ BEGIN_RCPP
 END_RCPP
 }
 // deg_to_rad
-double deg_to_rad(double degree);
+double deg_to_rad(const double& degree);
 RcppExport SEXP distRcpp_deg_to_rad(SEXP degreeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type degree(degreeSEXP);
+    Rcpp::traits::input_parameter< const double& >::type degree(degreeSEXP);
     rcpp_result_gen = Rcpp::wrap(deg_to_rad(degree));
     return rcpp_result_gen;
 END_RCPP
 }
 // dist_haversine
-double dist_haversine(double xlon, double xlat, double ylon, double ylat);
+double dist_haversine(const double& xlon, const double& xlat, const double& ylon, const double& ylat);
 RcppExport SEXP distRcpp_dist_haversine(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type xlon(xlonSEXP);
-    Rcpp::traits::input_parameter< double >::type xlat(xlatSEXP);
-    Rcpp::traits::input_parameter< double >::type ylon(ylonSEXP);
-    Rcpp::traits::input_parameter< double >::type ylat(ylatSEXP);
+    Rcpp::traits::input_parameter< const double& >::type xlon(xlonSEXP);
+    Rcpp::traits::input_parameter< const double& >::type xlat(xlatSEXP);
+    Rcpp::traits::input_parameter< const double& >::type ylon(ylonSEXP);
+    Rcpp::traits::input_parameter< const double& >::type ylat(ylatSEXP);
     rcpp_result_gen = Rcpp::wrap(dist_haversine(xlon, xlat, ylon, ylat));
     return rcpp_result_gen;
 END_RCPP
 }
 // dist_vincenty
-double dist_vincenty(double xlon, double xlat, double ylon, double ylat);
+double dist_vincenty(const double& xlon, const double& xlat, const double& ylon, const double& ylat);
 RcppExport SEXP distRcpp_dist_vincenty(SEXP xlonSEXP, SEXP xlatSEXP, SEXP ylonSEXP, SEXP ylatSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type xlon(xlonSEXP);
-    Rcpp::traits::input_parameter< double >::type xlat(xlatSEXP);
-    Rcpp::traits::input_parameter< double >::type ylon(ylonSEXP);
-    Rcpp::traits::input_parameter< double >::type ylat(ylatSEXP);
+    Rcpp::traits::input_parameter< const double& >::type xlon(xlonSEXP);
+    Rcpp::traits::input_parameter< const double& >::type xlat(xlatSEXP);
+    Rcpp::traits::input_parameter< const double& >::type ylon(ylonSEXP);
+    Rcpp::traits::input_parameter< const double& >::type ylat(ylatSEXP);
     rcpp_result_gen = Rcpp::wrap(dist_vincenty(xlon, xlat, ylon, ylat));
     return rcpp_result_gen;
 END_RCPP

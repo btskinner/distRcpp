@@ -33,8 +33,8 @@ NumericVector inverse_dist_weight(const NumericVector& d,
 				  double exp,
 				  std::string transform);
 
-DataFrame popdist_weighted_mean(DataFrame x_df,
-				DataFrame y_df,
+DataFrame popdist_weighted_mean(const DataFrame& x_df,
+				const DataFrame& y_df,
 				std::string measure_col,
 				std::string x_id = "id",
 				std::string x_lon_col = "lon",
@@ -46,8 +46,8 @@ DataFrame popdist_weighted_mean(DataFrame x_df,
 				std::string dist_transform = "level",
 				double decay = 2);
 
-DataFrame dist_weighted_mean(DataFrame x_df,
-			     DataFrame y_df,
+DataFrame dist_weighted_mean(const DataFrame& x_df,
+			     const DataFrame& y_df,
 			     std::string measure_col,
 			     std::string x_id = "id",
 			     std::string x_lon_col = "lon",
@@ -58,8 +58,8 @@ DataFrame dist_weighted_mean(DataFrame x_df,
 			     std::string dist_transform = "level",
 			     double decay = 2);
 
-DataFrame dist_min(DataFrame x_df,
-		   DataFrame y_df,
+DataFrame dist_min(const DataFrame& x_df,
+		   const DataFrame& y_df,
 		   std::string x_id = "id",
 		   std::string y_id = "id",
 		   std::string x_lon_col = "lon",
@@ -68,8 +68,8 @@ DataFrame dist_min(DataFrame x_df,
 		   std::string y_lat_col = "lat",
 		   std::string dist_function = "Haversine");
 
-DataFrame dist_max(DataFrame x_df,
-		   DataFrame y_df,
+DataFrame dist_max(const DataFrame& x_df,
+		   const DataFrame& y_df,
 		   std::string x_id = "id",
 		   std::string y_id = "id",
 		   std::string x_lon_col = "lon",
