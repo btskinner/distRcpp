@@ -230,7 +230,8 @@ DataFrame popdist_weighted_mean(const DataFrame& x_df,
   }
 
   return DataFrame::create(_["id"] = id,
-			   _["wmeasure"] = out);
+			   _["wmeasure"] = out,
+			   _["stringsAsFactors"] = false);
 
 }
 
@@ -286,7 +287,7 @@ DataFrame dist_weighted_mean(const DataFrame& x_df,
   for (int i = 0; i < n; i++) {
 
     // check for interrupt
-    if(i % 100 == 0)
+    if(i % 1000 == 0)
       Rcpp::checkUserInterrupt();
 
     // distance vector
@@ -315,7 +316,8 @@ DataFrame dist_weighted_mean(const DataFrame& x_df,
   }
 
   return DataFrame::create(_["id"] = id,
-			   _["wmeasure"] = out);
+			   _["wmeasure"] = out,
+			   _["stringsAsFactors"] = false);
 
 }
 
@@ -363,7 +365,7 @@ DataFrame dist_min(const DataFrame& x_df,
   for (int i = 0; i < n; i++) {
 
     // check for interrupt
-    if(i % 100 == 0)
+    if(i % 1000 == 0)
       Rcpp::checkUserInterrupt();
 
     // distance vector
@@ -381,7 +383,8 @@ DataFrame dist_min(const DataFrame& x_df,
 
   return DataFrame::create(_["id_start"] = idx,
 			   _["id_end"] = end,
-			   _["meters"] = dist);
+			   _["meters"] = dist,
+			   _["stringsAsFactors"] = false);
 
 }
 
@@ -429,7 +432,7 @@ DataFrame dist_max(const DataFrame& x_df,
   for (int i = 0; i < n; i++) {
 
     // check for interrupt
-    if(i % 100 == 0)
+    if(i % 1000 == 0)
       Rcpp::checkUserInterrupt();
 
     // distance vector
@@ -447,7 +450,8 @@ DataFrame dist_max(const DataFrame& x_df,
 
   return DataFrame::create(_["id_start"] = idx,
 			   _["id_end"] = end,
-			   _["meters"] = dist);
+			   _["meters"] = dist,
+			   _["stringsAsFactors"] = false);
 
 }
 
