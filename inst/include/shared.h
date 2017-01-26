@@ -2,8 +2,6 @@
 #define DISTRCPP_SHARED_H
 #include <Rcpp.h>
 
-using namespace Rcpp;
-
 #define a 6378137.0
 #define f 1 / 298.257223563
 #define b (1. - f) * a
@@ -20,16 +18,16 @@ double dist_vincenty(const double& xlon,
 		     const double& ylon,
 		     const double& ylat);
 
-NumericVector inverse_value(const NumericVector& d,
-			    double exp,
-			    std::string transform);
+Rcpp::NumericVector inverse_value(const Rcpp::NumericVector& d,
+				  double exp,
+				  std::string transform);
 
 typedef double (*funcPtr)(const double& xlon,
 			  const double& xlat,
 			  const double& ylon,
 			  const double& ylat);
 
-XPtr<funcPtr> choose_func(std::string funcnamestr);
+Rcpp::XPtr<funcPtr> choose_func(std::string funcnamestr);
 
 #endif
 

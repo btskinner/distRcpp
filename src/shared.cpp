@@ -2,8 +2,6 @@
 #include <shared.h>
 #include <Rcpp.h>
 
-using namespace Rcpp;
-
 //' Convert degrees to radians
 //'
 //' @param degree Degree value
@@ -122,7 +120,7 @@ double dist_vincenty(const double& xlon,
 
   if (iters == 0) {
 
-    throw exception("Failed to converge!");
+    throw Rcpp::exception("Failed to converge!");
 
   }
   else {
@@ -151,9 +149,9 @@ double dist_vincenty(const double& xlon,
 //' @return Vector of inverse weights
 //' @export
 // [[Rcpp::export]]
-NumericVector inverse_value(const NumericVector& d,
-			    double exp,
-			    std::string transform) {
+Rcpp::NumericVector inverse_value(const Rcpp::NumericVector& d,
+				  double exp,
+				  std::string transform) {
 
   if (transform == "log")
 
@@ -171,14 +169,14 @@ typedef double (*funcPtr)(const double& xlon,
 			  const double& ylon,
 			  const double& ylat);
 
-XPtr<funcPtr> choose_func(std::string funcnamestr) {
+Rcpp::XPtr<funcPtr> choose_func(std::string funcnamestr) {
 
   if (funcnamestr == "Haversine")
-    return(XPtr<funcPtr>(new funcPtr(&dist_haversine)));
+    return(Rcpp::XPtr<funcPtr>(new funcPtr(&dist_haversine)));
   else if (funcnamestr == "Vincenty")
-    return(XPtr<funcPtr>(new funcPtr(&dist_vincenty)));
+    return(Rcpp::XPtr<funcPtr>(new funcPtr(&dist_vincenty)));
   else
-    return XPtr<funcPtr>(R_NilValue);
+    return Rcpp::XPtr<funcPtr>(R_NilValue);
 
 }
 
