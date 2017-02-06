@@ -146,6 +146,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// dist_sum_inv
+Rcpp::DataFrame dist_sum_inv(Rcpp::DataFrame x_df, Rcpp::DataFrame y_df, std::string x_id, std::string y_id, std::string x_lon_col, std::string x_lat_col, std::string y_lon_col, std::string y_lat_col, std::string dist_function, std::string dist_transform, double decay, double scale_units);
+RcppExport SEXP distRcpp_dist_sum_inv(SEXP x_dfSEXP, SEXP y_dfSEXP, SEXP x_idSEXP, SEXP y_idSEXP, SEXP x_lon_colSEXP, SEXP x_lat_colSEXP, SEXP y_lon_colSEXP, SEXP y_lat_colSEXP, SEXP dist_functionSEXP, SEXP dist_transformSEXP, SEXP decaySEXP, SEXP scale_unitsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type x_df(x_dfSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type y_df(y_dfSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_id(x_idSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_id(y_idSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_lon_col(x_lon_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type x_lat_col(x_lat_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_lon_col(y_lon_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type y_lat_col(y_lat_colSEXP);
+    Rcpp::traits::input_parameter< std::string >::type dist_function(dist_functionSEXP);
+    Rcpp::traits::input_parameter< std::string >::type dist_transform(dist_transformSEXP);
+    Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
+    Rcpp::traits::input_parameter< double >::type scale_units(scale_unitsSEXP);
+    rcpp_result_gen = Rcpp::wrap(dist_sum_inv(x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function, dist_transform, decay, scale_units));
+    return rcpp_result_gen;
+END_RCPP
+}
 // deg_to_rad
 double deg_to_rad(const double& degree);
 RcppExport SEXP distRcpp_deg_to_rad(SEXP degreeSEXP) {

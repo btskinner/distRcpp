@@ -457,3 +457,77 @@ Rcpp::DataFrame dist_max(Rcpp::DataFrame x_df,
 
 }
 
+//' Sum inverse distances.
+//'
+//' Find sum of inverse distances between each starting point in \strong{x}
+//' and possible end points, \strong{y}.
+//'
+//' @param x_df DataFrame with starting coordinates
+//' @param y_df DataFrame with ending coordinates
+//' @param x_id String name of unique identifer column in x_df
+//' @param y_id String name of unique identifer column in y_df
+//' @param x_lon_col String name of column in x_df with longitude values
+//' @param x_lat_col String name of column in x_df with latitude values
+//' @param y_lon_col String name of column in y_df with longitude values
+//' @param y_lat_col String name of column in y_df with latitude values
+//' @param dist_function String name of distance function: "Haversine" (default) or
+//' "Vincenty"
+//' @param dist_transform String value of distance transform: "level" (default)
+//' or "log"
+//' @param decay Numeric value of distance weight decay: 2 (default)
+//' @param scale_units Double value to divide return value by (e.g., 1000 == km)
+//' @return DataFrame with sum of distances
+//' @export
+// [[Rcpp::export]]
+Rcpp::DataFrame dist_sum_inv(Rcpp::DataFrame x_df,
+			     Rcpp::DataFrame y_df,
+			     std::string x_id = "id",
+			     std::string y_id = "id",
+			     std::string x_lon_col = "lon",
+			     std::string x_lat_col = "lat",
+			     std::string y_lon_col = "lon",
+			     std::string y_lat_col = "lat",
+			     std::string dist_function = "Haversine",
+			     std::string dist_transform = "level",
+			     double decay = 2, 
+			     double scale_units = 1) {
+
+  // init
+  Rcpp::CharacterVector idx = x_df[x_id];
+  Rcpp::CharacterVector idy = y_df[y_id];
+  Rcpp::NumericVector xlon = x_df[x_lon_col];
+  Rcpp::NumericVector xlat = x_df[x_lat_col];
+  Rcpp::NumericVector ylon = y_df[y_lon_col];
+  Rcpp::NumericVector ylat = y_df[y_lat_col];
+
+  int n = xlon.size();
+  Rcpp::NumericVector dist(n);
+
+  // loop
+  for (int i = 0; i < n; i++) {
+
+    // check for interrupt
+    if(i % 1000 == 0)
+      Rcpp::checkUserInterrupt();
+
+    // distance vector
+    Rcpp::NumericVector distvec = dist_1tom(xlon[i], xlat[i],
+					    ylon, ylat, dist_function);
+
+    // scale units
+    distvec = distvec / 1000;
+
+    // inverse distance weights
+    Rcpp::NumericVector inv_distvec = inverse_value(distvec, decay,
+						    dist_transform);
+
+    // add maximum to distance output
+    dist[i] = sum(inv_distvec);
+
+  }
+
+  return Rcpp::DataFrame::create(Rcpp::Named("id") = idx,
+				 Rcpp::Named("inv_distance") = dist,
+				 Rcpp::Named("stringsAsFactors") = false);
+
+}

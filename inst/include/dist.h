@@ -76,5 +76,18 @@ Rcpp::DataFrame dist_max(Rcpp::DataFrame x_df,
 			 std::string y_lat_col = "lat",
 			 std::string dist_function = "Haversine");
 
+Rcpp::DataFrame dist_sum_inv(Rcpp::DataFrame x_df,
+			     Rcpp::DataFrame y_df,
+			     std::string x_id = "id",
+			     std::string y_id = "id",
+			     std::string x_lon_col = "lon",
+			     std::string x_lat_col = "lat",
+			     std::string y_lon_col = "lon",
+			     std::string y_lat_col = "lat",
+			     std::string dist_function = "Haversine",
+			     std::string dist_transform = "level",
+			     double decay = 2, 
+			     double scale_units = 1);
+
 #endif
 

@@ -159,6 +159,31 @@ dist_max <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_
     .Call('distRcpp_dist_max', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
 }
 
+#' Sum inverse distances.
+#'
+#' Find sum of inverse distances between each starting point in \strong{x}
+#' and possible end points, \strong{y}.
+#'
+#' @param x_df DataFrame with starting coordinates
+#' @param y_df DataFrame with ending coordinates
+#' @param x_id String name of unique identifer column in x_df
+#' @param y_id String name of unique identifer column in y_df
+#' @param x_lon_col String name of column in x_df with longitude values
+#' @param x_lat_col String name of column in x_df with latitude values
+#' @param y_lon_col String name of column in y_df with longitude values
+#' @param y_lat_col String name of column in y_df with latitude values
+#' @param dist_function String name of distance function: "Haversine" (default) or
+#' "Vincenty"
+#' @param dist_transform String value of distance transform: "level" (default)
+#' or "log"
+#' @param decay Numeric value of distance weight decay: 2 (default)
+#' @param scale_units Double value to divide return value by (e.g., 1000 == km)
+#' @return DataFrame with sum of distances
+#' @export
+dist_sum_inv <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine", dist_transform = "level", decay = 2, scale_units = 1) {
+    .Call('distRcpp_dist_sum_inv', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function, dist_transform, decay, scale_units)
+}
+
 #' Convert degrees to radians
 #'
 #' @param degree Degree value
