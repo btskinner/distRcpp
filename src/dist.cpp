@@ -515,11 +515,14 @@ Rcpp::DataFrame dist_sum_inv(Rcpp::DataFrame x_df,
 					    ylon, ylat, dist_function);
 
     // scale units
-    distvec = distvec / 1000;
+    distvec = distvec / scale_units;
 
     // inverse distance weights
     Rcpp::NumericVector inv_distvec = inverse_value(distvec, decay,
 						    dist_transform);
+
+    // replace infinite values with 0
+    inv_distvec[is_infinite(inv_distvec)] = 0;
 
     // add maximum to distance output
     dist[i] = sum(inv_distvec);
