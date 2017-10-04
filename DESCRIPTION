@@ -7,7 +7,7 @@ Author: Benjamin Skinner <btskinner@virginia.edu>
 Maintainer: Benjamin Skinner <btskinner@virginia.edu>
 Description: Compute distance-weighted measures using 'Rcpp' to speed up
     computations. It also computes simple distances.
-Depends: R (>= 3.4)
+Depends: R (>= 3.0)
 License: GPL (>= 2)
 LazyData: true
 Imports:
