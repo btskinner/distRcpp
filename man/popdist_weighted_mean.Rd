@@ -46,4 +46,3 @@ Ending measures are double weighted by population and distance so that
 surrounding measures taken in nearby areas and those with greater
 populations are given more weight in final average.
 }
-

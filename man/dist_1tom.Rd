@@ -4,7 +4,7 @@
 \alias{dist_1tom}
 \title{Compute one to many distances.}
 \usage{
-dist_1tom(xlon, xlat, ylon, ylat, funname)
+dist_1tom(xlon, xlat, ylon, ylat, dist_function = "Haversine")
 }
 \arguments{
 \item{xlon}{Longitude for starting coordinate pair}
@@ -15,7 +15,7 @@ dist_1tom(xlon, xlat, ylon, ylat, funname)
 
 \item{ylat}{Vector of latitudes for ending coordinate pairs}
 
-\item{funname}{String name of distance function: Haversine, Vincenty}
+\item{dist_function}{String name of distance function: Haversine, Vincenty}
 }
 \value{
 Vector of distances in meters
@@ -24,4 +24,3 @@ Vector of distances in meters
 Compute distances between single starting coordinate and vector of
 ending coordinates (one to many) and return vector.
 }
-

@@ -8,11 +8,11 @@
 #' @param xlat Vector of latitudes for starting coordinate pairs
 #' @param ylon Vector of longitudes for ending coordinate pairs
 #' @param ylat Vector of latitudes for ending coordinate pairs
-#' @param funname String name of distance function: Haversine, Vincenty
+#' @param dist_function String name of distance function: Haversine, Vincenty
 #' @return Matrix of distances between each coordinate pair in meters
 #' @export
-dist_mtom <- function(xlon, xlat, ylon, ylat, funname) {
-    .Call('distRcpp_dist_mtom', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, funname)
+dist_mtom <- function(xlon, xlat, ylon, ylat, dist_function = "Haversine") {
+    .Call('_distRcpp_dist_mtom', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, dist_function)
 }
 
 #' Compute distance between corresponding coordinate pairs in data frame.
@@ -24,11 +24,11 @@ dist_mtom <- function(xlon, xlat, ylon, ylat, funname) {
 #' @param xlat Vector of latitudes for starting coordinate pairs
 #' @param ylon Vector of longitudes for ending coordinate pairs
 #' @param ylat Vector of latitudes for ending coordinate pairs
-#' @param funname String name of distance function: Haversine, Vincenty
+#' @param dist_function String name of distance function: Haversine, Vincenty
 #' @return Vector of distances between each coordinate pair in meters
 #' @export
-dist_df <- function(xlon, xlat, ylon, ylat, funname) {
-    .Call('distRcpp_dist_df', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, funname)
+dist_df <- function(xlon, xlat, ylon, ylat, dist_function = "Haversine") {
+    .Call('_distRcpp_dist_df', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, dist_function)
 }
 
 #' Compute one to many distances.
@@ -40,11 +40,11 @@ dist_df <- function(xlon, xlat, ylon, ylat, funname) {
 #' @param xlat Latitude for starting coordinate pair
 #' @param ylon Vector of longitudes for ending coordinate pairs
 #' @param ylat Vector of latitudes for ending coordinate pairs
-#' @param funname String name of distance function: Haversine, Vincenty
+#' @param dist_function String name of distance function: Haversine, Vincenty
 #' @return Vector of distances in meters
 #' @export
-dist_1tom <- function(xlon, xlat, ylon, ylat, funname) {
-    .Call('distRcpp_dist_1tom', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, funname)
+dist_1tom <- function(xlon, xlat, ylon, ylat, dist_function = "Haversine") {
+    .Call('_distRcpp_dist_1tom', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, dist_function)
 }
 
 #' Compute one to one distance.
@@ -55,11 +55,11 @@ dist_1tom <- function(xlon, xlat, ylon, ylat, funname) {
 #' @param xlat Latitude for starting coordinate pair
 #' @param ylon Longitude for ending coordinate pair
 #' @param ylat Latitude for ending coordinate pair
-#' @param funname String name of distance function: Haversine, Vincenty
+#' @param dist_function String name of distance function: Haversine, Vincenty
 #' @return Distance in meters
 #' @export
-dist_1to1 <- function(xlon, xlat, ylon, ylat, funname) {
-    .Call('distRcpp_dist_1to1', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, funname)
+dist_1to1 <- function(xlon, xlat, ylon, ylat, dist_function = "Haversine") {
+    .Call('_distRcpp_dist_1to1', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat, dist_function)
 }
 
 #' Interpolate population/inverse-distance-weighted measures.
@@ -87,7 +87,7 @@ dist_1to1 <- function(xlon, xlat, ylon, ylat, funname) {
 #' @return Dataframe of population/distance-weighted values
 #' @export
 popdist_weighted_mean <- function(x_df, y_df, measure_col, x_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", pop_col = "pop", dist_function = "Haversine", dist_transform = "level", decay = 2) {
-    .Call('distRcpp_popdist_weighted_mean', PACKAGE = 'distRcpp', x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, pop_col, dist_function, dist_transform, decay)
+    .Call('_distRcpp_popdist_weighted_mean', PACKAGE = 'distRcpp', x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, pop_col, dist_function, dist_transform, decay)
 }
 
 #' Interpolate inverse-distance-weighted measures.
@@ -114,7 +114,7 @@ popdist_weighted_mean <- function(x_df, y_df, measure_col, x_id = "id", x_lon_co
 #' @return Dataframe of distance-weighted values
 #' @export
 dist_weighted_mean <- function(x_df, y_df, measure_col, x_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine", dist_transform = "level", decay = 2) {
-    .Call('distRcpp_dist_weighted_mean', PACKAGE = 'distRcpp', x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function, dist_transform, decay)
+    .Call('_distRcpp_dist_weighted_mean', PACKAGE = 'distRcpp', x_df, y_df, measure_col, x_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function, dist_transform, decay)
 }
 
 #' Find minimum distance.
@@ -135,7 +135,7 @@ dist_weighted_mean <- function(x_df, y_df, measure_col, x_id = "id", x_lon_col =
 #' @return DataFrame with id of closest point and distance in meters
 #' @export
 dist_min <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine") {
-    .Call('distRcpp_dist_min', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
+    .Call('_distRcpp_dist_min', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
 }
 
 #' Find maximum distance.
@@ -156,7 +156,7 @@ dist_min <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_
 #' @return DataFrame with id of farthest point and distance in meters
 #' @export
 dist_max <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine") {
-    .Call('distRcpp_dist_max', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
+    .Call('_distRcpp_dist_max', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
 }
 
 #' Sum inverse distances.
@@ -181,7 +181,7 @@ dist_max <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_
 #' @return DataFrame with sum of distances
 #' @export
 dist_sum_inv <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine", dist_transform = "level", decay = 2, scale_units = 1) {
-    .Call('distRcpp_dist_sum_inv', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function, dist_transform, decay, scale_units)
+    .Call('_distRcpp_dist_sum_inv', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function, dist_transform, decay, scale_units)
 }
 
 #' Convert degrees to radians
@@ -190,7 +190,7 @@ dist_sum_inv <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon"
 #' @return Radian value (double)
 #' @export
 deg_to_rad <- function(degree) {
-    .Call('distRcpp_deg_to_rad', PACKAGE = 'distRcpp', degree)
+    .Call('_distRcpp_deg_to_rad', PACKAGE = 'distRcpp', degree)
 }
 
 #' Compute Haversine distance between two points
@@ -202,7 +202,7 @@ deg_to_rad <- function(degree) {
 #' @return Double of distance between coordinate pairs in meters
 #' @export
 dist_haversine <- function(xlon, xlat, ylon, ylat) {
-    .Call('distRcpp_dist_haversine', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat)
+    .Call('_distRcpp_dist_haversine', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat)
 }
 
 #' Compute Vincenty distance between two points
@@ -214,7 +214,7 @@ dist_haversine <- function(xlon, xlat, ylon, ylat) {
 #' @return Double of distance between coordinate pairs in meters
 #' @export
 dist_vincenty <- function(xlon, xlat, ylon, ylat) {
-    .Call('distRcpp_dist_vincenty', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat)
+    .Call('_distRcpp_dist_vincenty', PACKAGE = 'distRcpp', xlon, xlat, ylon, ylat)
 }
 
 #' Compute inverse values from vector
@@ -225,6 +225,6 @@ dist_vincenty <- function(xlon, xlat, ylon, ylat) {
 #' @return Vector of inverse weights
 #' @export
 inverse_value <- function(d, exp, transform) {
-    .Call('distRcpp_inverse_value', PACKAGE = 'distRcpp', d, exp, transform)
+    .Call('_distRcpp_inverse_value', PACKAGE = 'distRcpp', d, exp, transform)
 }
 

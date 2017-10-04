@@ -4,7 +4,7 @@
 \alias{dist_1to1}
 \title{Compute one to one distance.}
 \usage{
-dist_1to1(xlon, xlat, ylon, ylat, funname)
+dist_1to1(xlon, xlat, ylon, ylat, dist_function = "Haversine")
 }
 \arguments{
 \item{xlon}{Longitude for starting coordinate pair}
@@ -15,7 +15,7 @@ dist_1to1(xlon, xlat, ylon, ylat, funname)
 
 \item{ylat}{Latitude for ending coordinate pair}
 
-\item{funname}{String name of distance function: Haversine, Vincenty}
+\item{dist_function}{String name of distance function: Haversine, Vincenty}
 }
 \value{
 Distance in meters
@@ -23,4 +23,3 @@ Distance in meters
 \description{
 Compute distance between two points (one to one) and return single value.
 }
-

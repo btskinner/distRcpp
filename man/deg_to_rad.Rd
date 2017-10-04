@@ -15,4 +15,3 @@ Radian value (double)
 \description{
 Convert degrees to radians
 }
-

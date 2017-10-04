@@ -28,4 +28,3 @@ States spatial and population-weighted county centers from
 2000 and 2010 census.
 }
 \keyword{datasets}
-

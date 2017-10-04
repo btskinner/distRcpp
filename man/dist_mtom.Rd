@@ -5,7 +5,7 @@
 \title{Compute distance between each coordinate pair (many to many)
 and return matrix.}
 \usage{
-dist_mtom(xlon, xlat, ylon, ylat, funname)
+dist_mtom(xlon, xlat, ylon, ylat, dist_function = "Haversine")
 }
 \arguments{
 \item{xlon}{Vector of longitudes for starting coordinate pairs}
@@ -16,7 +16,7 @@ dist_mtom(xlon, xlat, ylon, ylat, funname)
 
 \item{ylat}{Vector of latitudes for ending coordinate pairs}
 
-\item{funname}{String name of distance function: Haversine, Vincenty}
+\item{dist_function}{String name of distance function: Haversine, Vincenty}
 }
 \value{
 Matrix of distances between each coordinate pair in meters
@@ -25,4 +25,3 @@ Matrix of distances between each coordinate pair in meters
 Compute distance between each coordinate pair (many to many)
 and return matrix.
 }
-

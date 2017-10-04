@@ -35,4 +35,3 @@ DataFrame with id of farthest point and distance in meters
 Find maximum distance between each starting point in \strong{x} and
 possible end points, \strong{y}.
 }
-

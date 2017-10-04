@@ -43,4 +43,3 @@ DataFrame with sum of distances
 Find sum of inverse distances between each starting point in \strong{x}
 and possible end points, \strong{y}.
 }
-

@@ -121,7 +121,7 @@ every United States population-weighted county centroid as measured in
 ### Check for equality
 
     dist_R <- distm(p)
-    dist_Rcpp <- dist_mtom(p[,1],p[,2],p[,1],p[,2],funname="Haversine")
+    dist_Rcpp <- dist_mtom(p[,1],p[,2],p[,1],p[,2])
 
     dist_R[1:5,1:5]
 
@@ -151,7 +151,7 @@ Mid-2012 MacBook Air, 2 GHz Intel Core i7, 8 GB 1600 MHz DDR3 SDRAM
 
     microbenchmark(
         dist_R = distm(p),
-        dist_Rcpp = dist_mtom(p[,1],p[,2],p[,1],p[,2],funname="Haversine"),
+        dist_Rcpp = dist_mtom(p[,1],p[,2],p[,1],p[,2]),
         times = 100
     )
 

@@ -19,4 +19,3 @@ Vector of inverse weights
 \description{
 Compute inverse values from vector
 }
-

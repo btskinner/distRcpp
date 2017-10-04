@@ -21,4 +21,3 @@ Double of distance between coordinate pairs in meters
 \description{
 Compute Haversine distance between two points
 }
-

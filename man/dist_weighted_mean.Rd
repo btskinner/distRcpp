@@ -43,4 +43,3 @@ Ending measures are weighted by inverse distance so that
 surrounding measures taken in nearby areas are given more weight in final
 average.
 }
-

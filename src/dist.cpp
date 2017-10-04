@@ -9,7 +9,7 @@
 //' @param xlat Vector of latitudes for starting coordinate pairs
 //' @param ylon Vector of longitudes for ending coordinate pairs
 //' @param ylat Vector of latitudes for ending coordinate pairs
-//' @param funname String name of distance function: Haversine, Vincenty
+//' @param dist_function String name of distance function: Haversine, Vincenty
 //' @return Matrix of distances between each coordinate pair in meters
 //' @export
 // [[Rcpp::export]]
@@ -17,10 +17,10 @@ Rcpp::NumericMatrix dist_mtom(const Rcpp::NumericVector& xlon,
 			      const Rcpp::NumericVector& xlat,
 			      const Rcpp::NumericVector& ylon,
 			      const Rcpp::NumericVector& ylat,
-			      std::string funname) {
+			      std::string dist_function="Haversine") {
 
   // select function
-  Rcpp::XPtr<funcPtr> xpfun = choose_func(funname);
+  Rcpp::XPtr<funcPtr> xpfun = choose_func(dist_function);
   funcPtr fun = *xpfun;
 
   int n = xlon.size();
@@ -30,13 +30,13 @@ Rcpp::NumericMatrix dist_mtom(const Rcpp::NumericVector& xlon,
 
   for(int i = 0; i < n; i++) {
     for(int j = 0; j < k; j++) {
-
+      
       // compute distance and store
       dist(i,j) = fun(xlon[i], xlat[i], ylon[j], ylat[j]);
-
+      
     }
   }
-
+  
   return dist;
 
 }
@@ -49,7 +49,7 @@ Rcpp::NumericMatrix dist_mtom(const Rcpp::NumericVector& xlon,
 //' @param xlat Vector of latitudes for starting coordinate pairs
 //' @param ylon Vector of longitudes for ending coordinate pairs
 //' @param ylat Vector of latitudes for ending coordinate pairs
-//' @param funname String name of distance function: Haversine, Vincenty
+//' @param dist_function String name of distance function: Haversine, Vincenty
 //' @return Vector of distances between each coordinate pair in meters
 //' @export
 // [[Rcpp::export]]
@@ -57,10 +57,10 @@ Rcpp::NumericVector dist_df(const Rcpp::NumericVector& xlon,
 			    const Rcpp::NumericVector& xlat,
 			    const Rcpp::NumericVector& ylon,
 			    const Rcpp::NumericVector& ylat,
-			    std::string funname) {
+			    std::string dist_function="Haversine") {
 
   // select function
-  Rcpp::XPtr<funcPtr> xpfun = choose_func(funname);
+  Rcpp::XPtr<funcPtr> xpfun = choose_func(dist_function);
   funcPtr fun = *xpfun;
 
   int k = ylon.size();
@@ -86,7 +86,7 @@ Rcpp::NumericVector dist_df(const Rcpp::NumericVector& xlon,
 //' @param xlat Latitude for starting coordinate pair
 //' @param ylon Vector of longitudes for ending coordinate pairs
 //' @param ylat Vector of latitudes for ending coordinate pairs
-//' @param funname String name of distance function: Haversine, Vincenty
+//' @param dist_function String name of distance function: Haversine, Vincenty
 //' @return Vector of distances in meters
 //' @export
 // [[Rcpp::export]]
@@ -94,10 +94,10 @@ Rcpp::NumericVector dist_1tom(const double& xlon,
 			      const double& xlat,
 			      const Rcpp::NumericVector& ylon,
 			      const Rcpp::NumericVector& ylat,
-			      std::string funname) {
+			      std::string dist_function="Haversine") {
 
   // select function
-  Rcpp::XPtr<funcPtr> xpfun = choose_func(funname);
+  Rcpp::XPtr<funcPtr> xpfun = choose_func(dist_function);
   funcPtr fun = *xpfun;
 
   int k = ylon.size();
@@ -122,7 +122,7 @@ Rcpp::NumericVector dist_1tom(const double& xlon,
 //' @param xlat Latitude for starting coordinate pair
 //' @param ylon Longitude for ending coordinate pair
 //' @param ylat Latitude for ending coordinate pair
-//' @param funname String name of distance function: Haversine, Vincenty
+//' @param dist_function String name of distance function: Haversine, Vincenty
 //' @return Distance in meters
 //' @export
 // [[Rcpp::export]]
@@ -130,10 +130,10 @@ double dist_1to1(const double& xlon,
 		 const double& xlat,
 		 const double& ylon,
 		 const double& ylat,
-		 std::string funname) {
+		 std::string dist_function="Haversine") {
 
   // select function
-  Rcpp::XPtr<funcPtr> xpfun = choose_func(funname);
+  Rcpp::XPtr<funcPtr> xpfun = choose_func(dist_function);
   funcPtr fun = *xpfun;
 
   // compute and return

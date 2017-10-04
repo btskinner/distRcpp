@@ -1,17 +1,17 @@
 Package: distRcpp
 Type: Package
 Title: Compute Geodesic Distance and Distance-Weighted Measures Using Rcpp
-Version: 0.9.1
-Date: 2017-02-06
-Author: Benjamin Skinner <b.skinner@vanderbilt.edu>
-Maintainer: Benjamin Skinner <b.skinner@vanderbilt.edu>
+Version: 0.9.2
+Date: 2017-10-04
+Author: Benjamin Skinner <btskinner@virginia.edu>
+Maintainer: Benjamin Skinner <btskinner@virginia.edu>
 Description: Compute distance-weighted measures using 'Rcpp' to speed up
     computations. It also computes simple distances.
-Depends: R (>= 2.10)
+Depends: R (>= 3.4)
 License: GPL (>= 2)
 LazyData: true
 Imports:
     Rcpp (>= 0.12.8)
 LinkingTo: Rcpp
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests: testthat

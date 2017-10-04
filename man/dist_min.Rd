@@ -35,4 +35,3 @@ DataFrame with id of closest point and distance in meters
 Find minimum distance between each starting point in \strong{x} and
 possible end points, \strong{y}.
 }
-

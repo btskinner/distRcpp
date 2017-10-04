@@ -1,31 +1,29 @@
 #ifndef DISTRCPP_DIST_H
 #define DISTRCPP_DIST_H
 
-#include <Rcpp.h>
-
 Rcpp::NumericMatrix dist_mtom(const Rcpp::NumericVector& xlon,
 			      const Rcpp::NumericVector& xlat,
 			      const Rcpp::NumericVector& ylon,
 			      const Rcpp::NumericVector& ylat,
-			      std::string funname);
+			      std::string dist_function);
 
 Rcpp::NumericVector dist_df(const Rcpp::NumericVector& xlon,
 			    const Rcpp::NumericVector& xlat,
 			    const Rcpp::NumericVector& ylon,
 			    const Rcpp::NumericVector& ylat,
-			    std::string funname);
+			    std::string dist_function);
 
 Rcpp::NumericVector dist_1tom(const double& xlon,
 			      const double& xlat,
 			      const Rcpp::NumericVector& ylon,
 			      const Rcpp::NumericVector& ylat,
-			      std::string funname);
+			      std::string dist_function);
 
 double dist_1to1(const double& xlon,
 		 const double& xlat,
 		 const double& ylon,
 		 const double& ylat,
-		 std::string funname);
+		 std::string dist_function);
 
 Rcpp::NumericVector inverse_dist_weight(const Rcpp::NumericVector& d,
 					double exp,

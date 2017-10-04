@@ -4,7 +4,7 @@
 \alias{dist_df}
 \title{Compute distance between corresponding coordinate pairs in data frame.}
 \usage{
-dist_df(xlon, xlat, ylon, ylat, funname)
+dist_df(xlon, xlat, ylon, ylat, dist_function = "Haversine")
 }
 \arguments{
 \item{xlon}{Vector of longitudes for starting coordinate pairs}
@@ -15,7 +15,7 @@ dist_df(xlon, xlat, ylon, ylat, funname)
 
 \item{ylat}{Vector of latitudes for ending coordinate pairs}
 
-\item{funname}{String name of distance function: Haversine, Vincenty}
+\item{dist_function}{String name of distance function: Haversine, Vincenty}
 }
 \value{
 Vector of distances between each coordinate pair in meters
@@ -24,4 +24,3 @@ Vector of distances between each coordinate pair in meters
 Compute distance between corresponding coordinate pairs and return vector.
 For use when creating a new data frame or tbl_df column.
 }
-
