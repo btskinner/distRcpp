@@ -85,7 +85,7 @@ p <- df %>% select(pclon10, pclat10) %>% na.omit %>% data.frame()
 ### Check for equality
 ```{r}
 dist_R <- distm(p)
-dist_Rcpp <- dist_mtom(p[,1],p[,2],p[,1],p[,2],funname="Haversine")
+dist_Rcpp <- dist_mtom(p[,1],p[,2],p[,1],p[,2])
 
 dist_R[1:5,1:5]
 dist_Rcpp[1:5,1:5]
@@ -99,7 +99,31 @@ Mid-2012 MacBook Air, 2 GHz Intel Core i7, 8 GB 1600 MHz DDR3 SDRAM
 ```{r}
 microbenchmark(
     dist_R = distm(p),
-    dist_Rcpp = dist_mtom(p[,1],p[,2],p[,1],p[,2],funname="Haversine"),
+    dist_Rcpp = dist_mtom(p[,1],p[,2],p[,1],p[,2]),
     times = 100
 )
+```
+
+### Big file
+```{r}
+## get census block group centers of population
+bg <- readr::read_csv('https://www2.census.gov/geo/docs/reference/cenpop2010/blkgrp/CenPop2010_Mean_BG.txt') %>%
+    setNames(tolower(names(.))) %>%
+    filter(statefp < 56) %>%
+    mutate(id = paste0(statefp, countyfp, tractce, blkgrpce),
+           lon = longitude,
+           lat = latitude) %>%
+    select(id, lon, lat) %>%
+    na.omit()
+
+ct <- get(data(county_centers)) %>%
+    rename(id = fips,
+           lon = pclon10,
+           lat = pclat10) %>%
+    na.omit()
+bg
+ct
+
+time(dist_Rcpp <- dist_min(x_df = ct, y_df = bg))
+
 ```
