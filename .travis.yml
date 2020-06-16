@@ -12,7 +12,7 @@ matrix:
 notifications:
   email:
     recipients:
-      - b.skinner@vanderbilt.edu
+      - btskinner@coe.ufl.edu
     on_success: change
     on_failure: change
 
