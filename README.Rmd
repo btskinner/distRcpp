@@ -66,11 +66,14 @@ Compute maximum distance between each starting point, *x*, and possible end poin
 Compare speed with base R function when measuring the distance between every United States population-weighted county centroid as measured in 2010 (N = 3,143 with complete measurements).
 
 ### Load data
+```{r, include = FALSE}
+options(tidyverse.quiet = TRUE)
+```
 
 ```{r, results = 'hide', message = FALSE}
 ## libraries
-libs <- c("dplyr","microbenchmark","geosphere","distRcpp")
-lapply(libs, require, character.only = TRUE)
+libs <- c("tidyverse","microbenchmark","geosphere","distRcpp")
+sapply(libs, require, character.only = TRUE)
 ```
 ```{r}
 ## read data
@@ -78,14 +81,14 @@ df <- get(data(county_centers))
 df
 
 ## subset to 2010 population-weighted centroids (pclon10, pclat10)
-p <- df %>% select(pclon10, pclat10) %>% na.omit %>% data.frame()
+p <- df %>% select(pclon10, pclat10) %>% drop_na() %>% data.frame()
 
 ```
 
 ### Check for equality
 ```{r}
-dist_R <- distm(p)
-dist_Rcpp <- dist_mtom(p[,1],p[,2],p[,1],p[,2])
+dist_R <- geosphere::distm(p, p, fun = distHaversine)
+dist_Rcpp <- distRcpp::dist_mtom(p[,1],p[,2],p[,1],p[,2])
 
 dist_R[1:5,1:5]
 dist_Rcpp[1:5,1:5]
@@ -98,8 +101,8 @@ all.equal(dist_R, dist_Rcpp)
 
 ```{r}
 microbenchmark(
-    dist_R = distm(p),
-    dist_Rcpp = dist_mtom(p[,1],p[,2],p[,1],p[,2]),
+    dist_R = geosphere::distm(p, p, fun = distHaversine),
+    dist_Rcpp = distRcpp::dist_mtom(p[,1],p[,2],p[,1],p[,2]),
     times = 100
 )
 ```
@@ -114,16 +117,16 @@ bg <- readr::read_csv("https://www2.census.gov/geo/docs/reference/cenpop2010/blk
            lon = longitude,
            lat = latitude) %>%
     select(id, lon, lat) %>%
-    na.omit()
+    drop_na()
 
 ct <- get(data(county_centers)) %>%
     rename(id = fips,
            lon = pclon10,
            lat = pclat10) %>%
-    na.omit()
+    drop_na()
 bg
 ct
 
-time(dist_Rcpp <- dist_min(x_df = ct, y_df = bg))
+system.time(dist_Rcpp <- distRcpp::dist_min(x_df = ct, y_df = bg))
 
 ```
