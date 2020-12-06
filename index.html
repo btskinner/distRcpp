@@ -64,7 +64,7 @@
 
 <p>This package uses <a href="http://www.rcpp.org">Rcpp</a> to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine</a> or <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae">Vincenty</a> formulas. The package also has functions to return raw distance measures. If you are able to <a href="https://github.com/RcppCore/Rcpp">install Rcpp on your machine</a>, you should be able to install this package and use these functions.</p>
 <p>Install the latest development version from Github with</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">'btskinner/distRcpp'</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"btskinner/distRcpp"</span>)</span></code></pre></div>
 <p><strong>NB</strong> This package is still in early beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (<code>NA</code>) values are given to the functions.</p>
 <div id="available-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -134,36 +134,36 @@
 <h3 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>Load data</h3>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## libraries</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>libs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'dplyr'</span>,<span class="st">'microbenchmark'</span>,<span class="st">'geosphere'</span>,<span class="st">'distRcpp'</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">lapply</span>(libs, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>libs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"tidyverse"</span>,<span class="st">"microbenchmark"</span>,<span class="st">"geosphere"</span>,<span class="st">"distRcpp"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">sapply</span>(libs, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb2-4"><a href="#cb2-4"></a></span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="co">## read data</span></span>
 <span id="cb2-6"><a href="#cb2-6"></a>df &lt;-<span class="st"> </span><span class="kw">get</span>(<span class="kw">data</span>(county_centers))</span>
 <span id="cb2-7"><a href="#cb2-7"></a>df</span>
 <span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">## # A tibble: 3,147 × 9</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">##     fips    clon00   clat00    clon10   clat10   pclon00  pclat00   pclon10  pclat10</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co">##    &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">## 1  01001 -86.57718 32.52328 -86.64449 32.53638 -86.50183 32.50032 -86.49416 32.50039</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">## 2  01003 -87.74826 30.59278 -87.74607 30.65922 -87.76054 30.56538 -87.76238 30.54892</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">## 3  01005 -85.33131 31.85652 -85.40546 31.87067 -85.30675 31.84787 -85.31004 31.84404</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co">## 4  01007 -87.12324 33.04005 -87.12715 33.01589 -87.12702 33.02595 -87.12766 33.03092</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co">## 5  01009 -86.55477 33.97846 -86.56725 33.97745 -86.58262 33.96260 -86.59149 33.95524</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="co">## 6  01011 -85.70491 32.09828 -85.71726 32.10176 -85.70278 32.11414 -85.70119 32.11633</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co">## 7  01013 -86.66223 31.73588 -86.68197 31.75167 -86.65606 31.77192 -86.65355 31.77354</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="co">## 8  01015 -85.81754 33.74199 -85.82251 33.77171 -85.82205 33.72213 -85.81944 33.72546</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="co">## 9  01017 -85.28875 32.89123 -85.39181 32.91794 -85.26586 32.86135 -85.26647 32.86044</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="co">## 10 01019 -85.62193 34.18416 -85.65424 34.06952 -85.62710 34.17993 -85.62919 34.17933</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="co">## # ... with 3,137 more rows</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">## # A tibble: 3,147 x 9</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">##    fips  clon00 clat00 clon10 clat10 pclon00 pclat00 pclon10 pclat10</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">##  1 01001  -86.6   32.5  -86.6   32.5   -86.5    32.5   -86.5    32.5</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">##  2 01003  -87.7   30.6  -87.7   30.7   -87.8    30.6   -87.8    30.5</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">##  3 01005  -85.3   31.9  -85.4   31.9   -85.3    31.8   -85.3    31.8</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">##  4 01007  -87.1   33.0  -87.1   33.0   -87.1    33.0   -87.1    33.0</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="co">##  5 01009  -86.6   34.0  -86.6   34.0   -86.6    34.0   -86.6    34.0</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">##  6 01011  -85.7   32.1  -85.7   32.1   -85.7    32.1   -85.7    32.1</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co">##  7 01013  -86.7   31.7  -86.7   31.8   -86.7    31.8   -86.7    31.8</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co">##  8 01015  -85.8   33.7  -85.8   33.8   -85.8    33.7   -85.8    33.7</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">##  9 01017  -85.3   32.9  -85.4   32.9   -85.3    32.9   -85.3    32.9</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co">## 10 01019  -85.6   34.2  -85.7   34.1   -85.6    34.2   -85.6    34.2</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co">## # … with 3,137 more rows</span></span>
 <span id="cb2-23"><a href="#cb2-23"></a></span>
 <span id="cb2-24"><a href="#cb2-24"></a><span class="co">## subset to 2010 population-weighted centroids (pclon10, pclat10)</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a>p &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(pclon10, pclat10) <span class="op">%&gt;%</span><span class="st"> </span>na.omit <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">data.frame</span>()</span></code></pre></div>
+<span id="cb2-25"><a href="#cb2-25"></a>p &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(pclon10, pclat10) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">data.frame</span>()</span></code></pre></div>
 </div>
 <div id="check-for-equality" class="section level3">
 <h3 class="hasAnchor">
 <a href="#check-for-equality" class="anchor"></a>Check for equality</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>dist_R &lt;-<span class="st"> </span><span class="kw">distm</span>(p)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>dist_Rcpp &lt;-<span class="st"> </span><span class="kw">dist_mtom</span>(p[,<span class="dv">1</span>],p[,<span class="dv">2</span>],p[,<span class="dv">1</span>],p[,<span class="dv">2</span>])</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>dist_R &lt;-<span class="st"> </span>geosphere<span class="op">::</span><span class="kw">distm</span>(p, p, <span class="dt">fun =</span> distHaversine)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>dist_Rcpp &lt;-<span class="st"> </span>distRcpp<span class="op">::</span><span class="kw">dist_mtom</span>(p[,<span class="dv">1</span>],p[,<span class="dv">2</span>],p[,<span class="dv">1</span>],p[,<span class="dv">2</span>])</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
 <span id="cb3-4"><a href="#cb3-4"></a>dist_R[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span>
 <span id="cb3-5"><a href="#cb3-5"></a></span>
@@ -190,17 +190,86 @@
 <div id="benchmark-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#benchmark-1" class="anchor"></a>Benchmark</h3>
-<p>Mid-2012 MacBook Air, 2 GHz Intel Core i7, 8 GB 1600 MHz DDR3 SDRAM</p>
+<p>2018 MacBookPro, 2.9 GHz Intel Core i9, 32 GB 2400 MHz DDR4 SDRAM</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">microbenchmark</span>(</span>
-<span id="cb4-2"><a href="#cb4-2"></a>    <span class="dt">dist_R =</span> <span class="kw">distm</span>(p),</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="dt">dist_Rcpp =</span> <span class="kw">dist_mtom</span>(p[,<span class="dv">1</span>],p[,<span class="dv">2</span>],p[,<span class="dv">1</span>],p[,<span class="dv">2</span>]),</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    <span class="dt">dist_R =</span> geosphere<span class="op">::</span><span class="kw">distm</span>(p, p, <span class="dt">fun =</span> distHaversine),</span>
+<span id="cb4-3"><a href="#cb4-3"></a>    <span class="dt">dist_Rcpp =</span> distRcpp<span class="op">::</span><span class="kw">dist_mtom</span>(p[,<span class="dv">1</span>],p[,<span class="dv">2</span>],p[,<span class="dv">1</span>],p[,<span class="dv">2</span>]),</span>
 <span id="cb4-4"><a href="#cb4-4"></a>    <span class="dt">times =</span> <span class="dv">100</span></span>
 <span id="cb4-5"><a href="#cb4-5"></a>)</span>
 <span id="cb4-6"><a href="#cb4-6"></a></span>
 <span id="cb4-7"><a href="#cb4-7"></a><span class="co">## Unit: milliseconds</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">##       expr      min       lq      mean    median        uq       max neval cld</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">##     dist_R 2579.012 2748.543 2873.0631 2870.9757 2954.7282 3918.1701   100   b</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">##  dist_Rcpp  834.670  848.832  873.2247  865.0157  888.6319  995.3689   100  a</span></span></code></pre></div>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">##       expr       min        lq      mean    median        uq       max neval</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">##     dist_R 1930.1767 2047.0935 2228.0031 2234.7130 2361.3778 2673.8354   100</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">##  dist_Rcpp  466.6231  480.8235  511.5361  501.9158  526.1218  684.4163   100</span></span></code></pre></div>
+</div>
+<div id="big-file" class="section level3">
+<h3 class="hasAnchor">
+<a href="#big-file" class="anchor"></a>Big file</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## get census block group centers of population</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>bg &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">"https://www2.census.gov/geo/docs/reference/cenpop2010/blkgrp/CenPop2010_Mean_BG.txt"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">    </span><span class="kw">setNames</span>(<span class="kw">tolower</span>(<span class="kw">names</span>(.))) <span class="op">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st">    </span><span class="kw">filter</span>(statefp <span class="op">&lt;</span><span class="st"> </span><span class="dv">56</span>) <span class="op">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="kw">paste0</span>(statefp, countyfp, tractce, blkgrpce),</span>
+<span id="cb5-6"><a href="#cb5-6"></a>           <span class="dt">lon =</span> longitude,</span>
+<span id="cb5-7"><a href="#cb5-7"></a>           <span class="dt">lat =</span> latitude) <span class="op">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="st">    </span><span class="kw">select</span>(id, lon, lat) <span class="op">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="st">    </span><span class="kw">drop_na</span>()</span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">## </span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">## ── Column specification ──────────────────────────────────────────────────────────────────────</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="co">## cols(</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">##   STATEFP = col_character(),</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">##   COUNTYFP = col_character(),</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co">##   TRACTCE = col_character(),</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="co">##   BLKGRPCE = col_double(),</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="co">##   POPULATION = col_double(),</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a><span class="co">##   LATITUDE = col_double(),</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co">##   LONGITUDE = col_double()</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="co">## )</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a></span>
+<span id="cb5-23"><a href="#cb5-23"></a>ct &lt;-<span class="st"> </span><span class="kw">get</span>(<span class="kw">data</span>(county_centers)) <span class="op">%&gt;%</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a><span class="st">    </span><span class="kw">rename</span>(<span class="dt">id =</span> fips,</span>
+<span id="cb5-25"><a href="#cb5-25"></a>           <span class="dt">lon =</span> pclon10,</span>
+<span id="cb5-26"><a href="#cb5-26"></a>           <span class="dt">lat =</span> pclat10) <span class="op">%&gt;%</span></span>
+<span id="cb5-27"><a href="#cb5-27"></a><span class="st">    </span><span class="kw">drop_na</span>()</span>
+<span id="cb5-28"><a href="#cb5-28"></a>bg</span>
+<span id="cb5-29"><a href="#cb5-29"></a></span>
+<span id="cb5-30"><a href="#cb5-30"></a><span class="co">## # A tibble: 217,330 x 3</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a><span class="co">##    id             lon   lat</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="co">##    &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb5-33"><a href="#cb5-33"></a><span class="co">##  1 010010201001 -86.5  32.5</span></span>
+<span id="cb5-34"><a href="#cb5-34"></a><span class="co">##  2 010010201002 -86.5  32.5</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a><span class="co">##  3 010010202001 -86.5  32.5</span></span>
+<span id="cb5-36"><a href="#cb5-36"></a><span class="co">##  4 010010202002 -86.5  32.5</span></span>
+<span id="cb5-37"><a href="#cb5-37"></a><span class="co">##  5 010010203001 -86.5  32.5</span></span>
+<span id="cb5-38"><a href="#cb5-38"></a><span class="co">##  6 010010203002 -86.5  32.5</span></span>
+<span id="cb5-39"><a href="#cb5-39"></a><span class="co">##  7 010010204001 -86.4  32.5</span></span>
+<span id="cb5-40"><a href="#cb5-40"></a><span class="co">##  8 010010204002 -86.4  32.5</span></span>
+<span id="cb5-41"><a href="#cb5-41"></a><span class="co">##  9 010010204003 -86.4  32.5</span></span>
+<span id="cb5-42"><a href="#cb5-42"></a><span class="co">## 10 010010204004 -86.4  32.5</span></span>
+<span id="cb5-43"><a href="#cb5-43"></a><span class="co">## # … with 217,320 more rows</span></span>
+<span id="cb5-44"><a href="#cb5-44"></a></span>
+<span id="cb5-45"><a href="#cb5-45"></a>ct</span>
+<span id="cb5-46"><a href="#cb5-46"></a></span>
+<span id="cb5-47"><a href="#cb5-47"></a><span class="co">## # A tibble: 3,137 x 9</span></span>
+<span id="cb5-48"><a href="#cb5-48"></a><span class="co">##    id    clon00 clat00 clon10 clat10 pclon00 pclat00   lon   lat</span></span>
+<span id="cb5-49"><a href="#cb5-49"></a><span class="co">##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb5-50"><a href="#cb5-50"></a><span class="co">##  1 01001  -86.6   32.5  -86.6   32.5   -86.5    32.5 -86.5  32.5</span></span>
+<span id="cb5-51"><a href="#cb5-51"></a><span class="co">##  2 01003  -87.7   30.6  -87.7   30.7   -87.8    30.6 -87.8  30.5</span></span>
+<span id="cb5-52"><a href="#cb5-52"></a><span class="co">##  3 01005  -85.3   31.9  -85.4   31.9   -85.3    31.8 -85.3  31.8</span></span>
+<span id="cb5-53"><a href="#cb5-53"></a><span class="co">##  4 01007  -87.1   33.0  -87.1   33.0   -87.1    33.0 -87.1  33.0</span></span>
+<span id="cb5-54"><a href="#cb5-54"></a><span class="co">##  5 01009  -86.6   34.0  -86.6   34.0   -86.6    34.0 -86.6  34.0</span></span>
+<span id="cb5-55"><a href="#cb5-55"></a><span class="co">##  6 01011  -85.7   32.1  -85.7   32.1   -85.7    32.1 -85.7  32.1</span></span>
+<span id="cb5-56"><a href="#cb5-56"></a><span class="co">##  7 01013  -86.7   31.7  -86.7   31.8   -86.7    31.8 -86.7  31.8</span></span>
+<span id="cb5-57"><a href="#cb5-57"></a><span class="co">##  8 01015  -85.8   33.7  -85.8   33.8   -85.8    33.7 -85.8  33.7</span></span>
+<span id="cb5-58"><a href="#cb5-58"></a><span class="co">##  9 01017  -85.3   32.9  -85.4   32.9   -85.3    32.9 -85.3  32.9</span></span>
+<span id="cb5-59"><a href="#cb5-59"></a><span class="co">## 10 01019  -85.6   34.2  -85.7   34.1   -85.6    34.2 -85.6  34.2</span></span>
+<span id="cb5-60"><a href="#cb5-60"></a><span class="co">## # … with 3,127 more rows</span></span>
+<span id="cb5-61"><a href="#cb5-61"></a></span>
+<span id="cb5-62"><a href="#cb5-62"></a><span class="kw">system.time</span>(dist_Rcpp &lt;-<span class="st"> </span>distRcpp<span class="op">::</span><span class="kw">dist_min</span>(<span class="dt">x_df =</span> ct, <span class="dt">y_df =</span> bg))</span>
+<span id="cb5-63"><a href="#cb5-63"></a></span>
+<span id="cb5-64"><a href="#cb5-64"></a><span class="co">##    user  system elapsed </span></span>
+<span id="cb5-65"><a href="#cb5-65"></a><span class="co">##  34.304   1.526  35.888</span></span></code></pre></div>
 </div>
 </div>
 
@@ -224,7 +293,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/btskinner/distRcpp"><img src="https://img.shields.io/github/release/btskinner/distRcpp.svg" alt="GitHub release"></a></li>
-<li><a href="https://travis-ci.org/btskinner/distRcpp"><img src="https://travis-ci.org/btskinner/distRcpp.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://github.com/btskinner/distRcpp/actions"><img src="https://github.com/btskinner/distRcpp/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
 </div>
