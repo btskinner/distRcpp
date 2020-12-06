@@ -9,14 +9,14 @@ options(width = 100)
 
 ![](https://img.shields.io/badge/dev-beta-red.svg)
 [![GitHub release](https://img.shields.io/github/release/btskinner/distRcpp.svg)](https://github.com/btskinner/distRcpp)
-[![Travis-CI Build Status](https://travis-ci.org/btskinner/distRcpp.svg?branch=master)](https://travis-ci.org/btskinner/distRcpp)
+[![R build status](https://github.com/btskinner/distRcpp/workflows/R-CMD-check/badge.svg)](https://github.com/btskinner/distRcpp/actions)
 
 This package uses [Rcpp](http://www.rcpp.org) to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either [Haversine](https://en.wikipedia.org/wiki/Haversine_formula) or [Vincenty](https://en.wikipedia.org/wiki/Vincenty%27s_formulae) formulas. The package also has functions to return raw distance measures. If you are able to [install Rcpp on your machine](https://github.com/RcppCore/Rcpp), you should be able to install this package and use these functions.
 
 Install the latest development version from Github with
 
 ```{r, eval = FALSE}
-devtools::install_github('btskinner/distRcpp')
+devtools::install_github("btskinner/distRcpp")
 ```
 
 **NB** This package is still in early beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (`NA`) values are given to the functions.
@@ -69,7 +69,7 @@ Compare speed with base R function when measuring the distance between every Uni
 
 ```{r, results = 'hide', message = FALSE}
 ## libraries
-libs <- c('dplyr','microbenchmark','geosphere','distRcpp')
+libs <- c("dplyr","microbenchmark","geosphere","distRcpp")
 lapply(libs, require, character.only = TRUE)
 ```
 ```{r}
@@ -94,7 +94,7 @@ all.equal(dist_R, dist_Rcpp)
 
 ### Benchmark
 
-Mid-2012 MacBook Air, 2 GHz Intel Core i7, 8 GB 1600 MHz DDR3 SDRAM
+2018 MacBookPro, 2.9 GHz Intel Core i9, 32 GB 2400 MHz DDR4 SDRAM
 
 ```{r}
 microbenchmark(
@@ -107,7 +107,7 @@ microbenchmark(
 ### Big file
 ```{r}
 ## get census block group centers of population
-bg <- readr::read_csv('https://www2.census.gov/geo/docs/reference/cenpop2010/blkgrp/CenPop2010_Mean_BG.txt') %>%
+bg <- readr::read_csv("https://www2.census.gov/geo/docs/reference/cenpop2010/blkgrp/CenPop2010_Mean_BG.txt") %>%
     setNames(tolower(names(.))) %>%
     filter(statefp < 56) %>%
     mutate(id = paste0(statefp, countyfp, tractce, blkgrpce),
