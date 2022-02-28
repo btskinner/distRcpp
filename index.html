@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,18 +34,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">distRcpp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -62,77 +58,77 @@
   <div class="contents col-md-9">
 
 
-<p>This package uses <a href="http://www.rcpp.org">Rcpp</a> to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine</a> or <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae">Vincenty</a> formulas. The package also has functions to return raw distance measures. If you are able to <a href="https://github.com/RcppCore/Rcpp">install Rcpp on your machine</a>, you should be able to install this package and use these functions.</p>
+<p>This package uses <a href="http://www.rcpp.org" class="external-link">Rcpp</a> to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either <a href="https://en.wikipedia.org/wiki/Haversine_formula" class="external-link">Haversine</a> or <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae" class="external-link">Vincenty</a> formulas. The package also has functions to return raw distance measures. If you are able to <a href="https://github.com/RcppCore/Rcpp" class="external-link">install Rcpp on your machine</a>, you should be able to install this package and use these functions.</p>
 <p>Install the latest development version from Github with</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"btskinner/distRcpp"</span>)</span></code></pre></div>
 <p><strong>NB</strong> This package is still in early beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (<code>NA</code>) values are given to the functions.</p>
-<div id="available-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#available-functions" class="anchor"></a>Available functions</h2>
-<div id="weighted-measures" class="section level3">
-<h3 class="hasAnchor">
-<a href="#weighted-measures" class="anchor"></a>Weighted measures</h3>
-<div id="dist_weighted_mean" class="section level4">
-<h4 class="hasAnchor">
-<a href="#dist_weighted_mean" class="anchor"></a><code>dist_weighted_mean()</code>
+<div class="section level2">
+<h2 id="available-functions">Available functions<a class="anchor" aria-label="anchor" href="#available-functions"></a>
+</h2>
+<div class="section level3">
+<h3 id="weighted-measures">Weighted measures<a class="anchor" aria-label="anchor" href="#weighted-measures"></a>
+</h3>
+<div class="section level4">
+<h4 id="dist_weighted_mean">
+<code>dist_weighted_mean()</code><a class="anchor" aria-label="anchor" href="#dist_weighted_mean"></a>
 </h4>
 <p>Interpolate values for a vector of locations (<strong>X</strong>) that are the inverse-distance-weighted average of measures taken at surrounding locations (<strong>Y</strong>). For each point, <em>x</em>, nearby values of the measure taken at <strong>Y</strong> are weighted more heavily than those from locations that are farther away.</p>
 </div>
-<div id="popdist_weighted_mean" class="section level4">
-<h4 class="hasAnchor">
-<a href="#popdist_weighted_mean" class="anchor"></a><code>popdist_weighted_mean()</code>
+<div class="section level4">
+<h4 id="popdist_weighted_mean">
+<code>popdist_weighted_mean()</code><a class="anchor" aria-label="anchor" href="#popdist_weighted_mean"></a>
 </h4>
 <p>Interpolate values for a vector of locations (<strong>X</strong>) that are the population/inverse-distance-weighted average of measures taken at surrounding locations (<strong>Y</strong>). For each point, <em>x</em>, nearby values of the measure taken at <strong>Y</strong> are weighted more heavily than those from locations that are farther away. Measures taken in more heavily populated <em>y</em> are given more weight than those with lower populations. This weighting scheme is a compromise between distance and population and is useful for interpolating measures that need to take both into account.</p>
 </div>
 </div>
-<div id="distances" class="section level3">
-<h3 class="hasAnchor">
-<a href="#distances" class="anchor"></a>Distances</h3>
-<div id="dist_1to1" class="section level4">
-<h4 class="hasAnchor">
-<a href="#dist_1to1" class="anchor"></a><code>dist_1to1()</code>
+<div class="section level3">
+<h3 id="distances">Distances<a class="anchor" aria-label="anchor" href="#distances"></a>
+</h3>
+<div class="section level4">
+<h4 id="dist_1to1">
+<code>dist_1to1()</code><a class="anchor" aria-label="anchor" href="#dist_1to1"></a>
 </h4>
 <p>Compute and return the geodesic distance between two spatial points. Returns distance in meters.</p>
 </div>
-<div id="dist_1tom" class="section level4">
-<h4 class="hasAnchor">
-<a href="#dist_1tom" class="anchor"></a><code>dist_1tom()</code>
+<div class="section level4">
+<h4 id="dist_1tom">
+<code>dist_1tom()</code><a class="anchor" aria-label="anchor" href="#dist_1tom"></a>
 </h4>
 <p>Compute and return the geodesic distance between one location and a vector of other locations. Returns vector of distances in meters.</p>
 </div>
-<div id="dist_mtom" class="section level4">
-<h4 class="hasAnchor">
-<a href="#dist_mtom" class="anchor"></a><code>dist_mtom()</code>
+<div class="section level4">
+<h4 id="dist_mtom">
+<code>dist_mtom()</code><a class="anchor" aria-label="anchor" href="#dist_mtom"></a>
 </h4>
 <p>Compute and return the geodesic distance between each coordinate pair in two vectors. Returns <em>n x k</em> matrix of distances in meters, where <em>n</em> = # of locations in first vector and <em>k</em> = # of locations in second vector.</p>
 </div>
-<div id="dist_df" class="section level4">
-<h4 class="hasAnchor">
-<a href="#dist_df" class="anchor"></a><code>dist_df()</code>
+<div class="section level4">
+<h4 id="dist_df">
+<code>dist_df()</code><a class="anchor" aria-label="anchor" href="#dist_df"></a>
 </h4>
-<p>Compute distance between corresponding coordinate pairs and return vector of distances in meters. For use when creating a new <code>data.frame</code> or <a href="https://CRAN.R-project.org/package=dplyr">dplyr</a> <code>tbl_df()</code> column.</p>
+<p>Compute distance between corresponding coordinate pairs and return vector of distances in meters. For use when creating a new <code>data.frame</code> or <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">dplyr</a> <code>tbl_df()</code> column.</p>
 </div>
-<div id="dist_min" class="section level4">
-<h4 class="hasAnchor">
-<a href="#dist_min" class="anchor"></a><code>dist_min()</code>
+<div class="section level4">
+<h4 id="dist_min">
+<code>dist_min()</code><a class="anchor" aria-label="anchor" href="#dist_min"></a>
 </h4>
 <p>Compute minimum distance between each starting point, <em>x</em>, and possible end points, <strong>Y</strong>. Returns vector of minimum distances in meters that equals # of starting points (size of <strong>X</strong>).</p>
 </div>
-<div id="dist_max" class="section level4">
-<h4 class="hasAnchor">
-<a href="#dist_max" class="anchor"></a><code>dist_max()</code>
+<div class="section level4">
+<h4 id="dist_max">
+<code>dist_max()</code><a class="anchor" aria-label="anchor" href="#dist_max"></a>
 </h4>
 <p>Compute maximum distance between each starting point, <em>x</em>, and possible end points, <strong>Y</strong>. Returns vector of maximum distances in meters that equals # of starting points (size of <strong>X</strong>).</p>
 </div>
 </div>
 </div>
-<div id="benchmark" class="section level2">
-<h2 class="hasAnchor">
-<a href="#benchmark" class="anchor"></a>Benchmark</h2>
+<div class="section level2">
+<h2 id="benchmark">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"></a>
+</h2>
 <p>Compare speed with base R function when measuring the distance between every United States population-weighted county centroid as measured in 2010 (N = 3,143 with complete measurements).</p>
-<div id="load-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#load-data" class="anchor"></a>Load data</h3>
+<div class="section level3">
+<h3 id="load-data">Load data<a class="anchor" aria-label="anchor" href="#load-data"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## libraries</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>libs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"tidyverse"</span>,<span class="st">"microbenchmark"</span>,<span class="st">"geosphere"</span>,<span class="st">"distRcpp"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="kw">sapply</span>(libs, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)</span>
@@ -159,9 +155,9 @@
 <span id="cb2-24"><a href="#cb2-24"></a><span class="co">## subset to 2010 population-weighted centroids (pclon10, pclat10)</span></span>
 <span id="cb2-25"><a href="#cb2-25"></a>p &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(pclon10, pclat10) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">data.frame</span>()</span></code></pre></div>
 </div>
-<div id="check-for-equality" class="section level3">
-<h3 class="hasAnchor">
-<a href="#check-for-equality" class="anchor"></a>Check for equality</h3>
+<div class="section level3">
+<h3 id="check-for-equality">Check for equality<a class="anchor" aria-label="anchor" href="#check-for-equality"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>dist_R &lt;-<span class="st"> </span>geosphere<span class="op">::</span><span class="kw">distm</span>(p, p, <span class="dt">fun =</span> distHaversine)</span>
 <span id="cb3-2"><a href="#cb3-2"></a>dist_Rcpp &lt;-<span class="st"> </span>distRcpp<span class="op">::</span><span class="kw">dist_mtom</span>(p[,<span class="dv">1</span>],p[,<span class="dv">2</span>],p[,<span class="dv">1</span>],p[,<span class="dv">2</span>])</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -187,9 +183,9 @@
 <span id="cb3-23"><a href="#cb3-23"></a></span>
 <span id="cb3-24"><a href="#cb3-24"></a><span class="co">## [1] TRUE</span></span></code></pre></div>
 </div>
-<div id="benchmark-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#benchmark-1" class="anchor"></a>Benchmark</h3>
+<div class="section level3">
+<h3 id="benchmark-1">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark-1"></a>
+</h3>
 <p>2018 MacBookPro, 2.9 GHz Intel Core i9, 32 GB 2400 MHz DDR4 SDRAM</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">microbenchmark</span>(</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="dt">dist_R =</span> geosphere<span class="op">::</span><span class="kw">distm</span>(p, p, <span class="dt">fun =</span> distHaversine),</span>
@@ -202,9 +198,9 @@
 <span id="cb4-9"><a href="#cb4-9"></a><span class="co">##     dist_R 1930.1767 2047.0935 2228.0031 2234.7130 2361.3778 2673.8354   100</span></span>
 <span id="cb4-10"><a href="#cb4-10"></a><span class="co">##  dist_Rcpp  466.6231  480.8235  511.5361  501.9158  526.1218  684.4163   100</span></span></code></pre></div>
 </div>
-<div id="big-file" class="section level3">
-<h3 class="hasAnchor">
-<a href="#big-file" class="anchor"></a>Big file</h3>
+<div class="section level3">
+<h3 id="big-file">Big file<a class="anchor" aria-label="anchor" href="#big-file"></a>
+</h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## get census block group centers of population</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>bg &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">"https://www2.census.gov/geo/docs/reference/cenpop2010/blkgrp/CenPop2010_Mean_BG.txt"</span>) <span class="op">%&gt;%</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="st">    </span><span class="kw">setNames</span>(<span class="kw">tolower</span>(<span class="kw">names</span>(.))) <span class="op">%&gt;%</span></span>
@@ -277,35 +273,47 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>GPL (&gt;= 2)</li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Benjamin Skinner <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0337-7415" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing distRcpp</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/btskinner/distRcpp"><img src="https://img.shields.io/github/release/btskinner/distRcpp.svg" alt="GitHub release"></a></li>
-<li><a href="https://github.com/btskinner/distRcpp/actions"><img src="https://github.com/btskinner/distRcpp/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li>Benjamin Skinner <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0337-7415" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/btskinner/distRcpp" class="external-link"><img src="https://img.shields.io/github/release/btskinner/distRcpp.svg" alt="GitHub release"></a></li>
+<li><a href="https://github.com/btskinner/distRcpp/actions" class="external-link"><img src="https://github.com/btskinner/distRcpp/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Benjamin Skinner.</p>
+  <p></p>
+<p>Developed by Benjamin Skinner.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -313,6 +321,8 @@
 
   
 
+
+  
 
   </body>
 </html>
