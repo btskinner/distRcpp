@@ -1,6 +1,8 @@
 // dist.cpp
 #include <shared.h>
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
+
+// [[Rcpp::depends(RcppArmadillo)]]
 
 //' Compute distance between each coordinate pair (many to many)
 //' and return matrix.
@@ -14,10 +16,10 @@
 //' @export
 // [[Rcpp::export]]
 Rcpp::NumericMatrix dist_mtom(const Rcpp::NumericVector& xlon,
-			      const Rcpp::NumericVector& xlat,
-			      const Rcpp::NumericVector& ylon,
-			      const Rcpp::NumericVector& ylat,
-			      std::string dist_function="Haversine") {
+                              const Rcpp::NumericVector& xlat,
+                              const Rcpp::NumericVector& ylon,
+                              const Rcpp::NumericVector& ylat,
+                              std::string dist_function="Haversine") {
 
   // select function
   Rcpp::XPtr<funcPtr> xpfun = choose_func(dist_function);
@@ -54,10 +56,10 @@ Rcpp::NumericMatrix dist_mtom(const Rcpp::NumericVector& xlon,
 //' @export
 // [[Rcpp::export]]
 Rcpp::NumericVector dist_df(const Rcpp::NumericVector& xlon,
-			    const Rcpp::NumericVector& xlat,
-			    const Rcpp::NumericVector& ylon,
-			    const Rcpp::NumericVector& ylat,
-			    std::string dist_function="Haversine") {
+                            const Rcpp::NumericVector& xlat,
+                            const Rcpp::NumericVector& ylon,
+                            const Rcpp::NumericVector& ylat,
+                            std::string dist_function="Haversine") {
 
   // select function
   Rcpp::XPtr<funcPtr> xpfun = choose_func(dist_function);
@@ -91,10 +93,10 @@ Rcpp::NumericVector dist_df(const Rcpp::NumericVector& xlon,
 //' @export
 // [[Rcpp::export]]
 Rcpp::NumericVector dist_1tom(const double& xlon,
-			      const double& xlat,
-			      const Rcpp::NumericVector& ylon,
-			      const Rcpp::NumericVector& ylat,
-			      std::string dist_function="Haversine") {
+                              const double& xlat,
+                              const Rcpp::NumericVector& ylon,
+                              const Rcpp::NumericVector& ylat,
+                              std::string dist_function="Haversine") {
 
   // select function
   Rcpp::XPtr<funcPtr> xpfun = choose_func(dist_function);
@@ -127,10 +129,10 @@ Rcpp::NumericVector dist_1tom(const double& xlon,
 //' @export
 // [[Rcpp::export]]
 double dist_1to1(const double& xlon,
-		 const double& xlat,
-		 const double& ylon,
-		 const double& ylat,
-		 std::string dist_function="Haversine") {
+                 const double& xlat,
+                 const double& ylon,
+                 const double& ylat,
+                 std::string dist_function="Haversine") {
 
   // select function
   Rcpp::XPtr<funcPtr> xpfun = choose_func(dist_function);
@@ -167,17 +169,17 @@ double dist_1to1(const double& xlon,
 //' @export
 // [[Rcpp::export]]
 Rcpp::DataFrame popdist_weighted_mean(Rcpp::DataFrame x_df,
-				      Rcpp::DataFrame y_df,
-				      std::string measure_col,
-				      std::string x_id = "id",
-				      std::string x_lon_col = "lon",
-				      std::string x_lat_col = "lat",
-				      std::string y_lon_col = "lon",
-				      std::string y_lat_col = "lat",
-				      std::string pop_col = "pop",
-				      std::string dist_function = "Haversine",
-				      std::string dist_transform = "level",
-				      double decay = 2) {
+                                      Rcpp::DataFrame y_df,
+                                      std::string measure_col,
+                                      std::string x_id = "id",
+                                      std::string x_lon_col = "lon",
+                                      std::string x_lat_col = "lat",
+                                      std::string y_lon_col = "lon",
+                                      std::string y_lat_col = "lat",
+                                      std::string pop_col = "pop",
+                                      std::string dist_function = "Haversine",
+                                      std::string dist_transform = "level",
+                                      double decay = 2) {
 
   // init
   Rcpp::CharacterVector id = x_df[x_id];
@@ -229,8 +231,8 @@ Rcpp::DataFrame popdist_weighted_mean(Rcpp::DataFrame x_df,
   }
 
   return Rcpp::DataFrame::create(Rcpp::Named("id") = id,
-				 Rcpp::Named("wmeasure") = out,
-				 Rcpp::Named("stringsAsFactors") = false);
+                                 Rcpp::Named("wmeasure") = out,
+                                 Rcpp::Named("stringsAsFactors") = false);
 
 }
 
@@ -259,16 +261,16 @@ Rcpp::DataFrame popdist_weighted_mean(Rcpp::DataFrame x_df,
 //' @export
 // [[Rcpp::export]]
 Rcpp::DataFrame dist_weighted_mean(Rcpp::DataFrame x_df,
-				   Rcpp::DataFrame y_df,
-				   std::string measure_col,
-				   std::string x_id = "id",
-				   std::string x_lon_col = "lon",
-				   std::string x_lat_col = "lat",
-				   std::string y_lon_col = "lon",
-				   std::string y_lat_col = "lat",
-				   std::string dist_function = "Haversine",
-				   std::string dist_transform = "level",
-				   double decay = 2) {
+                                   Rcpp::DataFrame y_df,
+                                   std::string measure_col,
+                                   std::string x_id = "id",
+                                   std::string x_lon_col = "lon",
+                                   std::string x_lat_col = "lat",
+                                   std::string y_lon_col = "lon",
+                                   std::string y_lat_col = "lat",
+                                   std::string dist_function = "Haversine",
+                                   std::string dist_transform = "level",
+                                   double decay = 2) {
 
   // init
   Rcpp::CharacterVector id = x_df[x_id];
@@ -291,7 +293,7 @@ Rcpp::DataFrame dist_weighted_mean(Rcpp::DataFrame x_df,
 
     // distance vector
     Rcpp::NumericVector dist = dist_1tom(xlon[i], xlat[i],
-					 ylon, ylat, dist_function);
+                                         ylon, ylat, dist_function);
 
     // inverse distance weights
     Rcpp::NumericVector w = inverse_value(dist, decay, dist_transform);
@@ -316,8 +318,8 @@ Rcpp::DataFrame dist_weighted_mean(Rcpp::DataFrame x_df,
   }
 
   return Rcpp::DataFrame::create(Rcpp::Named("id") = id,
-				 Rcpp::Named("wmeasure") = out,
-				 Rcpp::Named("stringsAsFactors") = false);
+                                 Rcpp::Named("wmeasure") = out,
+                                 Rcpp::Named("stringsAsFactors") = false);
 
 }
 
@@ -340,14 +342,14 @@ Rcpp::DataFrame dist_weighted_mean(Rcpp::DataFrame x_df,
 //' @export
 // [[Rcpp::export]]
 Rcpp::DataFrame dist_min(Rcpp::DataFrame x_df,
-			 Rcpp::DataFrame y_df,
-			 std::string x_id = "id",
-			 std::string y_id = "id",
-			 std::string x_lon_col = "lon",
-			 std::string x_lat_col = "lat",
-			 std::string y_lon_col = "lon",
-			 std::string y_lat_col = "lat",
-			 std::string dist_function = "Haversine") {
+                         Rcpp::DataFrame y_df,
+                         std::string x_id = "id",
+                         std::string y_id = "id",
+                         std::string x_lon_col = "lon",
+                         std::string x_lat_col = "lat",
+                         std::string y_lon_col = "lon",
+                         std::string y_lat_col = "lat",
+                         std::string dist_function = "Haversine") {
 
   // init
   Rcpp::CharacterVector idx = x_df[x_id];
@@ -370,7 +372,7 @@ Rcpp::DataFrame dist_min(Rcpp::DataFrame x_df,
 
     // distance vector
     Rcpp::NumericVector distvec = dist_1tom(xlon[i], xlat[i],
-					    ylon, ylat, dist_function);
+                                            ylon, ylat, dist_function);
 
     // add minimum to distance output
     dist[i] = min(distvec);
@@ -383,9 +385,99 @@ Rcpp::DataFrame dist_min(Rcpp::DataFrame x_df,
   }
 
   return Rcpp::DataFrame::create(Rcpp::Named("id_start") = idx,
-				 Rcpp::Named("id_end") = end,
-				 Rcpp::Named("meters") = dist,
-				 Rcpp::Named("stringsAsFactors") = false);
+                                 Rcpp::Named("id_end") = end,
+                                 Rcpp::Named("meters") = dist,
+                                 Rcpp::Named("stringsAsFactors") = false);
+
+}
+
+//' Find nearest X number of points.
+//'
+//' Find nearest X values between each starting point in \strong{x} and
+//' possible end points, \strong{y}.
+//'
+//' @param x_df DataFrame with starting coordinates
+//' @param y_df DataFrame with ending coordinates
+//' @param num_nearest The number of closest points to return
+//' @param x_id String name of unique identifer column in x_df
+//' @param y_id String name of unique identifer column in y_df
+//' @param x_lon_col String name of column in x_df with longitude values
+//' @param x_lat_col String name of column in x_df with latitude values
+//' @param y_lon_col String name of column in y_df with longitude values
+//' @param y_lat_col String name of column in y_df with latitude values
+//' @param dist_function String name of distance function: "Haversine" (default) or
+//' "Vincenty"
+//' @return DataFrame with id of X closest points and distance in meters
+//' @export
+// [[Rcpp::export]]
+Rcpp::DataFrame dist_nearest_x(Rcpp::DataFrame x_df,
+                               Rcpp::DataFrame y_df,
+                               int num_nearest = 10,
+                               std::string x_id = "id",
+                               std::string y_id = "id",
+                               std::string x_lon_col = "lon",
+                               std::string x_lat_col = "lat",
+                               std::string y_lon_col = "lon",
+                               std::string y_lat_col = "lat",
+                               std::string dist_function = "Haversine") {
+
+  // init
+  Rcpp::CharacterVector idx = x_df[x_id];
+  Rcpp::CharacterVector idy = y_df[y_id];
+  Rcpp::NumericVector xlon = x_df[x_lon_col];
+  Rcpp::NumericVector xlat = x_df[x_lat_col];
+  Rcpp::NumericVector ylon = y_df[y_lon_col];
+  Rcpp::NumericVector ylat = y_df[y_lat_col];
+
+  int n = xlon.size() * num_nearest;
+  std::vector<std::string> out_idx(n);
+  std::vector<std::string> out_idy(n);
+  Rcpp::NumericVector out_met(n);
+
+  // replace nearest default be no longer than max y_ids
+  num_nearest = (num_nearest > y_id.size()) ? y_id.size() : num_nearest;
+
+  // loop
+  for (int i = 0; i < n; i++) {
+
+    // check for interrupt
+    if(i % 1000 == 0)
+      Rcpp::checkUserInterrupt();
+
+    // distance vector
+    arma::vec distvec = dist_1tom(xlon[i], xlat[i],
+                                  ylon, ylat, dist_function);
+
+    // sort distance output
+    arma::vec sort_distvec = arma::sort(distvec);
+    arma::uvec sort_distids = arma::sort_index(distvec);
+
+    // typedef std::vector<double> stdvec;
+    // typedef std::vector<int> stdids;
+
+    // stdvec stddistvec = arma::conv_to < stdvec >::from(sort_distvec);
+    // stdids stddistids = arma::conv_to < stdids >::from(sort_distids);
+    // stddistvec.resize(num_nearest);
+    // stddistids.resize(num_nearest);
+
+    // subset to nearest X and store
+    // Rcpp::CharacterVector idfill = Rcpp::rep("x", num_nearest);
+    // out_idx.emplace_back(idfill);
+    // int index_x = Rcpp::rep(idx[i], num_nearest);
+    // int index_y = sort_distids.resize(num_nearest)
+    // out_idy.emplace_back();
+    for (int j = 0; j < num_nearest; j++) {
+      int k = i * num_nearest + j;
+      out_idx[k] = idx[i];
+      out_idy[k] = idy[sort_distids[j]];
+      out_met[k] = sort_distvec[j];
+    }
+  }
+
+  return Rcpp::DataFrame::create(Rcpp::Named("id_x") = out_idx,
+                                 Rcpp::Named("id_y") = out_idy,
+                                 Rcpp::Named("meters") = out_met,
+                                 Rcpp::Named("stringsAsFactors") = false);
 
 }
 
@@ -408,14 +500,14 @@ Rcpp::DataFrame dist_min(Rcpp::DataFrame x_df,
 //' @export
 // [[Rcpp::export]]
 Rcpp::DataFrame dist_max(Rcpp::DataFrame x_df,
-			 Rcpp::DataFrame y_df,
-			 std::string x_id = "id",
-			 std::string y_id = "id",
-			 std::string x_lon_col = "lon",
-			 std::string x_lat_col = "lat",
-			 std::string y_lon_col = "lon",
-			 std::string y_lat_col = "lat",
-			 std::string dist_function = "Haversine") {
+                         Rcpp::DataFrame y_df,
+                         std::string x_id = "id",
+                         std::string y_id = "id",
+                         std::string x_lon_col = "lon",
+                         std::string x_lat_col = "lat",
+                         std::string y_lon_col = "lon",
+                         std::string y_lat_col = "lat",
+                         std::string dist_function = "Haversine") {
 
   // init
   Rcpp::CharacterVector idx = x_df[x_id];
@@ -438,7 +530,7 @@ Rcpp::DataFrame dist_max(Rcpp::DataFrame x_df,
 
     // distance vector
     Rcpp::NumericVector distvec = dist_1tom(xlon[i], xlat[i],
-					    ylon, ylat, dist_function);
+                                            ylon, ylat, dist_function);
 
     // add maximum to distance output
     dist[i] = max(distvec);
@@ -451,9 +543,9 @@ Rcpp::DataFrame dist_max(Rcpp::DataFrame x_df,
   }
 
   return Rcpp::DataFrame::create(Rcpp::Named("id_start") = idx,
-				 Rcpp::Named("id_end") = end,
-				 Rcpp::Named("meters") = dist,
-				 Rcpp::Named("stringsAsFactors") = false);
+                                 Rcpp::Named("id_end") = end,
+                                 Rcpp::Named("meters") = dist,
+                                 Rcpp::Named("stringsAsFactors") = false);
 
 }
 
@@ -480,17 +572,17 @@ Rcpp::DataFrame dist_max(Rcpp::DataFrame x_df,
 //' @export
 // [[Rcpp::export]]
 Rcpp::DataFrame dist_sum_inv(Rcpp::DataFrame x_df,
-			     Rcpp::DataFrame y_df,
-			     std::string x_id = "id",
-			     std::string y_id = "id",
-			     std::string x_lon_col = "lon",
-			     std::string x_lat_col = "lat",
-			     std::string y_lon_col = "lon",
-			     std::string y_lat_col = "lat",
-			     std::string dist_function = "Haversine",
-			     std::string dist_transform = "level",
-			     double decay = 2, 
-			     double scale_units = 1) {
+                             Rcpp::DataFrame y_df,
+                             std::string x_id = "id",
+                             std::string y_id = "id",
+                             std::string x_lon_col = "lon",
+                             std::string x_lat_col = "lat",
+                             std::string y_lon_col = "lon",
+                             std::string y_lat_col = "lat",
+                             std::string dist_function = "Haversine",
+                             std::string dist_transform = "level",
+                             double decay = 2,
+                             double scale_units = 1) {
 
   // init
   Rcpp::CharacterVector idx = x_df[x_id];
@@ -512,14 +604,14 @@ Rcpp::DataFrame dist_sum_inv(Rcpp::DataFrame x_df,
 
     // distance vector
     Rcpp::NumericVector distvec = dist_1tom(xlon[i], xlat[i],
-					    ylon, ylat, dist_function);
+                                            ylon, ylat, dist_function);
 
     // scale units
     distvec = distvec / scale_units;
 
     // inverse distance weights
     Rcpp::NumericVector inv_distvec = inverse_value(distvec, decay,
-						    dist_transform);
+                                                    dist_transform);
 
     // replace infinite values with 0
     inv_distvec[is_infinite(inv_distvec)] = 0;
@@ -530,7 +622,7 @@ Rcpp::DataFrame dist_sum_inv(Rcpp::DataFrame x_df,
   }
 
   return Rcpp::DataFrame::create(Rcpp::Named("id") = idx,
-				 Rcpp::Named("inv_distance") = dist,
-				 Rcpp::Named("stringsAsFactors") = false);
+                                 Rcpp::Named("inv_distance") = dist,
+                                 Rcpp::Named("stringsAsFactors") = false);
 
 }

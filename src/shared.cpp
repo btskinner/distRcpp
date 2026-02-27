@@ -1,6 +1,8 @@
 // shared.cpp
 #include <shared.h>
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
+
+// [[Rcpp::depends(RcppArmadillo)]]
 
 //' Convert degrees to radians
 //'
@@ -22,9 +24,9 @@ double deg_to_rad(const double& degree) {
 //' @export
 // [[Rcpp::export]]
 double dist_haversine(const double& xlon,
-		      const double& xlat,
-		      const double& ylon,
-		      const double& ylat) {
+                      const double& xlat,
+                      const double& ylon,
+                      const double& ylat) {
 
   // return 0 if same point
   if (xlon == ylon && xlat == ylat) return 0;
@@ -52,9 +54,9 @@ double dist_haversine(const double& xlon,
 //' @export
 // [[Rcpp::export]]
 double dist_vincenty(const double& xlon,
-		     const double& xlat,
-		     const double& ylon,
-		     const double& ylat) {
+                     const double& xlat,
+                     const double& ylon,
+                     const double& ylat) {
 
   // return 0 if same point
   if (xlon == ylon && xlat == ylat) return 0;
@@ -110,7 +112,7 @@ double dist_vincenty(const double& xlon,
     lambda = L + (1 - C) * f * sina *
       (sigma + C * sinsig *
        (cos2sigm + C * cossig *
-	(-1. + 2. * cos2sigm * cos2sigm)));
+        (-1. + 2. * cos2sigm * cos2sigm)));
 
     iters -= 1;
 
@@ -133,8 +135,8 @@ double dist_vincenty(const double& xlon,
     dsigma = B * sinsig *
       (cos2sigm + B / 4. *
        (cossig * (-1. + 2. * cos2sigm * cos2sigm)
-	- B / 6. * cos2sigm * (-3. + 4. * sinsig * sinsig)
-	* (-3. + 4. * cos2sigm * cos2sigm)));
+        - B / 6. * cos2sigm * (-3. + 4. * sinsig * sinsig)
+        * (-3. + 4. * cos2sigm * cos2sigm)));
 
     return b * A * (sigma - dsigma);
 
@@ -150,8 +152,8 @@ double dist_vincenty(const double& xlon,
 //' @export
 // [[Rcpp::export]]
 Rcpp::NumericVector inverse_value(const Rcpp::NumericVector& d,
-				  double exp,
-				  std::string transform) {
+                                  double exp,
+                                  std::string transform) {
 
   if (transform == "log")
 
@@ -165,9 +167,9 @@ Rcpp::NumericVector inverse_value(const Rcpp::NumericVector& d,
 
 // function to choose distance measurement method
 typedef double (*funcPtr)(const double& xlon,
-			  const double& xlat,
-			  const double& ylon,
-			  const double& ylat);
+                          const double& xlat,
+                          const double& ylon,
+                          const double& ylat);
 
 Rcpp::XPtr<funcPtr> choose_func(std::string funcnamestr) {
 

@@ -138,6 +138,28 @@ dist_min <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_
     .Call('_distRcpp_dist_min', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
 }
 
+#' Find nearest X number of points.
+#'
+#' Find nearest X values between each starting point in \strong{x} and
+#' possible end points, \strong{y}.
+#'
+#' @param x_df DataFrame with starting coordinates
+#' @param y_df DataFrame with ending coordinates
+#' @param num_nearest The number of closest points to return
+#' @param x_id String name of unique identifer column in x_df
+#' @param y_id String name of unique identifer column in y_df
+#' @param x_lon_col String name of column in x_df with longitude values
+#' @param x_lat_col String name of column in x_df with latitude values
+#' @param y_lon_col String name of column in y_df with longitude values
+#' @param y_lat_col String name of column in y_df with latitude values
+#' @param dist_function String name of distance function: "Haversine" (default) or
+#' "Vincenty"
+#' @return DataFrame with id of X closest points and distance in meters
+#' @export
+dist_nearest_x <- function(x_df, y_df, num_nearest = 10L, x_id = "id", y_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine") {
+    .Call('_distRcpp_dist_nearest_x', PACKAGE = 'distRcpp', x_df, y_df, num_nearest, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
+}
+
 #' Find maximum distance.
 #'
 #' Find maximum distance between each starting point in \strong{x} and
