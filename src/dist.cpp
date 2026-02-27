@@ -1,7 +1,6 @@
 // dist.cpp
 #include <shared.h>
 #include <RcppArmadillo.h>
-
 // [[Rcpp::depends(RcppArmadillo)]]
 
 //' Compute distance between each coordinate pair (many to many)

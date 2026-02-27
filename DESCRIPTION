@@ -1,7 +1,7 @@
 Package: distRcpp
 Type: Package
 Title: Compute Geodesic Distance and Distance-Weighted Measures Using Rcpp
-Version: 0.10.0
+Version: 0.10.1
 Authors@R: person("Benjamin", "Skinner",
            email = "ben@btskinner.io",
            role = c("aut", "cre"),
