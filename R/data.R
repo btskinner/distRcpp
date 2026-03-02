@@ -17,4 +17,4 @@
 #'   \item{pclat10}{Population-weighted Spatial center latitude, 2010}
 #' }
 #' @source \url{https://github.com/btskinner/spatial}
-"county_centers"
+"countycentroids"
