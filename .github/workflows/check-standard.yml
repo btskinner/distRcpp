@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main, master]
 
-name: check-standard.yaml
+name: build
 
 permissions: read-all
 
