@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/dev-beta-red.svg) [![GitHub
 release](https://img.shields.io/github/release/btskinner/distRcpp.svg)](https://github.com/btskinner/distRcpp)
 [![R build
-status](https://github.com/btskinner/distRcpp/workflows/R-CMD-check/badge.svg)](https://github.com/btskinner/distRcpp/actions)
+status](https://github.com/btskinner/distRcpp/workflows/check-standard/badge.svg)](https://github.com/btskinner/distRcpp/actions)
 
 This package uses [Rcpp](http://www.rcpp.org) to quickly compute
 population/distance-weighted measures. Geodesic distances can be
