@@ -4,9 +4,17 @@
 \alias{dist_min}
 \title{Find minimum distance.}
 \usage{
-dist_min(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon",
-  x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat",
-  dist_function = "Haversine")
+dist_min(
+  x_df,
+  y_df,
+  x_id = "id",
+  y_id = "id",
+  x_lon_col = "lon",
+  x_lat_col = "lat",
+  y_lon_col = "lon",
+  y_lat_col = "lat",
+  dist_function = "Haversine"
+)
 }
 \arguments{
 \item{x_df}{DataFrame with starting coordinates}
@@ -25,8 +33,8 @@ dist_min(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon",
 
 \item{y_lat_col}{String name of column in y_df with latitude values}
 
-\item{dist_function}{String name of distance function: "Haversine" (default) or
-"Vincenty"}
+\item{dist_function}{String name of distance function: "Haversine" (default)
+or "Vincenty"}
 }
 \value{
 DataFrame with id of closest point and distance in meters

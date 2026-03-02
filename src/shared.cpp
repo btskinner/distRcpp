@@ -1,7 +1,6 @@
 // shared.cpp
 #include <shared.h>
 #include <RcppArmadillo.h>
-
 // [[Rcpp::depends(RcppArmadillo)]]
 
 //' Convert degrees to radians

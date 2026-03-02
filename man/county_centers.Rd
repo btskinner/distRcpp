@@ -4,7 +4,8 @@
 \name{county_centers}
 \alias{county_centers}
 \title{United States county centers.}
-\format{A data frame with 3147 rows and 9 variables:
+\format{
+A data frame with 3147 rows and 9 variables:
 \describe{
   \item{fips}{5 digit county FIPS codes}
   \item{clon00}{Spatial center longitude, 2000}
@@ -15,7 +16,8 @@
   \item{pclat00}{Population-weighted Spatial center latitude, 2000}
   \item{pclon10}{Population-weighted Spatial center longitude, 2010}
   \item{pclat10}{Population-weighted Spatial center latitude, 2010}
-}}
+}
+}
 \source{
 \url{https://github.com/btskinner/spatial}
 }

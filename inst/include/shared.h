@@ -1,7 +1,7 @@
 #ifndef DISTRCPP_SHARED_H
 #define DISTRCPP_SHARED_H
-
 #include <RcppArmadillo.h>
+// [[Rcpp::depends(RcppArmadillo)]]
 
 #define a 6378137.0
 #define f 1 / 298.257223563

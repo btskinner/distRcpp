@@ -1,5 +1,7 @@
 #ifndef DISTRCPP_DIST_H
 #define DISTRCPP_DIST_H
+#include <RcppArmadillo.h>
+// [[Rcpp::depends(RcppArmadillo)]]
 
 Rcpp::NumericMatrix dist_mtom(const Rcpp::NumericVector& xlon,
                               const Rcpp::NumericVector& xlat,

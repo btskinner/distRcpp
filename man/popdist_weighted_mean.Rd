@@ -4,10 +4,20 @@
 \alias{popdist_weighted_mean}
 \title{Interpolate population/inverse-distance-weighted measures.}
 \usage{
-popdist_weighted_mean(x_df, y_df, measure_col, x_id = "id",
-  x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon",
-  y_lat_col = "lat", pop_col = "pop", dist_function = "Haversine",
-  dist_transform = "level", decay = 2)
+popdist_weighted_mean(
+  x_df,
+  y_df,
+  measure_col,
+  x_id = "id",
+  x_lon_col = "lon",
+  x_lat_col = "lat",
+  y_lon_col = "lon",
+  y_lat_col = "lat",
+  pop_col = "pop",
+  dist_function = "Haversine",
+  dist_transform = "level",
+  decay = 2
+)
 }
 \arguments{
 \item{x_df}{DataFrame with coordinates that need weighted measures}
@@ -28,11 +38,11 @@ popdist_weighted_mean(x_df, y_df, measure_col, x_id = "id",
 
 \item{pop_col}{String name of column in x_df with population values}
 
-\item{dist_function}{String name of distance function: "Haversine" (default) or
-"Vincenty"}
+\item{dist_function}{String name of distance function: "Haversine" (default)
+or "Vincenty"}
 
-\item{dist_transform}{String value of distance weight transform: "level" (default)
-or "log"}
+\item{dist_transform}{String value of distance weight transform: "level"
+(default) or "log"}
 
 \item{decay}{Numeric value of distance weight decay: 2 (default)}
 }
