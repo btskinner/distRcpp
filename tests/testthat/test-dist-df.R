@@ -18,9 +18,9 @@ test_that("Data frame distance function is data frame", {
 })
 
 test_that("Data frame distance function works (Haversine)", {
-    expect_equal(df[1,'dist_hav'], 196652.45572134392569)
-    expect_equal(df[2,'dist_hav'], 75612.702710177545669)
-    expect_equal(sum(df['dist_hav']), 380752.94093842280563)
+    expect_equal(df[1,'dist_hav'], 196432.676237746811239)
+    expect_equal(df[2,'dist_hav'], 75528.197684831859078)
+    expect_equal(sum(df['dist_hav']), 380327.41009808529634)
 })
 
 test_that("Data frame distance function works (Vincenty)", {

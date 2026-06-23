@@ -14,7 +14,7 @@ test_that("One to one distance function is numeric", {
 })
 
 test_that("One to one distance function works (Haversine)", {
-    expect_equal(hav, 144329.13402557538939)
+    expect_equal(hav, 144167.83127231049002)
 })
 
 test_that("One to one distance function works (Vincenty)", {

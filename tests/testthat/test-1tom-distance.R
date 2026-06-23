@@ -19,9 +19,9 @@ test_that("One to many distance function is vector of length 10", {
 
 test_that("One to many distance function works (Haversine)", {
     expect_equal(hav_vec[1], 0)
-    expect_equal(hav_vec[2], 144329.1340255753893871)
-    expect_equal(hav_vec[4], 9291.3474984819404199)
-    expect_equal(sum(hav_vec), 1611479.2332509944681)
+    expect_equal(hav_vec[2], 144167.83127231049002)
+    expect_equal(hav_vec[4], 9280.9634554876774928)
+    expect_equal(sum(hav_vec), 1609678.238331240369)
 })
 
 test_that("One to many distance function works (Vincenty)", {

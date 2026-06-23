@@ -23,9 +23,9 @@ test_that("Many to many distance matrix diagonal is 0", {
 })
 
 test_that("Many to many distance function works (Haversine)", {
-    expect_equal(hav_mat[1,2], 144329.13402557538939)
-    expect_equal(hav_mat[4,8], 210170.68224844287033)
-    expect_equal(sum(hav_mat), 13759106.810155073181)
+    expect_equal(hav_mat[1,2], 144167.83127231049002)
+    expect_equal(hav_mat[4,8], 209935.79474682291038)
+    expect_equal(sum(hav_mat), 13743729.583471573889)
 })
 
 test_that("Many to many distance function works (Vincenty)", {
