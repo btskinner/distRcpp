@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">distRcpp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.12.0</span>
       </span>
     </div>
 
@@ -60,7 +60,7 @@
 <p>This package uses <a href="http://www.rcpp.org" class="external-link">Rcpp</a> to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either <a href="https://en.wikipedia.org/wiki/Haversine_formula" class="external-link">Haversine</a> or <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae" class="external-link">Vincenty</a> formulas. The package also has functions to return raw distance measures. If you are able to <a href="https://github.com/RcppCore/Rcpp" class="external-link">install Rcpp on your machine</a>, you should be able to install this package and use these functions.</p>
 <p>Install the latest development version from Github with</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"btskinner/distRcpp"</span>)</span></code></pre></div>
-<p><strong>NB</strong> This package is still in early beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (<code>NA</code>) values are given to the functions.</p>
+<p><strong>NB</strong> This package is still in beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (<code>NA</code>) values are given to the functions.</p>
 <div class="section level2">
 <h2 id="available-functions">Available functions<a class="anchor" aria-label="anchor" href="#available-functions"></a>
 </h2>
@@ -119,6 +119,12 @@
 </h4>
 <p>Compute maximum distance between each starting point, <em>x</em>, and possible end points, <strong>Y</strong>. Returns vector of maximum distances in meters that equals # of starting points (size of <strong>X</strong>).</p>
 </div>
+<div class="section level4">
+<h4 id="dist_nearest_n">
+<code>dist_nearest_n()</code><a class="anchor" aria-label="anchor" href="#dist_nearest_n"></a>
+</h4>
+<p>Compute the distance between each starting point, <em>x</em>, and possible end points, <strong>Y</strong> and return the ids and distances to the <em>n</em> nearest points (default = 10).</p>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -133,10 +139,10 @@
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">sapply</span>(libs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="do">## read data</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">data</span>(county_centers))</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">data</span>(countycentroids))</span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>df</span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="do">## # A tibble: 3,147 x 9</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="do">## # A tibble: 3,147 × 9</span></span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="do">##    fips  clon00 clat00 clon10 clat10 pclon00 pclat00 pclon10 pclat10</span></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="do">##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
 <span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="do">##  1 01001  -86.6   32.5  -86.6   32.5   -86.5    32.5   -86.5    32.5</span></span>
@@ -149,122 +155,142 @@
 <span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="do">##  8 01015  -85.8   33.7  -85.8   33.8   -85.8    33.7   -85.8    33.7</span></span>
 <span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="do">##  9 01017  -85.3   32.9  -85.4   32.9   -85.3    32.9   -85.3    32.9</span></span>
 <span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="do">## 10 01019  -85.6   34.2  -85.7   34.1   -85.6    34.2   -85.6    34.2</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="do">## # … with 3,137 more rows</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="do">## # ℹ 3,137 more rows</span></span>
 <span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a></span>
 <span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="do">## subset to 2010 population-weighted centroids (pclon10, pclat10)</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>p <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">select</span>(pclon10, pclat10) <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>()</span></code></pre></div>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>p <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">select</span>(pclon10, pclat10) <span class="sc">|&gt;</span> <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> <span class="fu">data.frame</span>()</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="check-for-equality">Check for equality<a class="anchor" aria-label="anchor" href="#check-for-equality"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>dist_R <span class="ot">&lt;-</span> geosphere<span class="sc">::</span><span class="fu">distm</span>(p, p, <span class="at">fun =</span> distHaversine)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>dist_Rcpp <span class="ot">&lt;-</span> distRcpp<span class="sc">::</span><span class="fu">dist_mtom</span>(p[,<span class="dv">1</span>],p[,<span class="dv">2</span>],p[,<span class="dv">1</span>],p[,<span class="dv">2</span>])</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>dist_R[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="do">##          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="do">## [1,]      0.0 248335.5 133369.0  83691.8 162207.0</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="do">## [2,] 248335.5      0.0 274424.4 282744.5 394877.3</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="do">## [3,] 133369.0 274424.4      0.0 215905.4 263771.5</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="do">## [4,]  83691.8 282744.5 215905.4      0.0 114301.5</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="do">## [5,] 162207.0 394877.3 263771.5 114301.5      0.0</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>dist_R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA_real_</span>, <span class="dv">5</span>, <span class="dv">5</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>px <span class="ot">&lt;-</span> p[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>py <span class="ot">&lt;-</span> p[<span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>,]</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(px)) {</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(py)) {</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>        dist_R[i,j] <span class="ot">&lt;-</span> geosphere<span class="sc">::</span><span class="fu">distHaversine</span>(px[i,], py[j,],</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>            <span class="at">r =</span> <span class="fl">6371008.7714150594547</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>        )</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>    }</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>}</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>dist_Rcpp <span class="ot">&lt;-</span> distRcpp<span class="sc">::</span><span class="fu">dist_mtom</span>(px[,<span class="dv">1</span>],px[,<span class="dv">2</span>],py[,<span class="dv">1</span>],py[,<span class="dv">2</span>])</span>
 <span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>dist_Rcpp[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>dist_R</span>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="do">##          [,1]     [,2]     [,3]     [,4]     [,5]</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="do">## [1,]      0.0 248335.5 133369.0  83691.8 162207.0</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="do">## [2,] 248335.5      0.0 274424.4 282744.5 394877.3</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="do">## [3,] 133369.0 274424.4      0.0 215905.4 263771.5</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="do">## [4,]  83691.8 282744.5 215905.4      0.0 114301.5</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="do">## [5,] 162207.0 394877.3 263771.5 114301.5      0.0</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="do">##           [,1]     [,2]      [,3]     [,4]      [,5]</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="do">## [1,]  85892.47  82203.6 150016.92 121676.7 203245.07</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="do">## [2,] 262098.33 172259.4 397755.23 348992.9 450634.38</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="do">## [3,]  47726.63 127196.0 214555.42 113093.1 261372.69</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="do">## [4,] 167952.38 146728.2 143942.96 174702.7 188582.34</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="do">## [5,] 220675.60 242664.0  75744.09 173047.7  92074.26</span></span>
 <span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="fu">all.equal</span>(dist_R, dist_Rcpp)</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>dist_Rcpp</span>
 <span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="do">## [1] TRUE</span></span></code></pre></div>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="do">##           [,1]     [,2]      [,3]     [,4]      [,5]</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="do">## [1,]  85892.47  82203.6 150016.92 121676.7 203245.07</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="do">## [2,] 262098.33 172259.4 397755.23 348992.9 450634.38</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="do">## [3,]  47726.63 127196.0 214555.42 113093.1 261372.69</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="do">## [4,] 167952.38 146728.2 143942.96 174702.7 188582.34</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="do">## [5,] 220675.60 242664.0  75744.09 173047.7  92074.26</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="fu">all.equal</span>(dist_R, dist_Rcpp)</span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="do">## [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="benchmark-1">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark-1"></a>
 </h3>
-<p>2018 MacBookPro, 2.9 GHz Intel Core i9, 32 GB 2400 MHz DDR4 SDRAM</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">microbenchmark</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    <span class="at">dist_R =</span> geosphere<span class="sc">::</span><span class="fu">distm</span>(p, p, <span class="at">fun =</span> distHaversine),</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="at">dist_Rcpp =</span> distRcpp<span class="sc">::</span><span class="fu">dist_mtom</span>(p[,<span class="dv">1</span>],p[,<span class="dv">2</span>],p[,<span class="dv">1</span>],p[,<span class="dv">2</span>]),</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="at">times =</span> <span class="dv">100</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="do">## Unit: milliseconds</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="do">##       expr       min        lq      mean    median        uq       max neval</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">##     dist_R 1930.1767 2047.0935 2228.0031 2234.7130 2361.3778 2673.8354   100</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">##  dist_Rcpp  466.6231  480.8235  511.5361  501.9158  526.1218  684.4163   100</span></span></code></pre></div>
+<p>2024 MacBookPro, Apple M4 Pro, 48 GB Memory</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1001</span><span class="sc">:</span><span class="dv">2000</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">microbenchmark</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="at">dist_R =</span> geosphere<span class="sc">::</span><span class="fu">distm</span>(p[x,], p[y,], <span class="at">fun =</span> distHaversine),</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="at">dist_Rcpp =</span> distRcpp<span class="sc">::</span><span class="fu">dist_mtom</span>(p[x,<span class="dv">1</span>],p[x,<span class="dv">2</span>],p[y,<span class="dv">1</span>],p[y,<span class="dv">2</span>]),</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="at">times =</span> <span class="dv">100</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">## Unit: milliseconds</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">##       expr       min        lq      mean    median        uq      max neval</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">##     dist_R 172.34071 180.40715 194.31214 187.11603 201.72851 274.3383   100</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="do">##  dist_Rcpp  42.59912  42.90125  44.57169  43.26931  44.65128  93.9795   100</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="big-file">Big file<a class="anchor" aria-label="anchor" href="#big-file"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="do">## get census block group centers of population</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>bg <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://www2.census.gov/geo/docs/reference/cenpop2010/blkgrp/CenPop2010_Mean_BG.txt"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="fu">setNames</span>(<span class="fu">tolower</span>(<span class="fu">names</span>(.))) <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="fu">filter</span>(statefp <span class="sc">&lt;</span> <span class="dv">56</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">paste0</span>(statefp, countyfp, tractce, blkgrpce),</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>           <span class="at">lon =</span> longitude,</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>           <span class="at">lat =</span> latitude) <span class="sc">%&gt;%</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    <span class="fu">select</span>(id, lon, lat) <span class="sc">%&gt;%</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="do">## ── Column specification ──────────────────────────────────────────────────────────────────────</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="do">## cols(</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="do">##   STATEFP = col_character(),</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="do">##   COUNTYFP = col_character(),</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="do">##   TRACTCE = col_character(),</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="do">##   BLKGRPCE = col_double(),</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="do">##   POPULATION = col_double(),</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="do">##   LATITUDE = col_double(),</span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="do">##   LONGITUDE = col_double()</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="do">## )</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>ct <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">data</span>(county_centers)) <span class="sc">%&gt;%</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">id =</span> fips,</span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>           <span class="at">lon =</span> pclon10,</span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>           <span class="at">lat =</span> pclat10) <span class="sc">%&gt;%</span></span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>bg</span>
-<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a></span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="do">## # A tibble: 217,330 x 3</span></span>
-<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="do">##    id             lon   lat</span></span>
-<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="do">##    &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="do">##  1 010010201001 -86.5  32.5</span></span>
-<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="do">##  2 010010201002 -86.5  32.5</span></span>
-<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="do">##  3 010010202001 -86.5  32.5</span></span>
-<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="do">##  4 010010202002 -86.5  32.5</span></span>
-<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="do">##  5 010010203001 -86.5  32.5</span></span>
-<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="do">##  6 010010203002 -86.5  32.5</span></span>
-<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="do">##  7 010010204001 -86.4  32.5</span></span>
-<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="do">##  8 010010204002 -86.4  32.5</span></span>
-<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="do">##  9 010010204003 -86.4  32.5</span></span>
-<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="do">## 10 010010204004 -86.4  32.5</span></span>
-<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="do">## # … with 217,320 more rows</span></span>
-<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a></span>
-<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a>ct</span>
-<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a></span>
-<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="do">## # A tibble: 3,137 x 9</span></span>
-<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="do">##    id    clon00 clat00 clon10 clat10 pclon00 pclat00   lon   lat</span></span>
-<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="do">##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="do">##  1 01001  -86.6   32.5  -86.6   32.5   -86.5    32.5 -86.5  32.5</span></span>
-<span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a><span class="do">##  2 01003  -87.7   30.6  -87.7   30.7   -87.8    30.6 -87.8  30.5</span></span>
-<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a><span class="do">##  3 01005  -85.3   31.9  -85.4   31.9   -85.3    31.8 -85.3  31.8</span></span>
-<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a><span class="do">##  4 01007  -87.1   33.0  -87.1   33.0   -87.1    33.0 -87.1  33.0</span></span>
-<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a><span class="do">##  5 01009  -86.6   34.0  -86.6   34.0   -86.6    34.0 -86.6  34.0</span></span>
-<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a><span class="do">##  6 01011  -85.7   32.1  -85.7   32.1   -85.7    32.1 -85.7  32.1</span></span>
-<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a><span class="do">##  7 01013  -86.7   31.7  -86.7   31.8   -86.7    31.8 -86.7  31.8</span></span>
-<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a><span class="do">##  8 01015  -85.8   33.7  -85.8   33.8   -85.8    33.7 -85.8  33.7</span></span>
-<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a><span class="do">##  9 01017  -85.3   32.9  -85.4   32.9   -85.3    32.9 -85.3  32.9</span></span>
-<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a><span class="do">## 10 01019  -85.6   34.2  -85.7   34.1   -85.6    34.2 -85.6  34.2</span></span>
-<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a><span class="do">## # … with 3,127 more rows</span></span>
-<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a></span>
-<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a><span class="fu">system.time</span>(dist_Rcpp <span class="ot">&lt;-</span> distRcpp<span class="sc">::</span><span class="fu">dist_min</span>(<span class="at">x_df =</span> ct, <span class="at">y_df =</span> bg))</span>
-<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a></span>
-<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a><span class="do">##    user  system elapsed </span></span>
-<span id="cb5-65"><a href="#cb5-65" tabindex="-1"></a><span class="do">##  34.304   1.526  35.888</span></span></code></pre></div>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>file_url <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="st">"https://www2.census.gov/geo/docs/reference"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="st">"cenpop2010/blkgrp/CenPop2010_Mean_BG.txt"</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>bg <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(file_url, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    <span class="fu">rename_all</span>(tolower) <span class="sc">|&gt;</span> </span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    <span class="fu">filter</span>(statefp <span class="sc">&lt;</span> <span class="dv">56</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">paste0</span>(statefp, countyfp, tractce, blkgrpce),</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>           <span class="at">lon =</span> longitude,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>           <span class="at">lat =</span> latitude) <span class="sc">|&gt;</span> </span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    <span class="fu">select</span>(id, lon, lat) <span class="sc">|&gt;</span> </span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>ct <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">data</span>(countycentroids)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">id =</span> fips,</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>           <span class="at">lon =</span> pclon10,</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>           <span class="at">lat =</span> pclat10) <span class="sc">|&gt;</span> </span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>bg</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="do">## # A tibble: 217,330 × 3</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="do">##    id             lon   lat</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="do">##    &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="do">##  1 010010201001 -86.5  32.5</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="do">##  2 010010201002 -86.5  32.5</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="do">##  3 010010202001 -86.5  32.5</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="do">##  4 010010202002 -86.5  32.5</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="do">##  5 010010203001 -86.5  32.5</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="do">##  6 010010203002 -86.5  32.5</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="do">##  7 010010204001 -86.4  32.5</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="do">##  8 010010204002 -86.4  32.5</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="do">##  9 010010204003 -86.4  32.5</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="do">## 10 010010204004 -86.4  32.5</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="do">## # ℹ 217,320 more rows</span></span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a>ct</span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="do">## # A tibble: 3,137 × 9</span></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="do">##    id    clon00 clat00 clon10 clat10 pclon00 pclat00   lon   lat</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="do">##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="do">##  1 01001  -86.6   32.5  -86.6   32.5   -86.5    32.5 -86.5  32.5</span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="do">##  2 01003  -87.7   30.6  -87.7   30.7   -87.8    30.6 -87.8  30.5</span></span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="do">##  3 01005  -85.3   31.9  -85.4   31.9   -85.3    31.8 -85.3  31.8</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="do">##  4 01007  -87.1   33.0  -87.1   33.0   -87.1    33.0 -87.1  33.0</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="do">##  5 01009  -86.6   34.0  -86.6   34.0   -86.6    34.0 -86.6  34.0</span></span>
+<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="do">##  6 01011  -85.7   32.1  -85.7   32.1   -85.7    32.1 -85.7  32.1</span></span>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="do">##  7 01013  -86.7   31.7  -86.7   31.8   -86.7    31.8 -86.7  31.8</span></span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="do">##  8 01015  -85.8   33.7  -85.8   33.8   -85.8    33.7 -85.8  33.7</span></span>
+<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="do">##  9 01017  -85.3   32.9  -85.4   32.9   -85.3    32.9 -85.3  32.9</span></span>
+<span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a><span class="do">## 10 01019  -85.6   34.2  -85.7   34.1   -85.6    34.2 -85.6  34.2</span></span>
+<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a><span class="do">## # ℹ 3,127 more rows</span></span>
+<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a></span>
+<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a><span class="fu">system.time</span>(dist_Rcpp <span class="ot">&lt;-</span> distRcpp<span class="sc">::</span><span class="fu">dist_min</span>(<span class="at">x_df =</span> ct, <span class="at">y_df =</span> bg))</span>
+<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a><span class="do">##    user  system elapsed </span></span>
+<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a><span class="do">##  27.978   0.046  28.027</span></span>
+<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a></span>
+<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a>dist_Rcpp <span class="sc">|&gt;</span> <span class="fu">tibble</span>()</span>
+<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a><span class="do">## # A tibble: 3,137 × 3</span></span>
+<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a><span class="do">##    id_start id_end       meters</span></span>
+<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a><span class="do">##    &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;</span></span>
+<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a><span class="do">##  1 01001    010010201002  2114.</span></span>
+<span id="cb5-65"><a href="#cb5-65" tabindex="-1"></a><span class="do">##  2 01003    010030109051  1872.</span></span>
+<span id="cb5-66"><a href="#cb5-66" tabindex="-1"></a><span class="do">##  3 01005    010059505002  6413.</span></span>
+<span id="cb5-67"><a href="#cb5-67" tabindex="-1"></a><span class="do">##  4 01007    010070100012  4920.</span></span>
+<span id="cb5-68"><a href="#cb5-68" tabindex="-1"></a><span class="do">##  5 01009    010090502002  1965.</span></span>
+<span id="cb5-69"><a href="#cb5-69" tabindex="-1"></a><span class="do">##  6 01011    010119522002  1662.</span></span>
+<span id="cb5-70"><a href="#cb5-70" tabindex="-1"></a><span class="do">##  7 01013    010139531003  2417.</span></span>
+<span id="cb5-71"><a href="#cb5-71" tabindex="-1"></a><span class="do">##  8 01015    010150007003  1304.</span></span>
+<span id="cb5-72"><a href="#cb5-72" tabindex="-1"></a><span class="do">##  9 01017    010179542001  1397.</span></span>
+<span id="cb5-73"><a href="#cb5-73" tabindex="-1"></a><span class="do">## 10 01019    010199560001  2065.</span></span>
+<span id="cb5-74"><a href="#cb5-74" tabindex="-1"></a><span class="do">## # ℹ 3,127 more rows</span></span></code></pre></div>
 </div>
 </div>
 
