@@ -15,7 +15,7 @@ install this package and use these functions.
 
 Install the latest development version from Github with
 
-    devtools::install_github("btskinner/distRcpp")
+    pak::pak("btskinner/distRcpp")
 
 **NB** This package is still in beta stages. It does not have much in
 the way of error handling. Data must be pre-processed so that no missing
