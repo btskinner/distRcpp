@@ -109,9 +109,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// dist_nearest_x
-Rcpp::DataFrame dist_nearest_x(Rcpp::DataFrame& x_df, Rcpp::DataFrame& y_df, const int num_nearest, const std::string x_id, const std::string y_id, const std::string x_lon_col, const std::string x_lat_col, const std::string y_lon_col, const std::string y_lat_col, const std::string dist_function);
-RcppExport SEXP _distRcpp_dist_nearest_x(SEXP x_dfSEXP, SEXP y_dfSEXP, SEXP num_nearestSEXP, SEXP x_idSEXP, SEXP y_idSEXP, SEXP x_lon_colSEXP, SEXP x_lat_colSEXP, SEXP y_lon_colSEXP, SEXP y_lat_colSEXP, SEXP dist_functionSEXP) {
+// dist_nearest_n
+Rcpp::DataFrame dist_nearest_n(Rcpp::DataFrame& x_df, Rcpp::DataFrame& y_df, const int num_nearest, const std::string x_id, const std::string y_id, const std::string x_lon_col, const std::string x_lat_col, const std::string y_lon_col, const std::string y_lat_col, const std::string dist_function);
+RcppExport SEXP _distRcpp_dist_nearest_n(SEXP x_dfSEXP, SEXP y_dfSEXP, SEXP num_nearestSEXP, SEXP x_idSEXP, SEXP y_idSEXP, SEXP x_lon_colSEXP, SEXP x_lat_colSEXP, SEXP y_lon_colSEXP, SEXP y_lat_colSEXP, SEXP dist_functionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -125,7 +125,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string >::type y_lon_col(y_lon_colSEXP);
     Rcpp::traits::input_parameter< const std::string >::type y_lat_col(y_lat_colSEXP);
     Rcpp::traits::input_parameter< const std::string >::type dist_function(dist_functionSEXP);
-    rcpp_result_gen = Rcpp::wrap(dist_nearest_x(x_df, y_df, num_nearest, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function));
+    rcpp_result_gen = Rcpp::wrap(dist_nearest_n(x_df, y_df, num_nearest, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -254,7 +254,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_distRcpp_dist_df", (DL_FUNC) &_distRcpp_dist_df, 5},
     {"_distRcpp_dist_max", (DL_FUNC) &_distRcpp_dist_max, 9},
     {"_distRcpp_dist_min", (DL_FUNC) &_distRcpp_dist_min, 9},
-    {"_distRcpp_dist_nearest_x", (DL_FUNC) &_distRcpp_dist_nearest_x, 10},
+    {"_distRcpp_dist_nearest_n", (DL_FUNC) &_distRcpp_dist_nearest_n, 10},
     {"_distRcpp_dist_weighted_mean", (DL_FUNC) &_distRcpp_dist_weighted_mean, 11},
     {"_distRcpp_popdist_weighted_mean", (DL_FUNC) &_distRcpp_popdist_weighted_mean, 12},
     {"_distRcpp_dist_sum_inv", (DL_FUNC) &_distRcpp_dist_sum_inv, 12},

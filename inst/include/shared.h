@@ -17,7 +17,8 @@ double deg_to_rad(const double& degree);
 double dist_haversine(const double& xlon,
                       const double& xlat,
                       const double& ylon,
-                      const double& ylat);
+                      const double& ylat,
+                      std::string radius);
 
 double dist_vincenty(const double& xlon,
                      const double& xlat,

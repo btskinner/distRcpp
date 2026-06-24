@@ -25,13 +25,13 @@ double deg_to_rad(const double& degree) {
 double dist_haversine(const double& xlon,
                       const double& xlat,
                       const double& ylon,
-                      const double& ylat) { 
+                      const double& ylat) {
     // return 0 if same point
     if (xlon == ylon && xlat == ylat) return 0;
     // formula:
     // 2r * sin^-1(sqrt(sin^2(d_lat/2) + cos(xlat)cos(ylat)sin^2(d_lon/2)))
     // where:
-    //  r     := radius of sphere (using mean Earth radius)
+    //  r     := radius of sphere (DEFAULT: mean Earth radius)
     //  d_lat := lat_x - lat_y
     //  d_lon := lon_x - lon_y
     // identities:

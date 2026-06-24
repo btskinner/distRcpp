@@ -89,7 +89,7 @@ Rcpp::DataFrame dist_sum_inv(Rcpp::DataFrame x_df,
                              double decay = 2,
                              double scale_units = 1);
 
-Rcpp::DataFrame dist_nearest_x(Rcpp::DataFrame x_df,
+Rcpp::DataFrame dist_nearest_n(Rcpp::DataFrame x_df,
                                Rcpp::DataFrame y_df,
                                int num_nearest = 10,
                                std::string x_id = "id",

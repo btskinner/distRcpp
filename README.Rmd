@@ -11,7 +11,13 @@ options(width = 100)
 [![GitHub release](https://img.shields.io/github/release/btskinner/distRcpp.svg)](https://github.com/btskinner/distRcpp)
 [![R build status](https://github.com/btskinner/distRcpp/actions/workflows/check-standard.yml/badge.svg)](https://github.com/btskinner/distRcpp/actions)
 
-This package uses [Rcpp](http://www.rcpp.org) to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either [Haversine](https://en.wikipedia.org/wiki/Haversine_formula) or [Vincenty](https://en.wikipedia.org/wiki/Vincenty%27s_formulae) formulas. The package also has functions to return raw distance measures. If you are able to [install Rcpp on your machine](https://github.com/RcppCore/Rcpp), you should be able to install this package and use these functions.
+This package uses [Rcpp](http://www.rcpp.org) to quickly compute 
+population/distance-weighted measures. Geodesic distances can be computed using 
+either [Haversine](https://en.wikipedia.org/wiki/Haversine_formula) or 
+[Vincenty](https://en.wikipedia.org/wiki/Vincenty%27s_formulae) formulas. The 
+package also has functions to return raw distance measures. If you are able to 
+[install Rcpp on your machine](https://github.com/RcppCore/Rcpp), you should be 
+able to install this package and use these functions.
 
 Install the latest development version from Github with
 
@@ -19,7 +25,9 @@ Install the latest development version from Github with
 devtools::install_github("btskinner/distRcpp")
 ```
 
-**NB** This package is still in early beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (`NA`) values are given to the functions.
+**NB** This package is still in beta stages. It does not have much in the 
+way of error handling. Data must be pre-processed so that no missing (`NA`) 
+values are given to the functions.
 
 ## Available functions
 
@@ -27,29 +35,45 @@ devtools::install_github("btskinner/distRcpp")
 
 #### `dist_weighted_mean()`
 
-Interpolate values for a vector of locations (**X**) that are the inverse-distance-weighted average of measures taken at surrounding locations (**Y**). For each point, *x*, nearby values of the measure taken at **Y** are weighted more heavily than those from locations that are farther away.
+Interpolate values for a vector of locations (**X**) that are the 
+inverse-distance-weighted average of measures taken at surrounding locations 
+(**Y**). For each point, *x*, nearby values of the measure taken at **Y** are 
+weighted more heavily than those from locations that are farther away.
 
 #### `popdist_weighted_mean()`
 
-Interpolate values for a vector of locations (**X**) that are the population/inverse-distance-weighted average of measures taken at surrounding locations (**Y**). For each point, *x*, nearby values of the measure taken at **Y** are weighted more heavily than those from locations that are farther away. Measures taken in more heavily populated *y* are given more weight than those with lower populations. This weighting scheme is a compromise between distance and population and is useful for interpolating measures that need to take both into account.
+Interpolate values for a vector of locations (**X**) that are the 
+population/inverse-distance-weighted average of measures taken at surrounding 
+locations (**Y**). For each point, *x*, nearby values of the measure taken at 
+**Y** are weighted more heavily than those from locations that are farther away. 
+Measures taken in more heavily populated *y* are given more weight than those 
+with lower populations. This weighting scheme is a compromise between distance 
+and population and is useful for interpolating measures that need to take both 
+into account.
 
 ### Distances
 
 #### `dist_1to1()`
 
-Compute and return the geodesic distance between two spatial points. Returns distance in meters.
+Compute and return the geodesic distance between two spatial points. Returns 
+distance in meters.
 
 #### `dist_1tom()`
 
-Compute and return the geodesic distance between one location and a vector of other locations. Returns vector of distances in meters.
+Compute and return the geodesic distance between one location and a vector of 
+other locations. Returns vector of distances in meters.
 
 #### `dist_mtom()`
 
-Compute and return the geodesic distance between each coordinate pair in two vectors. Returns *n x k* matrix of distances in meters, where *n* = # of locations in first vector and *k* = # of locations in second vector.
+Compute and return the geodesic distance between each coordinate pair in two 
+vectors. Returns *n x k* matrix of distances in meters, where *n* = # of 
+locations in first vector and *k* = # of locations in second vector.
 
 #### `dist_df()`
 
-Compute distance between corresponding coordinate pairs and return vector of distances in meters. For use when creating a new `data.frame` or [dplyr](https://CRAN.R-project.org/package=dplyr) `tbl_df()` column.
+Compute distance between corresponding coordinate pairs and return vector of 
+distances in meters. For use when creating a new `data.frame` or 
+[dplyr](https://CRAN.R-project.org/package=dplyr) `tbl_df()` column.
 
 #### `dist_min()`
 
@@ -59,11 +83,20 @@ meters that equals # of starting points (size of **X**).
 
 #### `dist_max()`
 
-Compute maximum distance between each starting point, *x*, and possible end points, **Y**. Returns vector of maximum distances in meters that equals # of starting points (size of **X**).
+Compute maximum distance between each starting point, *x*, and possible end 
+points, **Y**. Returns vector of maximum distances in meters that equals # of 
+starting points (size of **X**).
+
+#### `dist_nearest_n()`
+
+Compute the distance between each starting point, *x*, and possible end points,
+**Y** and return the ids and distances to the *n* nearest points (default = 10).
 
 ## Benchmark
 
-Compare speed with base R function when measuring the distance between every United States population-weighted county centroid as measured in 2010 (N = 3,143 with complete measurements).
+Compare speed with base R function when measuring the distance between every 
+United States population-weighted county centroid as measured in 2010 
+(N = 3,143 with complete measurements).
 
 ### Load data
 ```{r, include = FALSE}
@@ -77,32 +110,43 @@ sapply(libs, require, character.only = TRUE)
 ```
 ```{r}
 ## read data
-df <- get(data(county_centers))
+df <- get(data(countycentroids))
 df
 
 ## subset to 2010 population-weighted centroids (pclon10, pclat10)
-p <- df %>% select(pclon10, pclat10) %>% drop_na() %>% data.frame()
+p <- df |> select(pclon10, pclat10) |> drop_na() |> data.frame()
 
 ```
 
 ### Check for equality
 ```{r}
-dist_R <- geosphere::distm(p, p, fun = distHaversine)
-dist_Rcpp <- distRcpp::dist_mtom(p[,1],p[,2],p[,1],p[,2])
+dist_R <- matrix(NA_real_, 5, 5)
+px <- p[1:5, ]
+py <- p[6:10,]
+for (i in 1:nrow(px)) {
+    for (j in 1:nrow(py)) {
+        dist_R[i,j] <- geosphere::distHaversine(px[i,], py[j,],
+            r = 6371008.7714150594547
+        )
+    }
+}
+dist_Rcpp <- distRcpp::dist_mtom(px[,1],px[,2],py[,1],py[,2])
 
-dist_R[1:5,1:5]
-dist_Rcpp[1:5,1:5]
+dist_R
+dist_Rcpp
 all.equal(dist_R, dist_Rcpp)
 ```
 
 ### Benchmark
 
-2018 MacBookPro, 2.9 GHz Intel Core i9, 32 GB 2400 MHz DDR4 SDRAM
+2024 MacBookPro, Apple M4 Pro, 48 GB Memory
 
 ```{r}
+x <- 1:1000
+y <- 1001:2000
 microbenchmark(
-    dist_R = geosphere::distm(p, p, fun = distHaversine),
-    dist_Rcpp = distRcpp::dist_mtom(p[,1],p[,2],p[,1],p[,2]),
+    dist_R = geosphere::distm(p[x,], p[y,], fun = distHaversine),
+    dist_Rcpp = distRcpp::dist_mtom(p[x,1],p[x,2],p[y,1],p[y,2]),
     times = 100
 )
 ```
@@ -110,23 +154,27 @@ microbenchmark(
 ### Big file
 ```{r}
 ## get census block group centers of population
-bg <- readr::read_csv("https://www2.census.gov/geo/docs/reference/cenpop2010/blkgrp/CenPop2010_Mean_BG.txt") %>%
-    setNames(tolower(names(.))) %>%
-    filter(statefp < 56) %>%
+file_url <- file.path(
+    "https://www2.census.gov/geo/docs/reference",
+    "cenpop2010/blkgrp/CenPop2010_Mean_BG.txt"
+)
+bg <- readr::read_csv(file_url, show_col_types = FALSE) |> 
+    rename_all(tolower) |> 
+    filter(statefp < 56) |> 
     mutate(id = paste0(statefp, countyfp, tractce, blkgrpce),
            lon = longitude,
-           lat = latitude) %>%
-    select(id, lon, lat) %>%
+           lat = latitude) |> 
+    select(id, lon, lat) |> 
     drop_na()
 
-ct <- get(data(county_centers)) %>%
+ct <- get(data(countycentroids)) |> 
     rename(id = fips,
            lon = pclon10,
-           lat = pclat10) %>%
+           lat = pclat10) |> 
     drop_na()
 bg
 ct
 
 system.time(dist_Rcpp <- distRcpp::dist_min(x_df = ct, y_df = bg))
-
+dist_Rcpp |> tibble()
 ```

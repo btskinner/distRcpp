@@ -246,9 +246,9 @@ Rcpp::DataFrame dist_min(Rcpp::DataFrame x_df,
                                  Rcpp::Named("stringsAsFactors") = false);
 }
 
-//' Find nearest X number of points.
+//' Find nearest N number of points.
 //'
-//' Find nearest X values between each starting point in \strong{x} and
+//' Find nearest N values between each starting point in \strong{x} and
 //' possible end points, \strong{y}.
 //'
 //' @param x_df DataFrame with starting coordinates
@@ -265,7 +265,7 @@ Rcpp::DataFrame dist_min(Rcpp::DataFrame x_df,
 //' @return DataFrame with id of X closest points and distance in meters
 //' @export
 // [[Rcpp::export]]
-Rcpp::DataFrame dist_nearest_x(Rcpp::DataFrame& x_df,
+Rcpp::DataFrame dist_nearest_n(Rcpp::DataFrame& x_df,
                                Rcpp::DataFrame& y_df,
                                const int num_nearest=10,
                                const std::string x_id="id",

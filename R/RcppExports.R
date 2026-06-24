@@ -104,9 +104,9 @@ dist_min <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_
     .Call('_distRcpp_dist_min', PACKAGE = 'distRcpp', x_df, y_df, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
 }
 
-#' Find nearest X number of points.
+#' Find nearest N number of points.
 #'
-#' Find nearest X values between each starting point in \strong{x} and
+#' Find nearest N values between each starting point in \strong{x} and
 #' possible end points, \strong{y}.
 #'
 #' @param x_df DataFrame with starting coordinates
@@ -122,8 +122,8 @@ dist_min <- function(x_df, y_df, x_id = "id", y_id = "id", x_lon_col = "lon", x_
 #'     or "Vincenty"
 #' @return DataFrame with id of X closest points and distance in meters
 #' @export
-dist_nearest_x <- function(x_df, y_df, num_nearest = 10L, x_id = "id", y_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine") {
-    .Call('_distRcpp_dist_nearest_x', PACKAGE = 'distRcpp', x_df, y_df, num_nearest, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
+dist_nearest_n <- function(x_df, y_df, num_nearest = 10L, x_id = "id", y_id = "id", x_lon_col = "lon", x_lat_col = "lat", y_lon_col = "lon", y_lat_col = "lat", dist_function = "Haversine") {
+    .Call('_distRcpp_dist_nearest_n', PACKAGE = 'distRcpp', x_df, y_df, num_nearest, x_id, y_id, x_lon_col, x_lat_col, y_lon_col, y_lat_col, dist_function)
 }
 
 #' Interpolate inverse-distance-weighted measures.
