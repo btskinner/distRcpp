@@ -59,7 +59,7 @@
 
 <p>This package uses <a href="http://www.rcpp.org" class="external-link">Rcpp</a> to quickly compute population/distance-weighted measures. Geodesic distances can be computed using either <a href="https://en.wikipedia.org/wiki/Haversine_formula" class="external-link">Haversine</a> or <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae" class="external-link">Vincenty</a> formulas. The package also has functions to return raw distance measures. If you are able to <a href="https://github.com/RcppCore/Rcpp" class="external-link">install Rcpp on your machine</a>, you should be able to install this package and use these functions.</p>
 <p>Install the latest development version from Github with</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"btskinner/distRcpp"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">"btskinner/distRcpp"</span>)</span></code></pre></div>
 <p><strong>NB</strong> This package is still in beta stages. It does not have much in the way of error handling. Data must be pre-processed so that no missing (<code>NA</code>) values are given to the functions.</p>
 <div class="section level2">
 <h2 id="available-functions">Available functions<a class="anchor" aria-label="anchor" href="#available-functions"></a>
