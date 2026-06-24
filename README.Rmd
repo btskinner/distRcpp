@@ -22,7 +22,7 @@ able to install this package and use these functions.
 Install the latest development version from Github with
 
 ```{r, eval = FALSE}
-devtools::install_github("btskinner/distRcpp")
+pak::pak("btskinner/distRcpp")
 ```
 
 **NB** This package is still in beta stages. It does not have much in the 
